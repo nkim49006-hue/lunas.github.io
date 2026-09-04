@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUNAS SHOP — Читы • Черно-белый</title>
+<!-- REAL PAYMENT: поменяй SELLER.* в <script> на свои реквизиты — тогда оплата станет реальной (прямой перевод). Для Stripe/YooKassa подключи API ключи и замени showPay на fetch к /create-payment -->
+<meta name="description" content="LUNAS SHOP — приватные читы для Valorant, CS2, Rust, Apex. Черно-белый, undetected, 24/7.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#070708;--bg2:#0A0A0A;--glass:rgba(18,18,20,0.72);--border:rgba(255,255,255,0.16);--blue:#FFFFFF;--blue2:#FFFFFF;--blue3:#E5E5E5;--muted:rgba(255,255,255,0.5);--text:#fff}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+.mono{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
+.container{max-width:1280px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+.morph-blob{position:fixed;pointer-events:none;z-index:0;filter:blur(64px);opacity:0.2}
+.morph-1{top:-12%;left:-14%;width:72vw;height:72vw;background:radial-gradient(circle,rgba(255,255,255,0.22) 0%,rgba(255,255,255,0.10) 38%,transparent 70%);border-radius:42% 58% 70% 30% /45% 45% 55% 55%;animation:morph 14s infinite alternate ease-in-out}
+.morph-2{bottom:-16%;right:-12%;width:58vw;height:58vw;background:radial-gradient(circle,rgba(255,255,255,0.16) 0%,rgba(255,255,255,0.08) 42%,transparent 72%);border-radius:60% 40% 30% 70% /60% 30% 70% 40%;animation:morph2 18s infinite alternate ease-in-out}
+@keyframes morph{0%{border-radius:42% 58% 70% 30% /45% 45% 55% 55%;transform:translate(0,0) scale(1)}50%{border-radius:70% 30% 46% 54% /30% 29% 71% 70%;transform:translate(12px,-10px) scale(1.04)}100%{border-radius:42% 58% 70% 30% /45% 45% 55% 55%;transform:translate(0,0) scale(1)}}
+@keyframes morph2{0%{border-radius:60% 40% 30% 70% /60% 30% 70% 40%;transform:translate(0,0) scale(1)}50%{border-radius:30% 60% 70% 40% /50% 60% 30% 60%;transform:translate(-10px,12px) scale(1.06)}100%{border-radius:60% 40% 30% 70% /60% 30% 70% 40%;transform:translate(0,0) scale(1)}}
+.glass{background:var(--glass);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--border);border-radius:20px;transition:all .35s}
+.glass:hover{border-color:rgba(255,255,255,0.32);transform:translateY(-3px);box-shadow:0 12px 36px rgba(0,0,0,0.45),0 0 0 1px rgba(255,255,255,0.08)}
+nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(7,7,8,0.84);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08);padding:14px 0}
+nav .container{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{font-weight:900;letter-spacing:-0.02em;font-size:18px;display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
+.logo-mark{width:34px;height:34px;background:linear-gradient(135deg,#FFFFFF,#E5E5E5);color:#000;border-radius:10px;display:grid;place-items:center;font-weight:900;font-size:13px;box-shadow:0 6px 16px rgba(255,255,255,0.15)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;font-weight:800;font-size:13px;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:.3s}
+.btn-blue{background:#FFFFFF;color:#000;box-shadow:0 8px 24px rgba(255,255,255,0.35)}
+.btn-blue:hover{background:var(--blue2);transform:translateY(-1px);box-shadow:0 12px 32px rgba(255,255,255,0.45)}
+.btn-ghost{background:rgba(255,255,255,0.06);color:#fff;border-color:rgba(255,255,255,0.1)}
+.btn-ghost:hover{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.28)}
+.hero{padding:120px 0 40px;text-align:center}
+.hero h1{font-size:clamp(36px,8vw,72px);font-weight:900;line-height:0.9;letter-spacing:-0.04em}
+.hero h1 span{color:var(--blue3);background:linear-gradient(135deg,var(--blue2),var(--blue3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.grid-products{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;margin-top:32px}
+.card{padding:20px;display:flex;flex-direction:column;gap:12px}
+.card.span-4{grid-column:span 4}
+.card.span-6{grid-column:span 6}
+.card.span-3{grid-column:span 3}
+.badge{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;padding:5px 8px;border-radius:999px;background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.22);color:var(--blue3);align-self:flex-start}
+.badge-green{background:rgba(16,185,129,0.12);border-color:rgba(16,185,129,0.22);color:#10b981}
+.price{font-size:28px;font-weight:900;letter-spacing:-0.02em}
+.price small{font-size:13px;color:var(--muted);font-weight:500}
+.cart-bar{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:40;background:rgba(18,18,20,0.94);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.18);border-radius:999px;padding:10px 14px;display:flex;align-items:center;gap:12px;box-shadow:0 16px 40px rgba(0,0,0,0.5)}
+.toast-wrap{position:fixed;top:72px;right:16px;z-index:60;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:rgba(10,15,30,0.96);border:1px solid rgba(255,255,255,0.22);color:#fff;padding:12px 16px;border-radius:14px;font-size:13px;font-weight:600;box-shadow:0 12px 32px rgba(0,0,0,0.5);transform:translateY(-8px);opacity:0;animation:toastIn .3s forwards}
+@keyframes toastIn{to{transform:translateY(0);opacity:1}}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.68);backdrop-filter:blur(8px);z-index:70;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-bg.open{display:flex}
+.modal{background:#121214;border:1px solid rgba(255,255,255,0.18);border-radius:20px;padding:24px;max-width:520px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.6)}
+.btn:focus-visible,a:focus-visible{outline:2px solid var(--blue2);outline-offset:3px}
+@media(max-width:900px){.card.span-4,.card.span-6,.card.span-3{grid-column:span 12}}
+
+/* NEON LUNAS SHOP top — приглушенный */
+.neon{
+  color:#fff;
+  text-shadow:
+    0 0 4px rgba(255,255,255,0.85),
+    0 0 10px rgba(255,255,255,0.32),
+    0 0 18px rgba(255,255,255,0.14);
+  animation: neonPulse 4s ease-in-out infinite alternate;
+}
+.neon-shop{
+  color:#fff;
+  text-shadow:
+    0 0 3px rgba(255,255,255,0.7),
+    0 0 8px rgba(255,255,255,0.22);
+}
+@keyframes neonPulse{
+  0%,100%{ opacity:1; text-shadow: 0 0 4px rgba(255,255,255,0.85),0 0 10px rgba(255,255,255,0.32),0 0 18px rgba(255,255,255,0.14) }
+  50%{ opacity:0.96; text-shadow: 0 0 3px rgba(255,255,255,0.7),0 0 8px rgba(255,255,255,0.22) }
+}
+.logo img{filter:drop-shadow(0 0 6px rgba(255,255,255,0.28)) drop-shadow(0 0 14px rgba(255,255,255,0.12));}
+
+</style>
+</head>
+<body>
+<div class="morph-blob morph-1"></div>
+<div class="morph-blob morph-2"></div>
+<canvas id="molecules" style="position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.9"></canvas>
+<nav>
+  <div class="container">
+    <div style="display:flex;align-items:center;gap:14px">
+      <a href="#" class="logo" id="logoBtn" style="gap:10px"><img src="logo.png" alt="LS" style="height:36px;width:auto;display:block;filter:drop-shadow(0 0 10px rgba(255,255,255,0.45));border-radius:6px;object-fit:contain"><span class="neon">LUNAS<span class="neon-shop">SHOP</span></span> <span style="margin-left:2px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.08);padding:4px 8px;border-radius:999px">21st.dev • MCP</span></a>
+      <div id="authArea" style="display:flex;gap:8px;align-items:center;margin-left:4px">
+        <button id="loginBtn" class="btn btn-ghost" style="padding:8px 14px;font-size:12px">Войти</button>
+        <button id="registerBtn" class="btn btn-blue" style="padding:8px 14px;font-size:12px">Создать</button>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <div id="langSwitcher" style="display:flex;gap:4px;padding:3px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:999px"><button data-lang="ru" class="lang-btn active" style="padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800;border:none;cursor:pointer;background:#fff;color:#000">RU</button><button data-lang="en" class="lang-btn" style="padding:5px 9px;border-radius:999px;font-size:11px;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6)">EN</button></div><div id="currencySwitcher" style="display:flex;gap:4px;padding:3px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:999px">
+        <button data-cur="USD" class="cur-btn active" style="padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800;border:none;cursor:pointer;background:#fff;color:#000">$ USD</button>
+        <button data-cur="EUR" class="cur-btn" style="padding:5px 9px;border-radius:999px;font-size:11px;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6)">€ EUR</button>
+        <button data-cur="RUB" class="cur-btn" style="padding:5px 9px;border-radius:999px;font-size:11px;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6)">₽ RUB</button>
+        <button data-cur="KZT" class="cur-btn" style="padding:5px 9px;border-radius:999px;font-size:11px;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6)">₸ KZT</button>
+      </div>
+      <a href="#catalog" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:600">Каталог</a>
+      <a href="#how" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:600">Как работает</a>
+      <a href="#reviews" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:600">Отзывы</a>
+      <a href="#faq" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:600">FAQ</a>
+      <a href="https://discord.gg/57RhrEuqG" target="_blank" rel="noopener" id="topDiscordBtn" class="btn" style="background:#5865F2;color:#fff;padding:8px 14px;font-size:12px;font-weight:800;display:inline-flex;align-items:center;gap:6px;border:1px solid #5865F2"> 
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369A19.791 19.791 0 0016.02 3a.074.074 0 00-.079.037 13.66 13.66 0 00-.587 1.21 18.736 18.736 0 00-5.708 0 12.94 12.94 0 00-.6-1.21.077.077 0 00-.079-.037A19.736 19.736 0 003.683 4.369a.069.069 0 00-.032.027C.533 9.045-.32 13.579.099 18.057a.082.082 0 00.031.055 19.9 19.9 0 005.993 2.98.078.078 0 00.084-.027 14.1 14.1 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.903.077.077 0 01-.008-.127c.126-.094.252-.192.372-.291a.074.074 0 01.078-.01c1.963.9 4.09.9 6.03 0a.074.074 0 01.078.009c.12.099.246.198.373.292a.077.077 0 01-.006.127 12.3 12.3 0 01-1.873.904.077.077 0 00-.042.106c.36.687.772 1.348 1.225 1.994a.076.076 0 00.084.028 19.84 19.84 0 006.002-2.98.077.077 0 00.031-.055c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.028zM8.02 15.331c-1.183 0-2.157-1.068-2.157-2.38 0-1.312.955-2.38 2.157-2.38 1.21 0 2.175 1.077 2.157 2.38 0 1.312-.947 2.38-2.157 2.38zm7.974 0c-1.183 0-2.157-1.068-2.157-2.38 0-1.312.955-2.38 2.157-2.38 1.21 0 2.175 1.077 2.157 2.38 0 1.312-.947 2.38-2.157 2.38z"/></svg>
+        Discord
+      </a>
+      <a href="#" id="cartBtn" class="btn btn-blue" role="button" tabindex="0">Корзина <span id="cartCount" style="background:#000;color:var(--blue3);padding:2px 7px;border-radius:999px;font-size:11px">0</span></a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero" style="padding:100px 0 36px;position:relative;overflow:hidden">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(255,255,255,0.06),transparent 55%),radial-gradient(ellipse at 80% 80%,rgba(255,255,255,0.04),transparent 60%);pointer-events:none"></div>
+  <div class="container" style="position:relative">
+    <div class="mono" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);padding:7px 12px;border-radius:999px;color:rgba(255,255,255,0.6)"><span style="width:6px;height:6px;background:#fff;border-radius:50%;box-shadow:0 0 8px #fff;display:inline-block"></span> R4GE INSPIRED • LUNAS EDITION • 21st.dev</div>
+    <div class="neon" style="font-size:12px;letter-spacing:0.28em;font-weight:700;margin-bottom:10px;opacity:0.86">LUNAS SHOP • ЧИТЫ</div>
+    <h1 style="margin-top:0;font-size:clamp(36px,7vw,68px);font-weight:900;line-height:0.9;letter-spacing:-0.04em;text-transform:uppercase" data-i18n="hero_title" class="neon">ДОМИНИРУЙ<br><span style="color:#fff; -webkit-text-stroke:1px rgba(255,255,255,0.9);">В КАЖДОМ</span><br><span style="background:#fff;color:#000;padding:0 10px;border-radius:8px;display:inline-block;transform:rotate(-0.5deg);box-shadow:0 0 18px rgba(255,255,255,0.35)">МАТЧЕ</span></h1>
+    <p style="max-width:620px;margin:14px auto 0;color:rgba(255,255,255,0.62);font-size:16px;line-height:1.6" data-i18n="hero_desc">Первый магазин LUNAS — приватные читы на <b style="color:#fff">Rust, PUBG, Apex</b> и <b style="color:#fff">HWID Spoofer</b>. Всё проверено на своих аккаунтах. Не как у всех — чище, быстрее, дешевле.</p>
+    <div style="margin-top:18px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="#catalog" class="btn" style="background:#fff;color:#000;padding:13px 24px;border-radius:999px;font-weight:900;box-shadow:0 8px 24px rgba(255,255,255,0.18)" data-i18n="hero_catalog">Перейти в каталог →</a>
+      <a href="#reviews" class="btn btn-ghost" data-i18n="hero_how">Отзывы 4.9/5</a>
+    </div>
+    <div style="margin-top:18px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap" class="mono">
+      <span style="background:#fff;color:#000;padding:6px 10px;border-radius:999px;font-weight:800">4.9/5 ★ 2.4k</span>
+      <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:6px 10px;border-radius:999px">15k+ клиентов</span>
+      <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:6px 10px;border-radius:999px">Моментальная выдача</span>
+      <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:6px 10px;border-radius:999px">Поддержка 24/7</span>
+    </div>
+  </div>
+</section>
+
+<section id="catalog" style="padding:24px 0 8px">
+  <div class="container">
+    <div style="display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap">
+      <h2 style="font-size:28px;font-weight:900;letter-spacing:-0.02em">Каталог <span style="color:var(--blue3)">—</span> <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;color:rgba(255,255,255,0.35)">6 ИГР • INSTANT KEY</span></h2>
+      <div class="mono">оплата: крипта • карта • sbp</div>
+    </div>
+    <div style="display:flex;gap:8px;margin:14px 0 0;flex-wrap:wrap" class="mono" id="filterBar">
+      <button class="btn btn-white" style="padding:7px 12px;font-size:11px;border:1px solid #fff" data-filter="all">Все</button>
+      <button class="btn btn-ghost" style="padding:7px 12px;font-size:11px" data-filter="spoofer">Spoofer</button>
+      <button class="btn btn-ghost" style="padding:7px 12px;font-size:11px" data-filter="rust">Rust</button>
+      <button class="btn btn-ghost" style="padding:7px 12px;font-size:11px" data-filter="pubg">PUBG</button>
+      <button class="btn btn-ghost" style="padding:7px 12px;font-size:11px" data-filter="apex">Apex</button>
+    </div>
+    <div class="grid-products" id="products">
+      <!-- SPOOFER - clickable with many products -->
+      <div class="glass card span-6" data-cat="spoofer" style="background:linear-gradient(135deg,rgba(255,255,255,0.08) 0%,rgba(255,255,255,0.02) 100%);border:1px solid rgba(255,255,255,0.18);position:relative;overflow:hidden;cursor:pointer" onclick="openSpooferModal()">
+        <div style="position:absolute;top:10px;right:10px;background:#fff;color:#000;font-family:JetBrains Mono,monospace;font-size:10px;font-weight:800;padding:4px 8px;border-radius:999px;z-index:1">6 ТОВАРОВ →</div>
+        <div style="height:160px;border-radius:14px;background:linear-gradient(135deg,#0a0a0a 0%,#141414 50%,#0a0a0a 100%);display:flex;align-items:center;gap:16px;padding:0 20px;border:1px solid rgba(255,255,255,0.06)">
+          <div style="width:72px;height:72px;border-radius:16px;background:#fff;color:#000;display:grid;place-items:center;font-size:28px;flex-shrink:0">◉</div>
+          <div><div style="font-size:11px;font-family:JetBrains Mono,monospace;letter-spacing:0.08em;color:rgba(255,255,255,0.5)">SPOOFER • HWID CLEANER • КЛИК — ВЫБРАТЬ</div><div style="font-size:22px;font-weight:900;letter-spacing:-0.02em;margin-top:4px">HWID Spoofer</div><div style="font-size:12px;color:rgba(255,255,255,0.55);margin-top:4px">6 спуфов • Vanguard / EAC / BattlEye • One-click</div></div>
+        </div>
+        <span class="badge" style="background:#fff;color:#000;border-color:#fff">● 6 ТОВАРОВ • ВЫБЕРИ СПУФ</span>
+        <h3 style="font-weight:800">HWID Spoofer — выбери</h3>
+        <p style="font-size:13px;color:rgba(255,255,255,0.55)">Нажми — выбери нужный спуфер: Permanent, Valorant, EAC, BE и др. От 5$.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><span style="font-size:11px;background:#fff;color:#000;padding:4px 8px;border-radius:999px;font-weight:700">6 товаров</span><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px">Vanguard</span><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px">EAC / BE</span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px"><div class="price" data-usd="5">от 5$ <small>/ 1 день</small></div><button class="btn btn-white" style="background:#fff;color:#000;padding:12px 22px;border-radius:999px;font-weight:800" onclick="event.stopPropagation(); openSpooferModal()">Выбрать спуф →</button></div>
+      </div>
+      <!-- RUST — clickable to choose duration -->
+      <div class="glass card span-6" data-cat="rust" style="border:1px solid rgba(255,255,255,0.14);cursor:pointer;position:relative" onclick="openRustModal()">
+        <div style="position:absolute;top:10px;right:10px;background:#fff;color:#000;font-family:JetBrains Mono,monospace;font-size:10px;font-weight:800;padding:4px 8px;border-radius:999px;z-index:1">ВЫБРАТЬ СРОК →</div>
+        <div style="height:160px;border-radius:14px;background:linear-gradient(135deg,#0e0e0e 0%,#121212 100%);display:flex;align-items:center;gap:16px;padding:0 20px;border:1px solid rgba(255,255,255,0.06);position:relative;overflow:hidden">
+          <div style="position:absolute;top:0;right:0;width:120px;height:120px;background:radial-gradient(circle,rgba(255,255,255,0.08),transparent 70%);pointer-events:none"></div>
+          <img src="morphine.webp" alt="Morphine" style="width:72px;height:72px;border-radius:16px;object-fit:cover;border:1px solid rgba(255,255,255,0.12);background:#0a0a0a;flex-shrink:0">
+          <div><div style="font-size:11px;font-family:JetBrains Mono,monospace;letter-spacing:0.08em;color:rgba(255,255,255,0.5)">MORPHINE • 200+ DAYS UD • КЛИК — ВЫБРАТЬ СРОК</div><div style="font-size:22px;font-weight:900;letter-spacing:-0.02em;margin-top:4px">Morphine — Rust</div><div style="font-size:12px;color:rgba(255,255,255,0.55);margin-top:4px">Morphine • ESP • Aim • Loot • Radar • NoRecoil • Кликни для выбора</div></div>
+        </div>
+        <span class="badge" style="background:rgba(16,185,129,0.12);border-color:rgba(16,185,129,0.22);color:#10b981">● 200+ дней UD • EAC bypass</span>
+        <h3 style="font-weight:800">Morphine Cheat — Private</h3>
+        <p style="font-size:13px;color:rgba(255,255,255,0.55)">Нажми на карточку — выбери срок: 1 / 3 / 7 / 30 дней. Цены от 6$.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><span style="font-size:11px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.18);color:#10b981;padding:4px 8px;border-radius:999px">External</span><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px">Radar</span><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px">Stream-proof</span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px"><div class="price" data-usd="6">от 6$ <small>/ 1 день</small></div><button class="btn" style="background:#fff;color:#000;padding:12px 22px;border-radius:999px;font-weight:800" onclick="event.stopPropagation(); openRustModal()">Выбрать срок →</button></div>
+      </div>
+      <!-- PUBG — COMING SOON -->
+      <div class="glass card span-6" data-cat="pubg" style="opacity:0.72;position:relative;overflow:hidden">
+        <div style="position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);color:#fff;font-family:JetBrains Mono,monospace;font-size:10px;font-weight:800;padding:5px 9px;border-radius:999px;z-index:1">COMING SOON</div>
+        <div style="height:140px;border-radius:14px;background:linear-gradient(135deg,#0a0a0a 0%,#161616 100%);display:flex;align-items:center;gap:16px;padding:0 20px;border:1px solid rgba(255,255,255,0.06);filter:grayscale(0.3)">
+          <div style="width:64px;height:64px;border-radius:14px;background:#1a1a1a;color:rgba(255,255,255,0.5);display:grid;place-items:center;font-size:26px;border:1px solid rgba(255,255,255,0.06)">🎯</div>
+          <div><div style="font-size:11px;font-family:JetBrains Mono,monospace;letter-spacing:0.08em;color:rgba(255,255,255,0.35)">PUBG • BattlEye bypass</div><div style="font-size:20px;font-weight:900;margin-top:4px;color:rgba(255,255,255,0.9)">PUBG — Full</div><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:4px">Aim + ESP + Loot + Vehicles • Скоро</div></div>
+        </div>
+        <span class="badge" style="background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);color:rgba(255,255,255,0.5)">● Скоро • Coming soon</span>
+        <h3 style="font-weight:800;color:rgba(255,255,255,0.9)">PUBG Cheat — BattlEye Bypass</h3>
+        <p style="font-size:13px;color:rgba(255,255,255,0.4)">Скоро в продаже — подпишись в Discord чтобы не пропустить релиз.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px;color:rgba(255,255,255,0.4)">BE bypass</span><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px;color:rgba(255,255,255,0.4)">ESP</span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px"><div class="price" style="color:rgba(255,255,255,0.4)">Скоро</div><button class="btn btn-ghost" style="padding:12px 22px;border-radius:999px;font-weight:800;opacity:0.6;cursor:pointer" onclick="toast('PUBG — скоро в продаже • Подпишись в Discord')">Coming soon</button></div>
+      </div>
+      <!-- APEX — COMING SOON -->
+      <div class="glass card span-6" data-cat="apex" style="opacity:0.72;position:relative;overflow:hidden">
+        <div style="position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);color:#fff;font-family:JetBrains Mono,monospace;font-size:10px;font-weight:800;padding:5px 9px;border-radius:999px;z-index:1">COMING SOON</div>
+        <div style="height:140px;border-radius:14px;background:linear-gradient(135deg,#0e0e0e 0%,#141414 100%);display:flex;align-items:center;gap:16px;padding:0 20px;border:1px solid rgba(255,255,255,0.06);filter:grayscale(0.3)">
+          <div style="width:64px;height:64px;border-radius:14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);display:grid;place-items:center;font-size:26px;opacity:0.6">👁️</div>
+          <div><div style="font-size:11px;font-family:JetBrains Mono,monospace;letter-spacing:0.08em;color:rgba(255,255,255,0.35)">APEX • EAC bypass</div><div style="font-size:20px;font-weight:900;margin-top:4px;color:rgba(255,255,255,0.9)">Apex Legends — Full</div><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:4px">Prediction • Glow • Norecoil • Скоро</div></div>
+        </div>
+        <span class="badge" style="background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.1);color:rgba(255,255,255,0.5)">● Скоро • Coming soon</span>
+        <h3 style="font-weight:800;color:rgba(255,255,255,0.9)">Apex Cheat — Prediction Aim</h3>
+        <p style="font-size:13px;color:rgba(255,255,255,0.4)">Скоро в продаже — подпишись в Discord чтобы не пропустить.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px;color:rgba(255,255,255,0.4)">Prediction</span><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px;color:rgba(255,255,255,0.4)">Glow</span></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px"><div class="price" style="color:rgba(255,255,255,0.4)">Скоро</div><button class="btn btn-ghost" style="padding:12px 22px;border-radius:999px;font-weight:800;opacity:0.6;cursor:pointer" onclick="toast('Apex — скоро в продаже • Discord: discord.gg/57RhrEuqG')">Coming soon</button></div>
+      </div>
+    </div>    </div>
+  </div>
+</section>
+
+
+<div id="spooferModal" class="modal-bg" style="display:none;position:fixed;inset:0;z-index:75;background:rgba(0,0,0,0.82);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
+  <div style="background:#121214;border:1px solid rgba(255,255,255,0.14);border-radius:20px;max-width:640px;width:100%;padding:22px;position:relative;max-height:85vh;overflow:auto">
+    <button style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer" onclick="closeSpooferModal()">×</button>
+    <div style="display:flex;gap:12px;align-items:center">
+      <div style="width:48px;height:48px;border-radius:12px;background:#fff;color:#000;display:grid;place-items:center;font-size:22px">◉</div>
+      <div>
+        <div style="font-weight:900;font-size:16px">HWID Spoofer — выбери</div>
+        <div style="font-size:11px;font-family:JetBrains Mono,monospace;color:rgba(255,255,255,0.5);letter-spacing:0.06em">6 ТОВАРОВ • EAC / BE / VANGUARD</div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:rgba(255,255,255,0.55);margin-top:10px">Нажми на нужный спуфер — добавится в корзину. Цены в <span id="spoofCurLabel">USD</span>.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">
+      <button class="glass" style="padding:14px;text-align:left;cursor:pointer" onclick="addSpoof('Spoofer Temporary 1 день',5)">
+        <div style="font-weight:800;font-size:13px">Temporary — 1 день</div>
+        <div class="spoof-price" data-usd="5" style="font-weight:800;font-size:16px;margin-top:4px">5$</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.45)">Пробный • Один сброс</div>
+      </button>
+      <button class="glass" style="padding:14px;text-align:left;cursor:pointer" onclick="addSpoof('Spoofer 7 дней',12)">
+        <div style="font-weight:800;font-size:13px">Temporary — 7 дней</div>
+        <div class="spoof-price" data-usd="12" style="font-weight:800;font-size:16px;margin-top:4px">12$</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.45)">Неделя</div>
+      </button>
+      <button class="glass" style="padding:14px;text-align:left;cursor:pointer;border-color:#fff;background:rgba(255,255,255,0.06)" onclick="addSpoof('Spoofer Lifetime',9)">
+        <div style="font-weight:800;font-size:13px">Permanent — Lifetime</div>
+        <div class="spoof-price" data-usd="9" style="font-weight:800;font-size:16px;margin-top:4px">9$</div>
+        <div style="font-size:11px;color:#fff">Хит • Навсегда</div>
+      </button>
+      <button class="glass" style="padding:14px;text-align:left;cursor:pointer" onclick="addSpoof('Spoofer Valorant Vanguard',14)">
+        <div style="font-weight:800;font-size:13px">Valorant — Vanguard</div>
+        <div class="spoof-price" data-usd="14" style="font-weight:800;font-size:16px;margin-top:4px">14$</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.45)">Vanguard bypass</div>
+      </button>
+      <button class="glass" style="padding:14px;text-align:left;cursor:pointer" onclick="addSpoof('Spoofer EAC',13)">
+        <div style="font-weight:800;font-size:13px">EAC — Rust/Apex</div>
+        <div class="spoof-price" data-usd="13" style="font-weight:800;font-size:16px;margin-top:4px">13$</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.45)">EAC • Rust/Apex/Fortnite</div>
+      </button>
+      <button class="glass" style="padding:14px;text-align:left;cursor:pointer" onclick="addSpoof('Spoofer BattlEye',13)">
+        <div style="font-weight:800;font-size:13px">BattlEye — PUBG/EFT</div>
+        <div class="spoof-price" data-usd="13" style="font-weight:800;font-size:16px;margin-top:4px">13$</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.45)">BE • PUBG/EFT/DayZ</div>
+      </button>
+    </div>
+    <div style="margin-top:14px;display:flex;gap:8px">
+      <button class="btn btn-ghost" style="flex:1;justify-content:center" onclick="closeSpooferModal()">Отмена</button>
+      <button class="btn btn-white" style="flex:1;justify-content:center;background:#fff;color:#000" onclick="closeSpooferModal(); document.getElementById('catalog').scrollIntoView({behavior:'smooth'})">В каталог</button>
+    </div>
+    <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,0.3);text-align:center;font-family:JetBrains Mono,monospace">Нажми на товар — добавится в корзину. Оплата балансом или Kaspi/карта.</div>
+  </div>
+</div>
+
+<div id="rustModal" class="modal-bg" style="display:none;position:fixed;inset:0;z-index:75;background:rgba(0,0,0,0.82);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
+  <div style="background:#121214;border:1px solid rgba(255,255,255,0.14);border-radius:20px;max-width:520px;width:100%;padding:22px;position:relative">
+    <button style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer" onclick="closeRustModal()">×</button>
+    <div style="display:flex;gap:12px;align-items:center">
+      <div style="width:48px;height:48px;border-radius:12px;background:#fff;color:#000;display:grid;place-items:center;font-size:22px">🛡️</div>
+      <div>
+        <div style="font-weight:900;font-size:16px">Morphine — Rust</div>
+        <div style="font-size:11px;font-family:JetBrains Mono,monospace;color:rgba(255,255,255,0.5);letter-spacing:0.06em">ВЫБЕРИ СРОК • 200+ ДНЕЙ UD</div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:rgba(255,255,255,0.55);margin-top:10px">Нажми на нужный срок — добавится в корзину. Цены в выбранной валюте (<span id="rustCurLabel">USD</span>).</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">
+      <button class="glass" style="padding:16px;text-align:left;cursor:pointer" onclick="addRust(1,6)">
+        <div style="font-weight:900;font-size:14px">1 день</div>
+        <div class="rust-price" data-usd="6" style="font-weight:800;font-size:18px;margin-top:4px">6$</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.45)">Пробный</div>
+      </button>
+      <button class="glass" style="padding:16px;text-align:left;cursor:pointer;border-color:rgba(255,255,255,0.14)" onclick="addRust(3,15)">
+        <div style="font-weight:900;font-size:14px">3 дня</div>
+        <div class="rust-price" data-usd="15" style="font-weight:800;font-size:18px;margin-top:4px">15$</div>
+        <div style="font-size:11px;color:#10b981">Хит • -17%</div>
+      </button>
+      <button class="glass" style="padding:16px;text-align:left;cursor:pointer" onclick="addRust(7,25)">
+        <div style="font-weight:900;font-size:14px">7 дней</div>
+        <div class="rust-price" data-usd="25" style="font-weight:800;font-size:18px;margin-top:4px">25$</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.45)">Неделя</div>
+      </button>
+      <button class="glass" style="padding:16px;text-align:left;cursor:pointer;background:rgba(255,255,255,0.06);border-color:#fff" onclick="addRust(30,60)">
+        <div style="font-weight:900;font-size:14px">30 дней</div>
+        <div class="rust-price" data-usd="60" style="font-weight:800;font-size:18px;margin-top:4px">60$</div>
+        <div style="font-size:11px;color:#fff">Выгодно • -44%</div>
+      </button>
+    </div>
+    <div style="margin-top:14px;display:flex;gap:8px">
+      <button class="btn btn-ghost" style="flex:1;justify-content:center" onclick="closeRustModal()">Отмена</button>
+      <button class="btn btn-white" style="flex:1;justify-content:center;background:#fff;color:#000" onclick="closeRustModal(); document.getElementById('catalog').scrollIntoView({behavior:'smooth'})">В каталог</button>
+    </div>
+    <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,0.3);text-align:center;font-family:JetBrains Mono,monospace">Нажми на срок — товар добавится в корзину. Оплата балансом или Kaspi/карта/СБП.</div>
+  </div>
+</div>
+
+<section id="how" style="padding:36px 0">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+      <div class="glass" style="padding:22px;text-align:center"><div style="width:48px;height:48px;margin:0 auto 12px;border-radius:12px;background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.22);display:grid;place-items:center">⚡</div><h3 style="font-weight:800">1. Оплати</h3><p style="font-size:13px;color:rgba(255,255,255,0.55);margin-top:6px">Kaspi / карта / СБП — ключ мгновенно на почту и в ЛК</p></div>
+      <div class="glass" style="padding:22px;text-align:center"><div style="width:48px;height:48px;margin:0 auto 12px;border-radius:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);display:grid;place-items:center">⬇️</div><h3 style="font-weight:800">2. Скачай лоадер</h3><p style="font-size:13px;color:rgba(255,255,255,0.55);margin-top:6px">1 файл .exe — запустил, ввел ключ, инжект 3 сек</p></div>
+      <div class="glass" style="padding:22px;text-align:center"><div style="width:48px;height:48px;margin:0 auto 12px;border-radius:12px;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:900">▶</div><h3 style="font-weight:800">3. Играй</h3><p style="font-size:13px;color:rgba(255,255,255,0.55);margin-top:6px">F2 — меню, INS — скрыть. Обновы ежедневно, саппорт 24/7</p></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:8px 0 24px">
+  <div class="container">
+    <div class="glass" style="padding:22px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center"><span class="mono">гарантии</span><span style="background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.18);color:#10b981;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:700">UNDETECTED</span><span style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.18);color:var(--blue3);padding:6px 10px;border-radius:999px;font-size:11px;font-weight:700">INSTANT KEY</span><span style="background:rgba(255,255,255,0.06);padding:6px 10px;border-radius:999px;font-size:11px">24/7 Discord</span></div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.35);font-family:'JetBrains Mono',monospace">обновлено: сегодня • 15k+ продаж • 4.9/5</div>
+    </div>
+  </div>
+</section>
+
+<section id="reviews" style="padding:24px 0 8px">
+  <div class="container">
+    <div style="display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px">
+      <div>
+        <h2 style="font-size:28px;font-weight:900;letter-spacing:-0.02em">Отзывы <span style="color:var(--blue3)">—</span> <span style="font-family:JetBrains Mono,monospace;font-size:11px;letter-spacing:0.1em;color:rgba(255,255,255,0.35)">2.4k • 4.9/5</span></h2>
+        <div style="margin-top:6px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <span style="background:#fff;color:#000;padding:5px 10px;border-radius:999px;font-weight:900;font-size:12px">★ 4.9/5</span>
+          <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:5px 10px;border-radius:999px;font-size:11px">2.4k отзывов</span>
+          <span style="background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.18);color:#10b981;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:700">96% рекомендуют</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-white" style="padding:8px 14px;font-size:12px" id="leaveReviewBtn">+ Оставить отзыв</button>
+        <div style="display:flex;gap:4px" id="reviewFilter">
+          <button class="btn btn-white" style="padding:6px 10px;font-size:11px" data-rf="all">Все</button>
+          <button class="btn btn-ghost" style="padding:6px 10px;font-size:11px" data-rf="rust">Rust</button>
+          <button class="btn btn-ghost" style="padding:6px 10px;font-size:11px" data-rf="pubg">PUBG</button>
+          <button class="btn btn-ghost" style="padding:6px 10px;font-size:11px" data-rf="apex">Apex</button>
+          <button class="btn btn-ghost" style="padding:6px 10px;font-size:11px" data-rf="spoofer">Spoofer</button>
+        </div>
+      </div>
+    </div>
+    <div id="reviewsGrid" style="display:grid;grid-template-columns:repeat(12,1fr);gap:12px"></div>
+    <div style="text-align:center;margin-top:12px"><button class="btn btn-ghost" style="padding:8px 16px;font-size:12px" id="moreReviewsBtn">Показать ещё</button></div>
+  </div>
+</section>
+<section id="faq" style="padding:8px 0 40px">
+  <div class="container" style="max-width:900px">
+    <h2 style="text-align:center;font-size:32px;font-weight:900;letter-spacing:-0.02em;margin-bottom:16px">FAQ</h2>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <details class="glass" style="padding:16px"><summary style="font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center">Банят ли за это? <span style="color:var(--blue3)">+</span></summary><p style="margin-top:10px;color:rgba(255,255,255,0.6);font-size:14px;line-height:1.6">Читы нарушают ToS игр — риск есть всегда. Наши билды приватные, с обходом Vanguard/EAC/BE, ежедневными обновлениями и HWID спуфером. Детектов 0 за 200+ дней по Rust. Но 100% гарантии нет — используй на свой страх.</p></details>
+      <details class="glass" style="padding:16px"><summary style="font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center">Как получаю товар? <span style="color:var(--blue3)">+</span></summary><p style="margin-top:10px;color:rgba(255,255,255,0.6);font-size:14px">Сразу после оплаты — ключ на email + в личном кабинете. Лоадер скачиваешь с сайта, вводишь ключ.</p></details>
+      <details class="glass" style="padding:16px"><summary style="font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center">Есть тест / сутки? <span style="color:var(--blue3)">+</span></summary><p style="margin-top:10px;color:rgba(255,255,255,0.6);font-size:14px">Да — от 7$ / 3 дня для Valorant/CS2. Напиши в Discord.</p></details>
+    </div>
+    <p style="text-align:center;margin-top:16px;font-size:11px;color:rgba(255,255,255,0.25);font-family:'JetBrains Mono',monospace">LUNAS SHOP не связан с Riot / Valve / BattlEye. Использование читов нарушает правила игр.</p>
+  </div>
+</section>
+
+<footer style="padding:20px 0 80px;border-top:1px solid rgba(255,255,255,0.08)">
+  <div class="container" style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11px;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,0.3)">
+    <span>© 2026 LUNAS SHOP • черно-белый • 21st.dev MCP • #FFFFFF</span>
+    <span><a href="https://discord.gg/57RhrEuqG" target="_blank" rel="noopener" id="discordBtn" style="color:inherit;text-decoration:none">Discord</a> • <a href="#" id="tgBtn" style="color:inherit;text-decoration:none">Telegram</a> • <a href="#" id="tosBtn" style="color:inherit;text-decoration:none">ToS</a> • <a href="#" id="clearCartBtn" style="color:var(--blue3);text-decoration:none">Очистить корзину</a></span>
+  </div>
+</footer>
+
+<div id="adminPanel" style="display:none;position:fixed;inset:0;z-index:80;background:rgba(0,0,0,0.82);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
+  <div style="background:#121214;border:1px solid rgba(255,255,255,0.14);border-radius:20px;max-width:720px;width:100%;max-height:85vh;overflow:auto;padding:20px">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+      <h3 style="font-weight:900">Админ-панель • LUNAS SHOP</h3>
+      <button class="btn btn-ghost" style="padding:6px 12px" id="adminClose">Закрыть</button>
+    </div>
+    <p style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:6px">Только ты видишь эту панель. Гости — только покупка.</p>
+    <div style="margin-top:16px;display:grid;gap:12px">
+      <div class="glass" style="padding:14px">
+        <div style="font-weight:800;font-size:12px">Реквизиты для оплаты (видно покупателям при пополнении)</div>
+        <div style="display:grid;gap:8px;margin-top:10px">
+          <label style="font-size:11px">Карта <input id="admCard" style="width:100%;margin-top:4px;padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff"></label>
+          <label style="font-size:11px">Kaspi <input id="admKaspi" style="width:100%;margin-top:4px;padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff"></label>
+          <label style="font-size:11px">USDT TRC20 <input id="admCrypto" style="width:100%;margin-top:4px;padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff"></label>
+          <label style="font-size:11px">СБП телефон <input id="admSbp" style="width:100%;margin-top:4px;padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff"></label>
+        </div>
+        <button class="btn btn-white" style="margin-top:10px" id="admSaveSeller">Сохранить реквизиты</button>
+      </div>
+      <div class="glass" style="padding:14px">
+        <div style="font-weight:800;font-size:12px">Товары — цены (USD)</div>
+        <div id="admProducts" style="display:grid;gap:8px;margin-top:10px"></div>
+        <button class="btn btn-ghost" style="margin-top:10px" id="admAddProduct">+ Добавить товар</button>
+        <button class="btn btn-white" style="margin-top:8px" id="admSaveProducts">Сохранить товары</button>
+      </div>
+      <div class="glass" style="padding:14px">
+        <div style="font-weight:800;font-size:12px">Заказы и пополнения (последние)</div>
+        <div id="admOrders" style="margin-top:8px;font-family:JetBrains Mono,monospace;font-size:11px;color:rgba(255,255,255,0.7);max-height:160px;overflow:auto;white-space:pre-wrap"></div>
+        <button class="btn btn-ghost" style="margin-top:8px" id="admClearOrders">Очистить историю</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="cart-bar" id="cartBar" style="display:none;max-width:96vw;flex-wrap:wrap;justify-content:center">
+  <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,0.5);white-space:nowrap">КОРЗИНА:</span>
+  <span id="cartList" style="font-size:12px;color:#fff;display:flex;gap:6px;flex-wrap:wrap;align-items:center"></span>
+  <span id="cartTotal" style="font-weight:900;color:var(--blue3);white-space:nowrap"></span>
+  <button class="btn btn-ghost" style="padding:8px 12px;font-size:11px" onclick="clearCart()" title="Очистить корзину">Очистить</button>
+  <button class="btn btn-blue" style="padding:8px 14px;font-size:12px" onclick="checkout()">Оформить →</button>
+</div>
+
+<div class="modal-bg" id="authModal" role="dialog" aria-modal="true" aria-hidden="true"><div class="modal" style="max-width:420px">
+  <div style="display:flex;gap:8px;margin-bottom:18px">
+    <button id="tabLogin" class="btn btn-blue" style="flex:1;justify-content:center">Войти</button>
+    <button id="tabRegister" class="btn btn-ghost" style="flex:1;justify-content:center">Создать</button>
+  </div>
+  <h3 id="authTitle" style="font-weight:900;font-size:18px">Войти в аккаунт</h3>
+  <p style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:4px">Для регистрации нужна только <b style="color:#fff">Gmail</b> и пароль</p>
+  <form id="authForm" style="margin-top:16px;display:flex;flex-direction:column;gap:12px" novalidate>
+    <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:600">Gmail
+      <input id="authEmail" type="email" placeholder="name@gmail.com" required autocomplete="email" style="padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff;outline:none">
+      <span id="emailErr" style="font-size:11px;color:#ff6b6b;display:none">Нужен Gmail — оканчивается на @gmail.com</span>
+    </label>
+    <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:600">Пароль
+      <input id="authPass" type="password" placeholder="минимум 6 символов" required minlength="6" autocomplete="current-password" style="padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff;outline:none">
+      <span id="passErr" style="font-size:11px;color:#ff6b6b;display:none">Пароль минимум 6 символов</span>
+    </label>
+    <label id="confirmWrap" style="display:none;flex-direction:column;gap:6px;font-size:12px;font-weight:600">Подтверди пароль
+      <input id="authPass2" type="password" placeholder="повтори пароль" style="padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff;outline:none">
+      <span id="pass2Err" style="font-size:11px;color:#ff6b6b;display:none">Пароли не совпадают</span>
+    </label>
+    <button type="submit" id="authSubmit" class="btn btn-blue" style="margin-top:4px;justify-content:center">Войти</button>
+    <button type="button" id="authClose" class="btn btn-ghost" style="justify-content:center">Отмена</button>
+  </form>
+</div></div>
+
+<div class="toast-wrap" id="toastWrap" aria-live="polite"></div>
+<div class="modal-bg" id="modalBg" role="dialog" aria-modal="true" aria-hidden="true"><div class="modal" id="modalBox"><h3 id="modalTitle" style="font-weight:900;font-size:18px"></h3><p id="modalText" style="margin-top:8px;color:rgba(255,255,255,0.65);font-size:14px;line-height:1.6;white-space:pre-line"></p><div style="margin-top:16px;display:flex;gap:10px;justify-content:flex-end"><button class="btn btn-ghost" id="modalClose">Закрыть</button><button class="btn btn-blue" id="modalAction">OK</button></div></div></div>
+
+<script>
+
+// REAL PAYMENT CONFIG — заполни своими реквизитами, тогда оплата станет реальной
+
+const TRANSLATIONS = {
+  ru: {
+    nav_catalog: 'Каталог',
+    nav_how: 'Как работает',
+    nav_reviews: 'Отзывы',
+    nav_faq: 'FAQ',
+    hero_title: 'LUNAS <span>SHOP</span><br>ЧИТЫ',
+    hero_desc: 'Черно-белый магазин приватных читов. Для Spoofer \u2022 Rust \u2022 PUBG \u2022 Apex. <b style="color:#fff">Undetected</b> \u2022 обход Vanguard / EAC / BattlEye \u2022 <span style="color:var(--blue3)">от 7$</span>.',
+    hero_catalog: 'Открыть каталог \u2192',
+    hero_how: 'Как работает',
+    cat_title: 'Каталог',
+    cart: 'Корзина',
+    login: 'Войти',
+    register: 'Создать',
+    topup: 'Пополнить +',
+    logout: 'Выйти',
+  },
+  en: {
+    nav_catalog: 'Catalog',
+    nav_how: 'How it works',
+    nav_reviews: 'Reviews',
+    nav_faq: 'FAQ',
+    hero_title: 'LUNAS <span>SHOP</span><br>CHEATS',
+    hero_desc: 'Black-white private cheats shop. For Spoofer \u2022 Rust \u2022 PUBG \u2022 Apex. <b style="color:#fff">Undetected</b> \u2022 Vanguard / EAC / BattlEye bypass \u2022 <span style="color:var(--blue3)">from $7</span>.',
+    hero_catalog: 'Open catalog \u2192',
+    hero_how: 'How it works',
+    cat_title: 'Catalog',
+    cart: 'Cart',
+    login: 'Login',
+    register: 'Sign up',
+    topup: 'Top up +',
+    logout: 'Logout',
+  }
+}
+function getLang(){ return localStorage.getItem('lunas_lang')||'ru' }
+function setLang(l){ localStorage.setItem('lunas_lang',l); applyLang() }
+function applyLang(){
+  const lang=getLang()
+  document.querySelectorAll('.lang-btn').forEach(b=>{
+    const active=b.dataset.lang===lang
+    b.style.background=active?'#fff':'transparent'
+    b.style.color=active?'#000':'rgba(255,255,255,0.6)'
+    b.style.fontWeight=active?'800':'700'
+  })
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key=el.getAttribute('data-i18n')
+    const val=TRANSLATIONS[lang][key]
+    if(val){ if(val.includes('<')) el.innerHTML=val; else el.textContent=val }
+  })
+  renderAuth()
+  document.documentElement.lang=lang
+}
+
+const RATES = {USD:1, EUR:0.92, RUB:95, KZT:540}
+const SYMBOLS = {USD:'$', EUR:'\u20AC', RUB:'\u20BD', KZT:'\u20B8'}
+const CURRENCY_NAMES = {USD:'Доллар', EUR:'Евро', RUB:'Рубли', KZT:'Тенге'}
+function getCurrency(){return localStorage.getItem('lunas_currency')||'USD'}
+function setCurrency(c){localStorage.setItem('lunas_currency',c); renderCurrency(); toast('Валюта: '+c+' '+SYMBOLS[c])}
+function convertUSD(usd){const cur=getCurrency(); const rate=RATES[cur]; return Math.round(usd*rate)}
+function formatPrice(usd){const cur=getCurrency(); return convertUSD(usd)+SYMBOLS[cur]}
+
+function renderCurrency(){
+  const cur=getCurrency()
+  const sym=SYMBOLS[cur]
+  // update switcher buttons
+  document.querySelectorAll('.cur-btn').forEach(b=>{
+    const isActive=b.dataset.cur===cur
+    b.style.background=isActive?'#fff':'transparent'
+    b.style.color=isActive?'#000':'rgba(255,255,255,0.6)'
+    b.style.fontWeight=isActive?'800':'700'
+  })
+  // update prices
+  document.querySelectorAll('.price[data-usd]').forEach(el=>{
+    const usd=parseFloat(el.getAttribute('data-usd'))
+    const conv=convertUSD(usd)
+    const small=el.querySelector('small') ? el.querySelector('small').outerHTML : ''
+    el.innerHTML=conv+sym+' '+small
+  })
+  // update balance display
+  renderAuth()
+  updateCart()
+  // update cart total is handled in updateCart
+}
+
+function formatBalanceDisplay(balUSD){ // bal stored as object per currency, but for display convert if needed
+ // balances are per currency already, so just show with symbol
+ const cur=getCurrency(); const sym=SYMBOLS[cur]; return sym+balUSD
+}
+
+const ADMIN = {
+  email: 'admin@gmail.com', // ← поменяй на свою Gmail чтобы стать админом
+  pass: 'admin123' // пароль админа
+}
+function isAdmin(){ const cur=getCurrent(); return cur && cur.email.toLowerCase()===ADMIN.email.toLowerCase() }
+
+const SELLER = {
+  card: '2200 1234 5678 9012', // Твоя карта (Сбер/Тинькофф)
+  sbpPhone: '+7 999 123-45-67', // СБП по номеру
+  crypto: 'TQn9Y2khDD95J1Bqarq56K27Q8rATrXuZm',
+  kaspi: '+7 777 123 45 67', // Kaspi Gold / Kaspi Pay - поменяй на свой номер // USDT TRC20
+  telegram: '@lunashop_support',
+  email: 'support@lunasshop.local'
+}
+
+let cart=JSON.parse(localStorage.getItem('lunas_cart')||'[]')
+function saveCart(){localStorage.setItem('lunas_cart',JSON.stringify(cart))}
+function toast(msg, type){
+  const wrap=document.getElementById('toastWrap')
+  const el=document.createElement('div')
+  el.className='toast'
+  el.textContent=msg
+  if(type==='ok') el.style.borderColor='rgba(255,255,255,0.32)'
+  wrap.appendChild(el)
+  setTimeout(()=>{el.style.transition='all .35s';el.style.opacity='0';el.style.transform='translateY(-8px)'},2400)
+  setTimeout(()=>el.remove(),2800)
+}
+function modal(title,text,actionText,actionFn){
+  const bg=document.getElementById('modalBg')
+  document.getElementById('modalTitle').textContent=title
+  document.getElementById('modalText').textContent=text
+  const act=document.getElementById('modalAction')
+  act.textContent=actionText||'OK'
+  act.onclick=()=>{bg.classList.remove('open');bg.setAttribute('aria-hidden','true'); if(actionFn) actionFn()}
+  bg.classList.add('open');bg.setAttribute('aria-hidden','false')
+  bg.onclick=(e)=>{if(e.target===bg){bg.classList.remove('open');bg.setAttribute('aria-hidden','true')}}
+  document.getElementById('modalClose').onclick=()=>{bg.classList.remove('open');bg.setAttribute('aria-hidden','true')}
+}
+function addToCart(name,price){
+  cart.push({name,price});
+  saveCart(); updateCart();
+  const bar=document.getElementById('cartBar');
+  bar.style.display='flex';
+  bar.animate([{transform:'translateX(-50%) scale(0.98)'},{transform:'translateX(-50%) scale(1)'}],{duration:180});
+  toast('✓ '+name+' — добавлен в корзину','ok')
+  const btn=event && event.target
+  if(btn && btn.tagName==='BUTTON'){const old=btn.textContent; btn.textContent='Добавлено ✓'; btn.disabled=true; setTimeout(()=>{btn.textContent=old; btn.disabled=false},1100)}
+}
+function removeFromCart(idx){
+  if(idx<0||idx>=cart.length) return
+  const removed=cart.splice(idx,1)[0]
+  saveCart(); updateCart(); toast(removed.name+' — удалён')
+}
+function clearCart(){
+  if(cart.length===0){ toast('Корзина пуста'); return }
+  cart=[]; saveCart(); updateCart(); toast('Корзина очищена')
+}
+function updateCart(){
+  document.getElementById('cartCount').textContent=cart.length;
+  const bar=document.getElementById('cartBar')
+  const listEl=document.getElementById('cartList')
+  const totalEl=document.getElementById('cartTotal')
+  if(cart.length===0){ bar.style.display='none'; listEl.innerHTML=''; totalEl.textContent=''; return}
+  bar.style.display='flex';
+  // render each item with ×
+  listEl.innerHTML = cart.map((c,i)=>`<span style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:4px 8px;border-radius:999px;font-size:11px;white-space:nowrap">${c.name} <b style="color:var(--blue3)">${c.price}$</b> <button onclick="removeFromCart(${i})" title="Удалить" style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.1);color:#fff;width:18px;height:18px;border-radius:50%;cursor:pointer;display:grid;place-items:center;font-size:12px;line-height:1">×</button></span>`).join(' ')
+  const sumUSD=cart.reduce((s,c)=>s+c.price,0)
+  const cur=getCurrency(); const sym=SYMBOLS[cur]
+  totalEl.textContent='Итого: '+convertUSD(sumUSD)+sym;
+  // also make cart bar wrap nicely
+  bar.style.flexWrap='wrap'
+  listEl.style.display='flex'; listEl.style.flexWrap='wrap'; listEl.style.gap='6px'; listEl.style.alignItems='center'
+}
+function checkout(){
+  const cur=getCurrent()
+  if(!cur){ toast('Сначала войди в аккаунт'); openAuth('login'); return }
+  if(cart.length===0){toast('Корзина пуста — добавь товар'); return}
+  const sumUSD=cart.reduce((s,c)=>s+c.price,0)
+  const sum=sumUSD // for display, will be converted in UI, but for logic use USD
+  const balUSD=getBalanceUSD()
+  const bal=getBalance() // display
+  const list=cart.map(c=>c.name).join(', ')
+  if(balUSD < sumUSD){
+        const needUSD=sumUSD-balUSD
+    const needDisplay=Math.round(needUSD*RATES[getCurrency()])
+    const sumDisplay=convertUSD(sumUSD)
+    document.getElementById('modalText').innerHTML=`<div style="text-align:left"><div style="font-size:13px;color:rgba(255,255,255,0.7)">В корзине <b style="color:#fff">${list}</b> на <b style="color:#fff">${sumDisplay}${SYMBOLS[getCurrency()]}</b>, а у тебя <b style="color:#fff">${SYMBOLS[getCurrency()]}${bal}</b>. Не хватает <b style="color:#ff6b6b">${SYMBOLS[getCurrency()]}${needDisplay}</b>.</div><div style="margin-top:12px;display:flex;gap:8px"><button class="btn btn-white" onclick="document.getElementById('modalBg').classList.remove('open'); openTopup()" style="flex:1;justify-content:center">Пополнить +$${need}</button><button class="btn btn-ghost" onclick="document.getElementById('modalBg').classList.remove('open')" style="flex:1;justify-content:center">Отмена</button></div></div>`
+    bg.classList.add('open'); bg.setAttribute('aria-hidden','false')
+    document.getElementById('modalClose').onclick=()=>bg.classList.remove('open')
+    bg.onclick=(e)=>{if(e.target===bg) bg.classList.remove('open')}
+    document.getElementById('modalAction').style.display='none'
+    // hide default action, use custom buttons
+    return
+  }
+  // enough balance - deduct and deliver
+  const bg=document.getElementById('modalBg')
+  document.getElementById('modalTitle').textContent='Оплата балансом — $'+sum
+  const balDisplay=getBalance(); const sumDisplay=convertUSD(sumUSD); const remainDisplay=Math.round((balUSD-sumUSD)*RATES[getCurrency()])
+  document.getElementById('modalText').innerHTML=`<div style="text-align:left"><div style="font-size:12px;color:rgba(255,255,255,0.6)">Списать <b style="color:#fff">${sumDisplay}${SYMBOLS[getCurrency()]}</b> с баланса <b style="color:#fff">${SYMBOLS[getCurrency()]}${balDisplay}</b> за <b style="color:#fff">${list}</b> ?<br>Останется <b style="color:#10b981">${SYMBOLS[getCurrency()]}${remainDisplay}</b>.</div><div style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.35)">Ключ придёт на ${cur.email}</div></div>`
+  bg.classList.add('open'); bg.setAttribute('aria-hidden','false')
+  document.getElementById('modalClose').onclick=()=>bg.classList.remove('open')
+  bg.onclick=(e)=>{if(e.target===bg) bg.classList.remove('open')}
+  const act=document.getElementById('modalAction')
+  act.style.display='inline-flex'
+  act.textContent='Оплатить с баланса'
+  act.onclick=()=>{
+    const newBalUSD=balUSD-sumUSD
+    setBalanceUSD(newBalUSD)
+    const key='LUNAS-'+Math.random().toString(36).toUpperCase().slice(2,10)+'-'+Math.random().toString(36).toUpperCase().slice(2,6)
+    const orders=JSON.parse(localStorage.getItem('lunas_orders')||'[]')
+    orders.push({email:cur.email, cart:[...cart], sum, key, date:new Date().toISOString(), method:'balance'})
+    localStorage.setItem('lunas_orders', JSON.stringify(orders))
+    bg.classList.remove('open')
+    const sumDisp=convertUSD(sumUSD); const remainDisp=Math.round(newBalUSD*RATES[getCurrency()])
+    modal('Оплачено с баланса ✓','Ключ: <b>'+key+'</b><br>Списано '+sumDisp+SYMBOLS[getCurrency()]+', осталось '+remainDisp+SYMBOLS[getCurrency()]+'<br>Отправлен на '+cur.email,'Скопировать ключ',()=>{navigator.clipboard?.writeText(key); toast('Ключ скопирован','ok')})
+    toast('Оплачено '+sumDisp+SYMBOLS[getCurrency()]+' — баланс '+remainDisp+SYMBOLS[getCurrency()],'ok')
+    cart=[]; saveCart(); updateCart(); renderAuth();
+  }
+  window.showPay=function(m){
+    window._payMethod=m
+    document.getElementById('payCard').className=m==='card'?'btn btn-white':'btn btn-ghost'
+    document.getElementById('paySbp').className=m==='sbp'?'btn btn-white':'btn btn-ghost'
+    document.getElementById('payKaspi').className=m==='kaspi'?'btn btn-white':'btn btn-ghost'
+    if(m==='kaspi'){document.getElementById('payKaspi').style.background='#F14635';document.getElementById('payKaspi').style.color='#fff'} else {document.getElementById('payKaspi').style.background='';document.getElementById('payKaspi').style.color=''}
+    const val=document.getElementById('topupCustom').value||window._topupVal||10
+    const info=document.getElementById('topupInfo')
+    if(m==='card'){ info.innerHTML='<b>Карта</b> <span style="font-weight:800">'+SELLER.card+'</span> <button onclick="navigator.clipboard.writeText(SELLER.card);toast(\'Карта скопирована\',\'ok\')" style="margin-left:6px;padding:3px 8px;border-radius:999px;background:#fff;color:#000;border:none;font-size:11px;font-weight:700;cursor:pointer">Копировать</button><br><span style="color:rgba(255,255,255,0.5)">Сумма: '+val+'$ — укажи комментарий LUNAS</span><br><img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data='+encodeURIComponent(SELLER.card)+'" style="margin-top:8px;border-radius:8px;background:#fff;padding:4px" alt="QR">' }
+    else if(m==='sbp'){ info.innerHTML='<b>СБП</b> '+SELLER.sbpPhone+' <button onclick="navigator.clipboard.writeText(SELLER.sbpPhone);toast(\'Номер скопирован\',\'ok\')" style="margin-left:6px;padding:3px 8px;border-radius:999px;background:#fff;color:#000;border:none;font-size:11px;font-weight:700;cursor:pointer">Копировать</button><br><span style="color:rgba(255,255,255,0.5)">Сумма: '+val+'$ (~'+Math.round(val*95)+'₽)</span><br><img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data='+encodeURIComponent(SELLER.sbpPhone)+'" style="margin-top:8px;border-radius:8px;background:#fff;padding:4px" alt="QR">' }
+    else { info.innerHTML='<b>USDT TRC20</b><br><span style="font-size:10px;word-break:break-all;background:rgba(255,255,255,0.06);padding:5px 7px;border-radius:8px;display:inline-block">'+SELLER.crypto+'</span> <button onclick="navigator.clipboard.writeText(SELLER.crypto);toast(\'Адрес скопирован\',\'ok\')" style="margin-left:6px;padding:3px 8px;border-radius:999px;background:#fff;color:#000;border:none;font-size:11px;font-weight:700;cursor:pointer">Копировать</button><br><span style="color:rgba(255,255,255,0.5)">Сумма: '+val+' USDT</span><br><img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data='+encodeURIComponent(SELLER.crypto)+'" style="margin-top:8px;border-radius:8px;background:#fff;padding:4px" alt="QR">' }
+  }
+  showPay('card')
+}
+updateCart(); renderCurrency()
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('logoBtn')?.addEventListener('click',(e)=>{e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); toast('LUNAS SHOP — наверх')})
+  document.getElementById('cartBtn')?.addEventListener('click',(e)=>{e.preventDefault(); if(cart.length===0){toast('Корзина пуста — выбери читы в каталоге'); document.getElementById('catalog').scrollIntoView({behavior:'smooth'})} else {document.getElementById('cartBar').scrollIntoView({behavior:'smooth',block:'center'}); toast('Корзина: '+cart.length+' товара')} })
+  document.getElementById('cartBtn')?.addEventListener('keydown',(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault(); e.target.click()}})
+  document.getElementById('clearCartBtn')?.addEventListener('click',(e)=>{e.preventDefault(); if(cart.length===0) return toast('Корзина уже пуста'); cart=[]; saveCart(); updateCart(); toast('Корзина очищена')})
+  document.getElementById('discordBtn')?.addEventListener('click',(e)=>{e.preventDefault(); modal('Discord — LUNAS SHOP','Присоединяйся: discord.gg/57RhrEuqG (демо). Саппорт 24/7, обновы, статусы UD.','Копировать',()=>{navigator.clipboard?.writeText('discord.gg/57RhrEuqG'); toast('Скопировано: discord.gg/57RhrEuqG','ok')})})
+  document.getElementById('tgBtn')?.addEventListener('click',(e)=>{e.preventDefault(); modal('Telegram — LUNAS SHOP','t.me/lunasshop — новости, раздачи ключей, статусы читов.','Копировать',()=>{navigator.clipboard?.writeText('t.me/lunasshop'); toast('Скопировано: t.me/lunasshop','ok')})})
+  document.getElementById('tosBtn')?.addEventListener('click',(e)=>{e.preventDefault(); modal('ToS — LUNAS SHOP','Читы нарушают ToS игр. Покупая, ты принимаешь риск бана. Возврат в течение 24ч если ключ не активирован. Черно-белый дизайн • 21st.dev MCP.','Принять',()=>toast('ToS принят','ok'))})
+  document.querySelectorAll('a[href="#"]').forEach(a=>{
+    if(['cartBtn','discordBtn','tgBtn','tosBtn','clearCartBtn','logoBtn'].includes(a.id)) return
+    a.addEventListener('click',(e)=>{e.preventDefault(); toast('Скоро — раздел в разработке')})
+  })
+  document.querySelectorAll('.btn').forEach(b=>{b.setAttribute('tabindex','0'); b.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault(); b.click()}})})
+})
+
+// Filter for spoofer/rust/pubg/apex
+document.addEventListener('DOMContentLoaded',()=>{
+  const bar=document.getElementById('filterBar')
+  if(!bar) return
+  bar.querySelectorAll('[data-filter]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const f=btn.dataset.filter
+      bar.querySelectorAll('[data-filter]').forEach(b=>{b.className='btn btn-ghost'; b.style.cssText='padding:7px 12px;font-size:11px'})
+      btn.className='btn btn-white'; btn.style.cssText='padding:7px 12px;font-size:11px;border:1px solid #fff;background:#fff;color:#000'
+      document.querySelectorAll('#products [data-cat]').forEach(card=>{
+        const show = f==='all' || card.dataset.cat===f
+        card.style.display = show ? 'flex' : 'none'
+        if(show){ card.animate([{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'translateY(0)'}],{duration:220}) }
+      })
+      toast('Фильтр: '+f)
+    })
+  })
+})
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElementById('modalBg').classList.remove('open'); document.getElementById('authModal')?.classList.remove('open')}})
+
+// AUTH — Gmail + password, left top
+let authMode='login'
+const usersKey='lunas_users', curKey='lunas_current'
+function getUsers(){try{return JSON.parse(localStorage.getItem(usersKey)||'[]')}catch{return[]}}
+function saveUsers(u){localStorage.setItem(usersKey, JSON.stringify(u))}
+function getCurrent(){try{return JSON.parse(localStorage.getItem(curKey)||'null')}catch{return null}}
+function setCurrent(u){ if(u) localStorage.setItem(curKey, JSON.stringify(u)); else localStorage.removeItem(curKey); }
+function isGmail(email){ return /^[a-zA-Z0-9._%+-]+@gmail\.com$/i.test(email.trim()) }
+function getBalanceUSD(){ const cur=getCurrent(); if(!cur) return 0; if(cur.balanceUSD!=null) return cur.balanceUSD; if(cur.balances){ // migrate old per-currency
+    const usd = cur.balances.USD||0; if(usd>0) return usd;
+    // fallback: take any non-zero and convert to USD
+    for(let k of ['EUR','RUB','KZT']){ if(cur.balances[k]) return Math.round(cur.balances[k]/RATES[k]) }
+    return 0;
+  } if(cur.balance!=null) return cur.balance; return 0; }
+function getBalance(){ // display in selected currency
+  const usd=getBalanceUSD(); const cur=getCurrency(); return Math.round(usd*RATES[cur]);
+}
+function setBalanceUSD(val){
+  const cur=getCurrent(); if(!cur) return
+  cur.balanceUSD=val; delete cur.balance; delete cur.balances;
+  const users=getUsers(); const idx=users.findIndex(u=>u.email.toLowerCase()===cur.email.toLowerCase())
+  if(idx!==-1){ users[idx].balanceUSD=val; delete users[idx].balance; delete users[idx].balances; saveUsers(users) }
+  setCurrent(cur); renderAuth(); updateCart();
+}
+function setBalance(val){ // val is in selected currency, convert to USD
+  const curCode=getCurrency(); const usd=Math.round(val / RATES[curCode]); setBalanceUSD(usd);
+}
+function addBalance(delta){ // delta in selected currency
+  const curCode=getCurrency(); const usdDelta=Math.round(delta / RATES[curCode]); const newUSD=getBalanceUSD()+usdDelta; setBalanceUSD(newUSD);
+}
+function addBalanceUSD(deltaUSD){ setBalanceUSD(getBalanceUSD()+deltaUSD); }
+function renderAuth(){
+  const cur=getCurrent()
+  const area=document.getElementById('authArea')
+  if(!area) return
+  if(cur){
+    const bal = getBalance(); const L2=TRANSLATIONS[getLang()]
+    const curCode=getCurrency(); const sym=SYMBOLS[curCode]
+    area.innerHTML=`<span style="font-family:JetBrains Mono,monospace;font-size:11px;color:rgba(255,255,255,0.6);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${cur.email}</span><span style="background:#fff;color:#000;padding:5px 9px;border-radius:999px;font-weight:900;font-size:11px;display:inline-flex;align-items:center;gap:4px">${sym}${bal} <span style="font-size:9px;opacity:0.6">${curCode}</span></span><button id="topupBtn" class="btn btn-white" style="padding:8px 12px;font-size:11px;background:#fff;color:#000">${L2.topup}</button><button id="logoutBtn" class="btn btn-ghost" style="padding:8px 10px;font-size:11px">${L2.logout}</button>`
+    document.getElementById('logoutBtn').addEventListener('click',()=>{ setCurrent(null); renderAuth(); toast('Вышел из аккаунта'); })
+    document.getElementById('topupBtn').addEventListener('click',()=>openTopup())
+  } else {
+    const L=TRANSLATIONS[getLang()]; area.innerHTML=`<button id="loginBtn" class="btn btn-ghost" style="padding:8px 14px;font-size:12px">${L.login}</button><button id="registerBtn" class="btn btn-blue" style="padding:8px 14px;font-size:12px">${L.register}</button>`
+    document.getElementById('loginBtn').addEventListener('click',()=>openAuth('login'))
+    document.getElementById('registerBtn').addEventListener('click',()=>openAuth('register'))
+  }
+}
+function openTopup(){
+  const cur=getCurrent()
+  if(!cur){ toast('Сначала войди'); openAuth('login'); return }
+  const bg=document.getElementById('modalBg')
+  document.getElementById('modalTitle').textContent='Пополнить баланс — $'
+  const textEl=document.getElementById('modalText')
+  textEl.innerHTML=`
+    <div style="text-align:left">
+      <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:10px">Текущий баланс: <b style="color:#fff">$${cur.balance||0}</b> • на <b style="color:#fff">${cur.email}</b></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+        <button class="btn btn-white" style="padding:8px 14px" onclick="setTopupVal(10)">10$</button>
+        <button class="btn btn-ghost" style="padding:8px 14px" onclick="setTopupVal(25)">25$</button>
+        <button class="btn btn-ghost" style="padding:8px 14px" onclick="setTopupVal(50)">50$</button>
+        <button class="btn btn-ghost" style="padding:8px 14px" onclick="setTopupVal(100)">100$</button>
+        <input id="topupCustom" type="number" min="1" placeholder="Своя сумма" style="flex:1;min-width:110px;padding:8px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff;outline:none">
+      </div>
+      <div style="display:flex;gap:8px;margin:12px 0">
+        <button class="btn btn-white" style="flex:1;justify-content:center;padding:8px;min-width:60px" onclick="showTopupPay('card')" id="topCard">Карта</button>
+        <button class="btn btn-ghost" style="flex:1;justify-content:center;padding:8px;min-width:60px" onclick="showTopupPay('sbp')" id="topSbp">СБП</button>
+        <button class="btn btn-ghost" style="flex:1;justify-content:center;padding:8px;min-width:60px;background:#F14635;color:#fff;border-color:#F14635" onclick="showTopupPay('kaspi')" id="topKaspi">Kaspi</button>
+        <button class="btn btn-ghost" style="flex:1;justify-content:center;padding:8px;min-width:60px" onclick="showTopupPay('crypto')" id="topCrypto">Крипта</button>
+      </div>
+      <div id="topupInfo" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:14px;font-size:12px;line-height:1.6"></div>
+    </div>`
+  bg.classList.add('open'); bg.setAttribute('aria-hidden','false')
+  document.getElementById('modalClose').onclick=()=>{bg.classList.remove('open')}
+  bg.onclick=(e)=>{if(e.target===bg) bg.classList.remove('open')}
+  document.getElementById('modalAction').textContent='Я пополнил ✓'
+  document.getElementById('modalAction').onclick=()=>{
+    const val=parseInt(document.getElementById('topupCustom').value||window._topupVal||10,10)
+    if(!val || val<=0){ toast('Введи сумму'); return }
+    const method=window._topupMethod||'card'
+    const curCode=getCurrency()
+    const usdDelta=Math.round(val / RATES[curCode])
+    const newUSD=getBalanceUSD()+usdDelta
+    setBalanceUSD(newUSD)
+    // save topup order
+    const orders=JSON.parse(localStorage.getItem('lunas_topups')||'[]')
+    orders.push({email:cur2.email, amount:val, method, date:new Date().toISOString()})
+    localStorage.setItem('lunas_topups', JSON.stringify(orders))
+    bg.classList.remove('open')
+    toast('Баланс пополнен на $'+val+' — стало $'+newBal,'ok')
+  }
+  window._topupVal=10
+  window.setTopupVal=function(v){ window._topupVal=v; const inp=document.getElementById('topupCustom'); if(inp) inp.value=v; document.querySelectorAll('#modalText .btn').forEach(b=>{if(b.textContent.includes('$')){b.className='btn btn-ghost'; b.style.background=''}}); event.target.className='btn btn-white'; event.target.style.background='#fff'; event.target.style.color='#000' }
+  window.showTopupPay=function(m){
+    window._topupMethod=m
+    document.getElementById('topCard').className=m==='card'?'btn btn-white':'btn btn-ghost'
+    document.getElementById('topSbp').className=m==='sbp'?'btn btn-white':'btn btn-ghost'
+    document.getElementById('topKaspi').className=m==='kaspi'?'btn btn-white':'btn btn-ghost'
+    if(m==='kaspi'){document.getElementById('topKaspi').style.background='#F14635';document.getElementById('topKaspi').style.color='#fff'} else {document.getElementById('topKaspi').style.background='';}
+    document.getElementById('topCrypto').className=m==='crypto'?'btn btn-white':'btn btn-ghost'
+    const val=document.getElementById('topupCustom').value||window._topupVal||10
+    const info=document.getElementById('topupInfo')
+    if(m==='card'){ info.innerHTML='<b>Карта</b> <span style="font-weight:800">'+SELLER.card+'</span> <button onclick="navigator.clipboard.writeText(SELLER.card);toast(\'Карта скопирована\',\'ok\')" style="margin-left:6px;padding:3px 8px;border-radius:999px;background:#fff;color:#000;border:none;font-size:11px;font-weight:700;cursor:pointer">Копировать</button><br><span style="color:rgba(255,255,255,0.5)">Сумма: '+val+'$ — укажи комментарий LUNAS</span><br><img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data='+encodeURIComponent(SELLER.card)+'" style="margin-top:8px;border-radius:8px;background:#fff;padding:4px" alt="QR">' }
+    else if(m==='sbp'){ info.innerHTML='<b>СБП</b> '+SELLER.sbpPhone+' <button onclick="navigator.clipboard.writeText(SELLER.sbpPhone);toast(\'Номер скопирован\',\'ok\')" style="margin-left:6px;padding:3px 8px;border-radius:999px;background:#fff;color:#000;border:none;font-size:11px;font-weight:700;cursor:pointer">Копировать</button><br><span style="color:rgba(255,255,255,0.5)">Сумма: '+val+'$ (~'+Math.round(val*95)+'₽)</span><br><img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data='+encodeURIComponent(SELLER.sbpPhone)+'" style="margin-top:8px;border-radius:8px;background:#fff;padding:4px" alt="QR">' }
+    else { info.innerHTML='<b>USDT TRC20</b><br><span style="font-size:10px;word-break:break-all;background:rgba(255,255,255,0.06);padding:5px 7px;border-radius:8px;display:inline-block">'+SELLER.crypto+'</span> <button onclick="navigator.clipboard.writeText(SELLER.crypto);toast(\'Адрес скопирован\',\'ok\')" style="margin-left:6px;padding:3px 8px;border-radius:999px;background:#fff;color:#000;border:none;font-size:11px;font-weight:700;cursor:pointer">Копировать</button><br><span style="color:rgba(255,255,255,0.5)">Сумма: '+val+' USDT</span><br><img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data='+encodeURIComponent(SELLER.crypto)+'" style="margin-top:8px;border-radius:8px;background:#fff;padding:4px" alt="QR">' }
+  }
+  showTopupPay('card')
+}
+
+function openAuth(mode){
+  authMode=mode
+  const modal=document.getElementById('authModal')
+  const tLogin=document.getElementById('tabLogin'), tReg=document.getElementById('tabRegister')
+  const title=document.getElementById('authTitle'), submit=document.getElementById('authSubmit'), confirmWrap=document.getElementById('confirmWrap')
+  if(mode==='login'){ tLogin.className='btn btn-blue'; tReg.className='btn btn-ghost'; title.textContent='Войти в аккаунт'; submit.textContent='Войти'; confirmWrap.style.display='none' }
+  else { tReg.className='btn btn-blue'; tLogin.className='btn btn-ghost'; title.textContent='Создать аккаунт'; submit.textContent='Создать'; confirmWrap.style.display='flex' }
+  // clear errors
+  document.getElementById('emailErr').style.display='none'; document.getElementById('passErr').style.display='none'; document.getElementById('pass2Err').style.display='none';
+  modal.classList.add('open'); modal.setAttribute('aria-hidden','false')
+}
+function closeAuth(){ document.getElementById('authModal').classList.remove('open'); document.getElementById('authModal').setAttribute('aria-hidden','true') }
+document.addEventListener('DOMContentLoaded',()=>{
+  renderAuth(); renderCurrency(); applyLang()
+  document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.lang)))
+  document.querySelectorAll('.cur-btn').forEach(b=>b.addEventListener('click',()=>setCurrency(b.dataset.cur)))
+  document.getElementById('tabLogin')?.addEventListener('click',()=>openAuth('login'))
+  document.getElementById('tabRegister')?.addEventListener('click',()=>openAuth('register'))
+  document.getElementById('authClose')?.addEventListener('click',closeAuth)
+  document.getElementById('authModal')?.addEventListener('click',(e)=>{ if(e.target.id==='authModal') closeAuth() })
+  document.getElementById('authForm')?.addEventListener('submit',(e)=>{
+    e.preventDefault()
+    const email=document.getElementById('authEmail').value.trim()
+    const pass=document.getElementById('authPass').value
+    const pass2=document.getElementById('authPass2').value
+    let ok=true
+    const emailErr=document.getElementById('emailErr'), passErr=document.getElementById('passErr'), pass2Err=document.getElementById('pass2Err')
+    emailErr.style.display='none'; passErr.style.display='none'; pass2Err.style.display='none';
+    if(!isGmail(email)){ emailErr.style.display='block'; ok=false; toast('Нужна Gmail — @gmail.com') }
+    if(pass.length<6){ passErr.style.display='block'; ok=false; }
+    if(authMode==='register' && pass!==pass2){ pass2Err.style.display='block'; ok=false; }
+    if(!ok) return
+    const users=getUsers()
+    if(authMode==='register'){
+      if(users.find(u=>u.email.toLowerCase()===email.toLowerCase())){ toast('Такой Gmail уже зарегистрирован'); return }
+      const user={email, pass, created:Date.now(), balance:0}
+      users.push(user); saveUsers(users); setCurrent(user); toast('Аккаунт создан ✓','ok'); closeAuth(); renderAuth();
+    } else {
+      // admin hardcoded bypass
+      let found=users.find(u=>u.email.toLowerCase()===email.toLowerCase() && u.pass===pass)
+      if(!found && email.toLowerCase()===ADMIN.email.toLowerCase() && pass===ADMIN.pass){
+        found={email:ADMIN.email, pass:ADMIN.pass, created:Date.now(), balance:0, balances:{USD:0,EUR:0,RUB:0,KZT:0}}
+        users.push(found); saveUsers(users)
+      }
+      if(!found){ toast('Неверная Gmail или пароль'); return }
+      setCurrent(found); toast('Вход выполнен ✓','ok'); closeAuth(); renderAuth();
+    }
+    // clear inputs
+    document.getElementById('authEmail').value=''; document.getElementById('authPass').value=''; document.getElementById('authPass2').value='';
+  })
+  // checkout requires auth
+  const origCheckout=window.checkout
+  window.checkout=function(){
+    const cur=getCurrent()
+    if(!cur){ toast('Сначала войди в аккаунт'); openAuth('login'); return }
+    if(cart.length===0){toast('Корзина пуста — добавь товар'); return}
+    const sum=cart.reduce((s,c)=>s+c.price,0)
+    const list=cart.map(c=>c.name+' '+c.price+'$').join(', ')
+    modal('Оформление — '+cur.email,'Заказ: '+list+' = '+sum+'$ \nОплата: крипта / карта / СБП (демо). Ключ придёт на '+cur.email,'Оплатить',()=>{
+      toast('Заказ на '+sum+'$ оформлен — ключ отправлен на '+cur.email,'ok'); cart=[]; saveCart(); updateCart();
+    })
+  }
+})
+
+
+// REVIEWS — different nicks, good ratings
+const DEFAULT_REVIEWS = [
+  {nick:'kuro.wave', game:'rust', rating:5, text:'Два месяца юзаю, ESP четкий, отдачи нет. Поддержка отвечает за минуту, обновы каждый день. Топ за свои деньги.', date:'2026-08-10', verified:true},
+  {nick:'m1row', game:'spoofer', rating:5, text:'Сбросил бан за 5 минут, Win11 все завелось без ошибок. Lifetime окупился, рекомендую.', date:'2026-08-15', verified:true},
+  {nick:'averance', game:'pubg', rating:5, text:'Пубг летает, BE не палит, вижу луты сквозь стены. Играю 3 недели — детектов ноль.', date:'2026-08-08', verified:true},
+  {nick:'desolate', game:'apex', rating:5, text:'Апекс предикт имба, 15-20 фрагов за катку. Не палится на стриме, стата выросла.', date:'2026-08-12', verified:true},
+  {nick:'sokolv', game:'rust', rating:5, text:'Фарм ускорился в 10 раз, руда и аирдропы светятся. Радар спасает жизнь.', date:'2026-08-11', verified:true},
+  {nick:'yung.rus', game:'rust', rating:4, text:'В целом огонь, 4 из 5 только из-за редких лагов. А так лучший чит для раста.', date:'2026-08-09', verified:false},
+  {nick:'vexon', game:'apex', rating:5, text:'Insane prediction, 20 bombs per game. Stream-proof, never detected. Best apex cheat I tried.', date:'2026-08-14', verified:true},
+  {nick:'astro.k', game:'pubg', rating:5, text:'PUBG cheat is clean, BE bypass works, loot ESP perfect. 3 weeks no detection, love it.', date:'2026-08-06', verified:true},
+  {nick:'neonray', game:'spoofer', rating:5, text:'Cleaned HWID in 2 mins, Valorant unbanned instantly. Lifetime worth it, support 24/7.', date:'2026-08-07', verified:true},
+  {nick:'ghosty', game:'rust', rating:5, text:'Rust external is insane, see players through walls, no recoil perfect. 200+ days UD.', date:'2026-08-13', verified:false},
+  {nick:'soulwave', game:'apex', rating:5, text:'From 0.8 to 3.2 KD in a week. Spectate bypass works flawlessly, highly recommend.', date:'2026-08-05', verified:true},
+  {nick:'blitz.', game:'spoofer', rating:5, text:'Updates daily, even after EAC patch fixed in an hour. Respect to LUNAS team.', date:'2026-08-04', verified:true},
+]
+function getReviews(){ try{ const s=localStorage.getItem('lunas_reviews_v4'); if(s) return JSON.parse(s); }catch{} return [...DEFAULT_REVIEWS] }
+function saveReviews(arr){ localStorage.setItem('lunas_reviews_v4', JSON.stringify(arr)) }
+let reviewFilter='all', reviewShown=6
+function stars(n){ return '★'.repeat(n)+'☆'.repeat(5-n) }
+function renderReviews(){
+  const grid=document.getElementById('reviewsGrid'); if(!grid) return
+  const all=getReviews()
+  const filtered = reviewFilter==='all' ? all : all.filter(r=>r.game===reviewFilter)
+  const slice=filtered.slice(0, reviewShown)
+  grid.innerHTML = slice.map(r=>`
+    <div class="glass" style="grid-column:span 6; padding:16px; display:flex;flex-direction:column;gap:10px" data-rgame="${r.game}">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:36px;height:36px;border-radius:50%;background:#fff;color:#000;display:grid;place-items:center;font-weight:900;font-size:12px">${r.nick[0].toUpperCase()}</div>
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span style="font-weight:800;font-size:13px">${r.nick}</span>${r.verified?'<span style="background:#fff;color:#000;font-size:9px;font-weight:800;padding:2px 6px;border-radius:999px">✓ VERIFIED</span>':''}<span style="font-size:11px;color:rgba(255,255,255,0.35)">${r.date}</span></div>
+          <div style="font-size:10px;font-family:JetBrains Mono,monospace;letter-spacing:0.06em;color:rgba(255,255,255,0.45)">${r.game.toUpperCase()} • ${stars(r.rating)} <span style="color:#fff">${r.rating}.0</span></div>
+        </div>
+        <span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px">${r.game}</span>
+      </div>
+      <p style="font-size:13px;color:rgba(255,255,255,0.72);line-height:1.6">${r.text}</p>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn btn-ghost" style="padding:6px 10px;font-size:11px" onclick="helpful('${r.nick}')">👍 Полезно</button>
+        <span style="font-size:11px;color:rgba(255,255,255,0.25)">${Math.floor(Math.random()*40+5)} оценили</span>
+      </div>
+    </div>
+  `).join('')
+  // responsive: on mobile span 12
+  if(window.innerWidth<900){ grid.querySelectorAll('.glass').forEach(el=>el.style.gridColumn='span 12') }
+  document.getElementById('moreReviewsBtn').style.display = filtered.length>reviewShown ? 'inline-flex' : 'none'
+}
+function helpful(nick){ toast('Спасибо за оценку — '+nick+' полезен','ok') }
+document.addEventListener('DOMContentLoaded',()=>{
+  renderReviews()
+  document.querySelectorAll('#reviewFilter [data-rf]').forEach(b=>{
+    b.addEventListener('click',()=>{
+      reviewFilter=b.dataset.rf
+      document.querySelectorAll('#reviewFilter [data-rf]').forEach(x=>{x.className='btn btn-ghost'; x.style.cssText='padding:6px 10px;font-size:11px'})
+      b.className='btn btn-white'; b.style.cssText='padding:6px 10px;font-size:11px;background:#fff;color:#000'
+      reviewShown=6
+      renderReviews()
+      toast('Отзывы: '+b.textContent)
+    })
+  })
+  document.getElementById('moreReviewsBtn')?.addEventListener('click',()=>{ reviewShown+=6; renderReviews() })
+  document.getElementById('leaveReviewBtn')?.addEventListener('click',()=>{
+    const cur=getCurrent()
+    if(!cur){ toast('Войди чтобы оставить отзыв'); openAuth('login'); return }
+    const bg=document.getElementById('modalBg')
+    document.getElementById('modalTitle').textContent='Оставить отзыв'
+    document.getElementById('modalText').innerHTML=`
+      <div style="display:flex;flex-direction:column;gap:10px;text-align:left">
+        <label style="font-size:12px;font-weight:600">Ник <input id="revNick" value="${cur.email.split('@')[0]}" style="width:100%;margin-top:4px;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.06);color:#fff"></label>
+        <label style="font-size:12px;font-weight:600">Игра <select id="revGame" style="width:100%;margin-top:4px;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff"><option value="rust">Rust</option><option value="pubg">PUBG</option><option value="apex">Apex</option><option value="spoofer">Spoofer</option></select></label>
+        <label style="font-size:12px;font-weight:600">Оценка <select id="revRating" style="width:100%;margin-top:4px;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff"><option value="5">★★★★★ 5 — отлично</option><option value="4">★★★★☆ 4 — хорошо</option><option value="3">★★★☆☆ 3</option></select></label>
+        <label style="font-size:12px;font-weight:600">Отзыв <textarea id="revText" rows="3" placeholder="Что понравилось?" style="width:100%;margin-top:4px;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.06);color:#fff"></textarea></label>
+      </div>`
+    bg.classList.add('open')
+    document.getElementById('modalAction').textContent='Опубликовать'
+    document.getElementById('modalAction').onclick=()=>{
+      const nick=document.getElementById('revNick').value.trim()||cur.email.split('@')[0]
+      const game=document.getElementById('revGame').value
+      const rating=parseInt(document.getElementById('revRating').value,10)
+      const text=document.getElementById('revText').value.trim()
+      if(!text || text.length<6){ toast('Напиши отзыв (мин 6 символов)'); return }
+      const arr=getReviews()
+      arr.unshift({nick, game, rating, text, date:new Date().toISOString().slice(0,10), verified:true})
+      saveReviews(arr)
+      bg.classList.remove('open')
+      reviewShown=6; reviewFilter='all'
+      renderReviews()
+      toast('Отзыв опубликован ✓','ok')
+    }
+    document.getElementById('modalClose').onclick=()=>bg.classList.remove('open')
+    bg.onclick=(e)=>{if(e.target===bg) bg.classList.remove('open')}
+  })
+  window.addEventListener('resize', renderReviews)
+})
+
+
+// ADMIN — only you
+function renderAdminBtn(){
+  const cur=getCurrent()
+  let btn=document.getElementById('adminBtn')
+  if(isAdmin()){
+    if(!btn){
+      const nav=document.querySelector('nav .container')
+      const el=document.createElement('button')
+      el.id='adminBtn'
+      el.className='btn btn-white'
+      el.style.cssText='padding:8px 12px;font-size:11px;background:#fff;color:#000;margin-left:8px'
+      el.textContent='Админ ⚙'
+      el.onclick=()=>openAdmin()
+      // insert after authArea
+      const auth=document.getElementById('authArea')
+      if(auth) auth.insertAdjacentElement('afterend', el)
+      else nav.appendChild(el)
+    }
+    // show edit hints on products
+    document.querySelectorAll('#products .glass').forEach(card=>{
+      if(!card.querySelector('.adm-edit')){
+        const b=document.createElement('button')
+        b.textContent='✎'
+        b.className='adm-edit btn btn-ghost'
+        b.style.cssText='position:absolute;top:8px;right:8px;padding:4px 8px;font-size:11px'
+        b.onclick=(e)=>{e.stopPropagation(); openAdmin()}
+        card.style.position='relative'
+        card.appendChild(b)
+      }
+    })
+  } else {
+    if(btn) btn.remove()
+    document.querySelectorAll('.adm-edit').forEach(e=>e.remove())
+  }
+}
+function openAdmin(){
+  if(!isAdmin()){ toast('Нет прав — войди как админ ('+ADMIN.email+')'); openAuth('login'); return }
+  const panel=document.getElementById('adminPanel')
+  // fill seller
+  document.getElementById('admCard').value=SELLER.card
+  document.getElementById('admKaspi').value=SELLER.kaspi
+  document.getElementById('admCrypto').value=SELLER.crypto
+  document.getElementById('admSbp').value=SELLER.sbpPhone
+  // fill products
+  const prods=getProducts()
+  const cont=document.getElementById('admProducts')
+  cont.innerHTML=prods.map((p,i)=>`
+    <div style="display:grid;grid-template-columns:1fr 80px 80px 30px;gap:6px;align-items:center">
+      <input data-idx="${i}" data-field="name" value="${p.name}" style="padding:6px 8px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.06);color:#fff;font-size:11px">
+      <input data-idx="${i}" data-field="price" type="number" value="${p.price}" style="padding:6px 8px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.06);color:#fff;font-size:11px">
+      <select data-idx="${i}" data-field="cat" style="padding:6px;border-radius:8px;background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.1);font-size:11px"><option value="spoofer" ${p.cat==='spoofer'?'selected':''}>spoofer</option><option value="rust" ${p.cat==='rust'?'selected':''}>rust</option><option value="pubg" ${p.cat==='pubg'?'selected':''}>pubg</option><option value="apex" ${p.cat==='apex'?'selected':''}>apex</option></select>
+      <button class="btn btn-ghost" style="padding:4px 8px" onclick="this.parentElement.remove(); toast('Удалён (не сохранён)')">×</button>
+    </div>
+  `).join('')
+  // orders
+  const orders=JSON.parse(localStorage.getItem('lunas_orders')||'[]').slice(-8).reverse()
+  const topups=JSON.parse(localStorage.getItem('lunas_topups')||'[]').slice(-8).reverse()
+  document.getElementById('admOrders').textContent = 'Заказы:\n' + (orders.length?orders.map(o=>`${o.date.slice(0,10)} ${o.email} ${o.cart.map(c=>c.name).join('+')} $${o.sum} ${o.key||''}`).join('\n'):'—') + '\n\nПополнения:\n' + (topups.length?topups.map(t=>`${t.date.slice(0,10)} ${t.email} +$${t.amount} ${t.method}`).join('\n'):'—')
+  panel.style.display='flex'
+}
+function closeAdmin(){ document.getElementById('adminPanel').style.display='none' }
+document.getElementById('adminClose')?.addEventListener('click', closeAdmin)
+document.getElementById('adminPanel')?.addEventListener('click', e=>{ if(e.target.id==='adminPanel') closeAdmin() })
+document.getElementById('admSaveSeller')?.addEventListener('click', ()=>{
+  SELLER.card=document.getElementById('admCard').value.trim()||SELLER.card
+  SELLER.kaspi=document.getElementById('admKaspi').value.trim()||SELLER.kaspi
+  SELLER.crypto=document.getElementById('admCrypto').value.trim()||SELLER.crypto
+  SELLER.sbpPhone=document.getElementById('admSbp').value.trim()||SELLER.sbpPhone
+  localStorage.setItem('lunas_seller', JSON.stringify(SELLER))
+  toast('Реквизиты сохранены','ok')
+})
+function getProducts(){
+  try{ const s=localStorage.getItem('lunas_products'); if(s) return JSON.parse(s)}catch{}
+  return [
+    {name:'Spoofer Lifetime', price:9, cat:'spoofer'},
+    {name:'Rust External', price:18, cat:'rust'},
+    {name:'PUBG Full', price:16, cat:'pubg'},
+    {name:'Apex Legends', price:14, cat:'apex'},
+  ]
+}
+function saveProductsFromAdmin(){
+  const rows=[...document.querySelectorAll('#admProducts [data-idx]')].reduce((acc,el)=>{
+    const idx=el.dataset.idx
+    if(!acc[idx]) acc[idx]={}
+    acc[idx][el.dataset.field]= el.type==='number' ? parseFloat(el.value)||0 : el.value
+    return acc
+  },[])
+  const list=Object.values(rows).filter(p=>p.name)
+  localStorage.setItem('lunas_products', JSON.stringify(list))
+  return list
+}
+document.getElementById('admSaveProducts')?.addEventListener('click', ()=>{
+  const list=saveProductsFromAdmin()
+  toast('Товары сохранены — обнови страницу','ok')
+  // update prices in current cards without reload
+  document.querySelectorAll('#products .glass').forEach((card, i)=>{
+    const p=list[i]
+    if(p){
+      const priceEl=card.querySelector('.price')
+      if(priceEl){ priceEl.setAttribute('data-usd', p.price); priceEl.innerHTML=p.price+'$ <small>/ 30 дней</small>' }
+      const title=card.querySelector('h3'); if(title) title.textContent=p.name
+      card.setAttribute('data-cat', p.cat)
+    }
+  })
+  renderCurrency()
+})
+document.getElementById('admAddProduct')?.addEventListener('click', ()=>{
+  const cont=document.getElementById('admProducts')
+  const idx=cont.children.length
+  cont.insertAdjacentHTML('beforeend', `<div style="display:grid;grid-template-columns:1fr 80px 80px 30px;gap:6px;align-items:center"><input data-idx="${idx}" data-field="name" placeholder="Название" style="padding:6px 8px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.06);color:#fff;font-size:11px"><input data-idx="${idx}" data-field="price" type="number" value="10" style="padding:6px 8px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.06);color:#fff;font-size:11px"><select data-idx="${idx}" data-field="cat" style="padding:6px;border-radius:8px;background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.1);font-size:11px"><option value="spoofer">spoofer</option><option value="rust">rust</option><option value="pubg">pubg</option><option value="apex">apex</option></select><button class="btn btn-ghost" style="padding:4px 8px" onclick="this.parentElement.remove()">×</button></div>`)
+})
+document.getElementById('admClearOrders')?.addEventListener('click', ()=>{ localStorage.removeItem('lunas_orders'); localStorage.removeItem('lunas_topups'); document.getElementById('admOrders').textContent='Очищено'; toast('История очищена') })
+// load seller from storage
+try{ const s=JSON.parse(localStorage.getItem('lunas_seller')||'null'); if(s){ Object.assign(SELLER, s) } }catch{}
+// hook into renderAuth to also render admin btn
+const _origRenderAuth = renderAuth
+renderAuth = function(){ _origRenderAuth(); renderAdminBtn() }
+document.addEventListener('keydown', e=>{ if(e.ctrlKey && e.shiftKey && e.key.toLowerCase()==='a'){ e.preventDefault(); openAdmin() }})
+
+
+
+
+
+// MOLECULES — черные молекулы на черном фоне, движутся и соединяются
+(function(){
+  const canvas=document.getElementById('molecules')
+  if(!canvas) return
+  const ctx=canvas.getContext('2d')
+  let w,h, particles=[]
+  const COUNT=55
+  const DIST=130
+  const SPEED=0.35
+  function resize(){
+    w=canvas.width=window.innerWidth
+    h=canvas.height=window.innerHeight
+  }
+  window.addEventListener('resize', resize)
+  resize()
+  for(let i=0;i<COUNT;i++){
+    particles.push({
+      x: Math.random()*w,
+      y: Math.random()*h,
+      vx: (Math.random()-0.5)*SPEED,
+      vy: (Math.random()-0.5)*SPEED,
+      r: Math.random()*2.2+1.4
+    })
+  }
+  function step(){
+    ctx.clearRect(0,0,w,h)
+    for(let p of particles){
+      p.x+=p.vx; p.y+=p.vy
+      if(p.x<0||p.x>w) p.vx*=-1
+      if(p.y<0||p.y>h) p.vy*=-1
+      p.x=Math.max(0,Math.min(w,p.x)); p.y=Math.max(0,Math.min(h,p.y))
+    }
+    for(let i=0;i<particles.length;i++){
+      for(let j=i+1;j<particles.length;j++){
+        const a=particles[i], b=particles[j]
+        const dx=a.x-b.x, dy=a.y-b.y
+        const dist=Math.hypot(dx,dy)
+        if(dist<DIST){
+          const alpha=(1-dist/DIST)*0.18
+          ctx.strokeStyle=`rgba(255,255,255,${alpha})`
+          ctx.lineWidth=0.7
+          ctx.beginPath()
+          ctx.moveTo(a.x,a.y)
+          ctx.lineTo(b.x,b.y)
+          ctx.stroke()
+        }
+      }
+    }
+    for(let p of particles){
+      ctx.beginPath()
+      ctx.arc(p.x,p.y,p.r+2.5,0,Math.PI*2)
+      ctx.fillStyle='rgba(255,255,255,0.04)'
+      ctx.fill()
+      ctx.beginPath()
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2)
+      ctx.fillStyle='#000000'
+      ctx.fill()
+      ctx.strokeStyle='rgba(255,255,255,0.9)'
+      ctx.lineWidth=1
+      ctx.stroke()
+      ctx.beginPath()
+      ctx.arc(p.x-p.r*0.3,p.y-p.r*0.3,p.r*0.35,0,Math.PI*2)
+      ctx.fillStyle='rgba(255,255,255,0.55)'
+      ctx.fill()
+    }
+    requestAnimationFrame(step)
+  }
+  if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    requestAnimationFrame(step)
+  }
+})();
+
+
+function openRustModal(){
+  const m=document.getElementById('rustModal')
+  m.style.display='flex'
+  const cur=getCurrency(); const sym=SYMBOLS[cur]
+  document.getElementById('rustCurLabel').textContent=cur
+  document.querySelectorAll('.rust-price').forEach(el=>{
+    const usd=parseFloat(el.getAttribute('data-usd'))
+    el.textContent=convertUSD(usd)+sym
+  })
+}
+function closeRustModal(){ document.getElementById('rustModal').style.display='none' }
+function addRust(days, usdPrice){
+  const cur=getCurrency(); const sym=SYMBOLS[cur]
+  const priceConverted=convertUSD(usdPrice)
+  const name=`Morphine — ${days} ${days===1?'день':days<5?'дня':'дней'}`
+  addToCart(name, usdPrice)
+  closeRustModal()
+  toast(`Rust ${days}д — ${priceConverted}${sym} добавлен`, 'ok')
+}
+document.getElementById('rustModal')?.addEventListener('click', e=>{ if(e.target.id==='rustModal') closeRustModal() })
+
+
+function openSpooferModal(){
+  const m=document.getElementById('spooferModal')
+  m.style.display='flex'
+  const cur=getCurrency(); const sym=SYMBOLS[cur]
+  const label=document.getElementById('spoofCurLabel')
+  if(label) label.textContent=cur
+  document.querySelectorAll('.spoof-price').forEach(el=>{
+    const usd=parseFloat(el.getAttribute('data-usd'))
+    el.textContent=convertUSD(usd)+sym
+  })
+}
+function closeSpooferModal(){ document.getElementById('spooferModal').style.display='none' }
+function addSpoof(name, usdPrice){
+  const cur=getCurrency(); const sym=SYMBOLS[cur]
+  const priceConverted=convertUSD(usdPrice)
+  addToCart(name, usdPrice)
+  closeSpooferModal()
+  toast(`${name} — ${priceConverted}${sym} добавлен`, 'ok')
+}
+document.getElementById('spooferModal')?.addEventListener('click', e=>{ if(e.target.id==='spooferModal') closeSpooferModal() })
+
+</script>
+</body>
+</html>
