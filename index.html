@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -74,36 +74,57 @@ nav .container{display:flex;align-items:center;justify-content:space-between;gap
 .logo img{filter:drop-shadow(0 0 6px rgba(255,255,255,0.28)) drop-shadow(0 0 14px rgba(255,255,255,0.12));}
 
 </style>
+<script>window.API_BASE = localStorage.getItem('api_base') || (location.port==='8765' ? 'http://127.0.0.1:3000' : '');
+function openPolicy(title, text){
+  document.getElementById('policyTitle').textContent=title
+  document.getElementById('policyText').textContent=text
+  document.getElementById('policyModal').style.display='flex'
+}
+function closePolicy(){ document.getElementById('policyModal').style.display='none' }
+document.getElementById('policyModal')?.addEventListener('click', e=>{ if(e.target.id==='policyModal') closePolicy() })
+document.getElementById('termsBtn')?.addEventListener('click', e=>{ e.preventDefault(); openPolicy('Условия использования', `1. LUNAS SHOP продаёт лицензии на цифровые ключи, не физический товар.\n2. Читы нарушают ToS игр (EAC/BattlEye/Vanguard) — используешь на свой страх, бан возможен.\n3. Ключ персональный, не передавай. Один ключ — один покупатель (защита от дубля).\n4. Аккаунт — только твой, не делись паролем. Пароли храним как bcrypt хеш.\n5. Запрещено перепродавать, декомпилировать лоадер.` )})
+document.getElementById('privacyBtn')?.addEventListener('click', e=>{ e.preventDefault(); openPolicy('Политика конфиденциальности', `Собираем: email, хеш пароля, заказы, ключи (привязаны к order_id), баланс.\nНе собираем: данные карты — их обрабатывает платёжный провайдер (Kaspi/СБП/Stripe).\nХранение: SQLite/Postgres, шифрование, доступ только по JWT.\nПередача: только провайдеру для платежа и email-сервису для отправки ключа.\nУдаление: напиши на support@lunasshop.local — удалим данные за 30 дней.` )})
+document.getElementById('refundBtn')?.addEventListener('click', e=>{ e.preventDefault(); openPolicy('Политика возврата', `Цифровой товар — возврат в течение 24ч если ключ НЕ показан и НЕ активирован.\nПосле показа ключа в "Мои покупки" или на email — без возврата.\nЕсли ключ невалидный/не активируется — заменим в течение 24ч, покажи видео.\nЕсли ключей нет (out_of_stock) — заказ не станет paid, деньги вернём.\nПиши в Discord https://discord.gg/57RhrEuqG с номером заказа.` )})
+// footer old ToS button still exists as tosBtn, keep it
+document.getElementById('tgBtn2')?.addEventListener('click', e=>{ e.preventDefault(); toast('Telegram: t.me/lunasshop') })
+document.getElementById('clearCartBtn2')?.addEventListener('click', e=>{ e.preventDefault(); if(typeof clearCart==='function') clearCart(); })
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closePolicy() })
+
+</script>
 </head>
 <body>
 <div class="morph-blob morph-1"></div>
 <div class="morph-blob morph-2"></div>
 <canvas id="molecules" style="position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.9"></canvas>
-<nav>
-  <div class="container">
-    <div style="display:flex;align-items:center;gap:14px">
-      <a href="#" class="logo" id="logoBtn" style="gap:10px"><img src="logo.png" alt="LS" style="height:36px;width:auto;display:block;filter:drop-shadow(0 0 10px rgba(255,255,255,0.45));border-radius:6px;object-fit:contain"><span class="neon">LUNAS<span class="neon-shop">SHOP</span></span> <span style="margin-left:2px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.08);padding:4px 8px;border-radius:999px">21st.dev • MCP</span></a>
-      <div id="authArea" style="display:flex;gap:8px;align-items:center;margin-left:4px">
-        <button id="loginBtn" class="btn btn-ghost" style="padding:8px 14px;font-size:12px">Войти</button>
-        <button id="registerBtn" class="btn btn-blue" style="padding:8px 14px;font-size:12px">Создать</button>
+<nav style="position:fixed;top:0;left:0;right:0;z-index:50;background:#0c0c0e;background-image:linear-gradient(hsla(0,0%,100%,.01) 1px,transparent 0),linear-gradient(90deg,hsla(0,0%,100%,.01) 1px,transparent 0);background-size:36px 36px;border-bottom:1px solid rgba(255,255,255,0.06);padding:0">
+  <div class="container" style="height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+    <div style="display:flex;align-items:center;gap:18px">
+      <a href="#" class="logo" id="logoBtn" style="gap:10px"><img src="logo.png" alt="LS" style="height:32px;width:auto;display:block;filter:drop-shadow(0 0 8px rgba(255,255,255,0.35));border-radius:6px;object-fit:contain"><span class="neon" style="font-size:16px;letter-spacing:-0.02em">LUNAS<span class="neon-shop">SHOP</span></span></a>
+      <div style="display:flex;align-items:center;gap:18px;margin-left:12px" class="nav-links">
+        <a href="#" style="color:#fff;text-decoration:none;font-size:13px;font-weight:700;letter-spacing:0.02em;border-bottom:2px solid #fff;padding:6px 0">Главная</a>
+        <a href="#catalog" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:600;letter-spacing:0.02em;padding:6px 0">Каталог</a>
+        <a href="#reviews" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:600;letter-spacing:0.02em;padding:6px 0">Отзывы</a>
+        <a href="#faq" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:600;letter-spacing:0.02em;padding:6px 0">FAQ</a>
       </div>
     </div>
-    <div style="display:flex;gap:8px;align-items:center">
-      <div id="langSwitcher" style="display:flex;gap:4px;padding:3px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:999px"><button data-lang="ru" class="lang-btn active" style="padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800;border:none;cursor:pointer;background:#fff;color:#000">RU</button><button data-lang="en" class="lang-btn" style="padding:5px 9px;border-radius:999px;font-size:11px;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6)">EN</button></div><div id="currencySwitcher" style="display:flex;gap:4px;padding:3px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:999px">
-        <button data-cur="USD" class="cur-btn active" style="padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800;border:none;cursor:pointer;background:#fff;color:#000">$ USD</button>
-        <button data-cur="EUR" class="cur-btn" style="padding:5px 9px;border-radius:999px;font-size:11px;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6)">€ EUR</button>
-        <button data-cur="RUB" class="cur-btn" style="padding:5px 9px;border-radius:999px;font-size:11px;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6)">₽ RUB</button>
-        <button data-cur="KZT" class="cur-btn" style="padding:5px 9px;border-radius:999px;font-size:11px;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6)">₸ KZT</button>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div id="authArea" style="display:flex;gap:6px;align-items:center">
+        <button id="loginBtn" class="btn btn-ghost" style="padding:6px 10px;font-size:11px">Войти</button>
+        <button id="registerBtn" class="btn" style="background:#fff;color:#000;padding:6px 10px;font-size:11px;font-weight:800;border-radius:999px">Создать</button>
       </div>
-      <a href="#catalog" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:600">Каталог</a>
-      <a href="#how" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:600">Как работает</a>
-      <a href="#reviews" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:600">Отзывы</a>
-      <a href="#faq" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:600">FAQ</a>
-      <a href="https://discord.gg/57RhrEuqG" target="_blank" rel="noopener" id="topDiscordBtn" class="btn" style="background:#5865F2;color:#fff;padding:8px 14px;font-size:12px;font-weight:800;display:inline-flex;align-items:center;gap:6px;border:1px solid #5865F2"> 
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369A19.791 19.791 0 0016.02 3a.074.074 0 00-.079.037 13.66 13.66 0 00-.587 1.21 18.736 18.736 0 00-5.708 0 12.94 12.94 0 00-.6-1.21.077.077 0 00-.079-.037A19.736 19.736 0 003.683 4.369a.069.069 0 00-.032.027C.533 9.045-.32 13.579.099 18.057a.082.082 0 00.031.055 19.9 19.9 0 005.993 2.98.078.078 0 00.084-.027 14.1 14.1 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.903.077.077 0 01-.008-.127c.126-.094.252-.192.372-.291a.074.074 0 01.078-.01c1.963.9 4.09.9 6.03 0a.074.074 0 01.078.009c.12.099.246.198.373.292a.077.077 0 01-.006.127 12.3 12.3 0 01-1.873.904.077.077 0 00-.042.106c.36.687.772 1.348 1.225 1.994a.076.076 0 00.084.028 19.84 19.84 0 006.002-2.98.077.077 0 00.031-.055c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.028zM8.02 15.331c-1.183 0-2.157-1.068-2.157-2.38 0-1.312.955-2.38 2.157-2.38 1.21 0 2.175 1.077 2.157 2.38 0 1.312-.947 2.38-2.157 2.38zm7.974 0c-1.183 0-2.157-1.068-2.157-2.38 0-1.312.955-2.38 2.157-2.38 1.21 0 2.175 1.077 2.157 2.38 0 1.312-.947 2.38-2.157 2.38z"/></svg>
+      <div style="width:1px;height:24px;background:rgba(255,255,255,0.08);margin:0 4px"></div>
+      <div id="langSwitcher" style="display:flex;gap:3px;padding:2px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:999px"><button data-lang="ru" class="lang-btn active" style="padding:4px 7px;border-radius:999px;font-size:10px;font-weight:800;border:none;cursor:pointer;background:#fff;color:#000">RU</button><button data-lang="en" class="lang-btn" style="padding:4px 7px;border-radius:999px;font-size:10px;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6)">EN</button></div>
+      <div id="currencySwitcher" style="display:flex;gap:3px;padding:2px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:999px">
+        <button data-cur="USD" class="cur-btn active" style="padding:4px 7px;border-radius:999px;font-size:10px;font-weight:800;border:none;cursor:pointer;background:#fff;color:#000">$</button>
+        <button data-cur="EUR" class="cur-btn" style="padding:4px 7px;border-radius:999px;font-size:10px;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6)">€</button>
+        <button data-cur="RUB" class="cur-btn" style="padding:4px 7px;border-radius:999px;font-size:10px;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6)">₽</button>
+        <button data-cur="KZT" class="cur-btn" style="padding:4px 7px;border-radius:999px;font-size:10px;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6)">₸</button>
+      </div>
+      <a href="https://discord.gg/57RhrEuqG" target="_blank" rel="noopener" id="topDiscordBtn" class="btn" style="background:#5865F2;color:#fff;padding:6px 10px;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:5px;border:1px solid #5865F2;border-radius:999px">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.369A19.791 19.791 0 0016.02 3a.074.074 0 00-.079.037 13.66 13.66 0 00-.587 1.21 18.736 18.736 0 00-5.708 0 12.94 12.94 0 00-.6-1.21.077.077 0 00-.079-.037A19.736 19.736 0 003.683 4.369a.069.069 0 00-.032.027C.533 9.045-.32 13.579.099 18.057a.082.082 0 00.031.055 19.9 19.9 0 005.993 2.98.078.078 0 00.084-.027 14.1 14.1 0 001.226-1.994.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.903.077.077 0 01-.008-.127c.126-.094.252-.192.372-.291a.074.074 0 01.078-.01c1.963.9 4.09.9 6.03 0a.074.074 0 01.078.009c.12.099.246.198.373.292a.077.077 0 01-.006.127 12.3 12.3 0 01-1.873.904.077.077 0 00-.042.106c.36.687.772 1.348 1.225 1.994a.076.076 0 00.084.028 19.84 19.84 0 006.002-2.98.077.077 0 00.031-.055c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.028zM8.02 15.331c-1.183 0-2.157-1.068-2.157-2.38 0-1.312.955-2.38 2.157-2.38 1.21 0 2.175 1.077 2.157 2.38 0 1.312-.947 2.38-2.157 2.38zm7.974 0c-1.183 0-2.157-1.068-2.157-2.38 0-1.312.955-2.38 2.157-2.38 1.21 0 2.175 1.077 2.157 2.38 0 1.312-.947 2.38-2.157 2.38z"/></svg>
         Discord
       </a>
-      <a href="#" id="cartBtn" class="btn btn-blue" role="button" tabindex="0">Корзина <span id="cartCount" style="background:#000;color:var(--blue3);padding:2px 7px;border-radius:999px;font-size:11px">0</span></a>
+      <a href="#" id="cartBtn" class="btn" style="background:#fff;color:#000;padding:6px 10px;font-size:11px;font-weight:800;border-radius:999px;display:inline-flex;align-items:center;gap:6px">Корзина <span id="cartCount" style="background:#000;color:#fff;padding:2px 6px;border-radius:999px;font-size:10px">0</span></a>
     </div>
   </div>
 </nav>
@@ -113,7 +134,7 @@ nav .container{display:flex;align-items:center;justify-content:space-between;gap
   <div class="container" style="position:relative">
     <div class="mono" style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);padding:7px 12px;border-radius:999px;color:rgba(255,255,255,0.6)"><span style="width:6px;height:6px;background:#fff;border-radius:50%;box-shadow:0 0 8px #fff;display:inline-block"></span> R4GE INSPIRED • LUNAS EDITION • 21st.dev</div>
     <div class="neon" style="font-size:12px;letter-spacing:0.28em;font-weight:700;margin-bottom:10px;opacity:0.86">LUNAS SHOP • ЧИТЫ</div>
-    <h1 style="margin-top:0;font-size:clamp(36px,7vw,68px);font-weight:900;line-height:0.9;letter-spacing:-0.04em;text-transform:uppercase" data-i18n="hero_title" class="neon">ДОМИНИРУЙ<br><span style="color:#fff; -webkit-text-stroke:1px rgba(255,255,255,0.9);">В КАЖДОМ</span><br><span style="background:#fff;color:#000;padding:0 10px;border-radius:8px;display:inline-block;transform:rotate(-0.5deg);box-shadow:0 0 18px rgba(255,255,255,0.35)">МАТЧЕ</span></h1>
+    <h1 style="margin-top:0;font-size:clamp(32px,6.5vw,62px);font-weight:900;line-height:0.9;letter-spacing:-0.04em;text-transform:uppercase" data-i18n="hero_title" class="neon">ПОЛУЧИ<br><span style="color:#fff; -webkit-text-stroke:1px rgba(255,255,255,0.9);">ПРЕИМУЩЕСТВО</span><br><span style="background:#fff;color:#000;padding:0 10px;border-radius:8px;display:inline-block;transform:rotate(-0.5deg);box-shadow:0 0 18px rgba(255,255,255,0.35)">НАД ИГРОКАМИ</span></h1>
     <p style="max-width:620px;margin:14px auto 0;color:rgba(255,255,255,0.62);font-size:16px;line-height:1.6" data-i18n="hero_desc">Первый магазин LUNAS — приватные читы на <b style="color:#fff">Rust, PUBG, Apex</b> и <b style="color:#fff">HWID Spoofer</b>. Всё проверено на своих аккаунтах. Не как у всех — чище, быстрее, дешевле.</p>
     <div style="margin-top:18px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
       <a href="#catalog" class="btn" style="background:#fff;color:#000;padding:13px 24px;border-radius:999px;font-weight:900;box-shadow:0 8px 24px rgba(255,255,255,0.18)" data-i18n="hero_catalog">Перейти в каталог →</a>
@@ -251,6 +272,39 @@ nav .container{display:flex;align-items:center;justify-content:space-between;gap
   </div>
 </div>
 
+
+<!-- BUY MODAL — выбор оплаты: Kaspi/СБП/карта/крипта + email, платеж создается на backend -->
+<div id="buyModal" class="modal-bg" style="display:none;position:fixed;inset:0;z-index:75;background:rgba(0,0,0,0.82);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
+  <div style="background:#121214;border:1px solid rgba(255,255,255,0.14);border-radius:20px;max-width:480px;width:100%;padding:22px;position:relative">
+    <button style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer" onclick="closeBuyModal()">×</button>
+    <div style="font-weight:900;font-size:16px" id="buyModalTitle">Оформление</div>
+    <div style="font-size:11px;font-family:JetBrains Mono,monospace;color:rgba(255,255,255,0.5);letter-spacing:0.06em" id="buyModalSub">выбери способ оплаты</div>
+    <div id="buyModalProduct" style="margin-top:12px;padding:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:12px;display:flex;justify-content:space-between;align-items:center;gap:12px">
+      <div>
+        <div style="font-weight:800;font-size:13px" id="buyProductName">—</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.5)" id="buyProductPrice">—</div>
+      </div>
+      <span style="background:#fff;color:#000;font-size:10px;font-weight:800;padding:4px 8px;border-radius:999px" id="buyProductBadge">—</span>
+    </div>
+    <label style="display:flex;flex-direction:column;gap:6px;margin-top:14px;font-size:12px;font-weight:600">Email для ключа
+      <input id="buyEmail" type="email" placeholder="name@gmail.com" required autocomplete="email" style="padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff;outline:none">
+      <span style="font-size:11px;color:rgba(255,255,255,0.35)">Ключ придёт на этот email и в “Мои покупки”</span>
+    </label>
+    <div style="margin-top:14px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.06em;color:rgba(255,255,255,0.6)">СПОСОБ ОПЛАТЫ</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+        <button class="glass pay-method" data-pay="kaspi" style="padding:12px;text-align:left;cursor:pointer;border-color:#F14635;background:rgba(241,70,53,0.08)"><div style="font-weight:800;font-size:13px;color:#F14635">Kaspi</div><div style="font-size:11px;color:rgba(255,255,255,0.5)">Kaspi Gold • QR</div></button>
+        <button class="glass pay-method" data-pay="sbp" style="padding:12px;text-align:left;cursor:pointer"><div style="font-weight:800;font-size:13px">СБП</div><div style="font-size:11px;color:rgba(255,255,255,0.5)">По номеру • QR</div></button>
+        <button class="glass pay-method" data-pay="card" style="padding:12px;text-align:left;cursor:pointer"><div style="font-weight:800;font-size:13px">Карта</div><div style="font-size:11px;color:rgba(255,255,255,0.5)">Visa/MC • 3D Secure</div></button>
+        <button class="glass pay-method" data-pay="crypto" style="padding:12px;text-align:left;cursor:pointer"><div style="font-weight:800;font-size:13px">Крипта</div><div style="font-size:11px;color:rgba(255,255,255,0.5)">USDT TRC20 • QR</div></button>
+      </div>
+      <div id="buyPayHint" style="margin-top:8px;font-size:11px;color:rgba(255,255,255,0.35);text-align:center">Выбери способ — оплата создаётся на сервере</div>
+    </div>
+    <button id="buyPayBtn" class="btn btn-white" style="width:100%;margin-top:16px;justify-content:center;background:#fff;color:#000;padding:12px;border-radius:999px;font-weight:900;opacity:0.5;pointer-events:none">Сначала выбери способ</button>
+    <div style="margin-top:8px;font-size:10px;color:rgba(255,255,255,0.25);text-align:center">Нажимая «Оплатить», создаётся заказ <b>pending</b> на сервере. Оплату подтвердит webhook.</div>
+  </div>
+</div>
+
 <div id="rustModal" class="modal-bg" style="display:none;position:fixed;inset:0;z-index:75;background:rgba(0,0,0,0.82);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
   <div style="background:#121214;border:1px solid rgba(255,255,255,0.14);border-radius:20px;max-width:520px;width:100%;padding:22px;position:relative">
     <button style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer" onclick="closeRustModal()">×</button>
@@ -263,22 +317,22 @@ nav .container{display:flex;align-items:center;justify-content:space-between;gap
     </div>
     <p style="font-size:12px;color:rgba(255,255,255,0.55);margin-top:10px">Нажми на нужный срок — добавится в корзину. Цены в выбранной валюте (<span id="rustCurLabel">USD</span>).</p>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">
-      <button class="glass" style="padding:16px;text-align:left;cursor:pointer" onclick="addRust(1,6)">
+      <button class="glass" style="padding:16px;text-align:left;cursor:pointer" onclick="buyNow('morphine_1d','1d','Morphine — 1 день')">
         <div style="font-weight:900;font-size:14px">1 день</div>
         <div class="rust-price" data-usd="6" style="font-weight:800;font-size:18px;margin-top:4px">6$</div>
         <div style="font-size:11px;color:rgba(255,255,255,0.45)">Пробный</div>
       </button>
-      <button class="glass" style="padding:16px;text-align:left;cursor:pointer;border-color:rgba(255,255,255,0.14)" onclick="addRust(3,15)">
+      <button class="glass" style="padding:16px;text-align:left;cursor:pointer;border-color:rgba(255,255,255,0.14)" onclick="buyNow('morphine_3d','3d','Morphine — 3 дня')">
         <div style="font-weight:900;font-size:14px">3 дня</div>
         <div class="rust-price" data-usd="15" style="font-weight:800;font-size:18px;margin-top:4px">15$</div>
         <div style="font-size:11px;color:#10b981">Хит • -17%</div>
       </button>
-      <button class="glass" style="padding:16px;text-align:left;cursor:pointer" onclick="addRust(7,25)">
+      <button class="glass" style="padding:16px;text-align:left;cursor:pointer" onclick="buyNow('morphine_7d','7d','Morphine — 7 дней')">
         <div style="font-weight:900;font-size:14px">7 дней</div>
         <div class="rust-price" data-usd="25" style="font-weight:800;font-size:18px;margin-top:4px">25$</div>
         <div style="font-size:11px;color:rgba(255,255,255,0.45)">Неделя</div>
       </button>
-      <button class="glass" style="padding:16px;text-align:left;cursor:pointer;background:rgba(255,255,255,0.06);border-color:#fff" onclick="addRust(30,60)">
+      <button class="glass" style="padding:16px;text-align:left;cursor:pointer;background:rgba(255,255,255,0.06);border-color:#fff" onclick="buyNow('morphine_30d','30d','Morphine — 30 дней')">
         <div style="font-weight:900;font-size:14px">30 дней</div>
         <div class="rust-price" data-usd="60" style="font-weight:800;font-size:18px;margin-top:4px">60$</div>
         <div style="font-size:11px;color:#fff">Выгодно • -44%</div>
@@ -349,12 +403,41 @@ nav .container{display:flex;align-items:center;justify-content:space-between;gap
   </div>
 </section>
 
-<footer style="padding:20px 0 80px;border-top:1px solid rgba(255,255,255,0.08)">
-  <div class="container" style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11px;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,0.3)">
-    <span>© 2026 LUNAS SHOP • черно-белый • 21st.dev MCP • #FFFFFF</span>
-    <span><a href="https://discord.gg/57RhrEuqG" target="_blank" rel="noopener" id="discordBtn" style="color:inherit;text-decoration:none">Discord</a> • <a href="#" id="tgBtn" style="color:inherit;text-decoration:none">Telegram</a> • <a href="#" id="tosBtn" style="color:inherit;text-decoration:none">ToS</a> • <a href="#" id="clearCartBtn" style="color:var(--blue3);text-decoration:none">Очистить корзину</a></span>
+<footer style="padding:28px 0 36px;border-top:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.01)">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.06)">
+      <div>
+        <div style="font-weight:900;font-size:12px;letter-spacing:0.06em">УСЛОВИЯ ИСПОЛЬЗОВАНИЯ</div>
+        <p style="margin-top:8px;font-size:11px;line-height:1.6;color:rgba(255,255,255,0.5)">Используя LUNAS SHOP, ты подтверждаешь что читы нарушают ToS игр и используешь на свой страх. Продажа — лицензия на цифровой ключ, не физический товар. Запрещено перепродавать ключи. Аккаунт — только твой, не передавай.</p>
+        <a href="#" id="termsBtn" style="margin-top:8px;display:inline-flex;font-size:11px;color:#fff;text-decoration:underline;cursor:pointer">Читать полностью →</a>
+      </div>
+      <div>
+        <div style="font-weight:900;font-size:12px;letter-spacing:0.06em">ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ</div>
+        <p style="margin-top:8px;font-size:11px;line-height:1.6;color:rgba(255,255,255,0.5)">Храним только email, хеш пароля и историю заказов. Не передаём третьим лицам, кроме платёжного провайдера для обработки платежа. Данные шифруются, пароли — bcrypt.</p>
+        <a href="#" id="privacyBtn" style="margin-top:8px;display:inline-flex;font-size:11px;color:#fff;text-decoration:underline;cursor:pointer">Читать →</a>
+      </div>
+      <div>
+        <div style="font-weight:900;font-size:12px;letter-spacing:0.06em">ПОЛИТИКА ВОЗВРАТА</div>
+        <p style="margin-top:8px;font-size:11px;line-height:1.6;color:rgba(255,255,255,0.5)">Ключ — цифровой товар. Возврат в течение 24ч если ключ не активирован и не был показан. После показа/активации — без возврата. Если ключ невалидный — заменим.</p>
+        <a href="#" id="refundBtn" style="margin-top:8px;display:inline-flex;font-size:11px;color:#fff;text-decoration:underline;cursor:pointer">Подробнее →</a>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:16px;font-size:11px;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,0.3)">
+      <span>© 2026 LUNAS SHOP • черно-белый • 21st.dev MCP • #FFFFFF</span>
+      <span><a href="https://discord.gg/57RhrEuqG" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">Discord</a> • <a href="#" id="tgBtn2" style="color:inherit;text-decoration:none">Telegram</a> • <a href="#" id="clearCartBtn2" style="color:var(--blue3);text-decoration:none">Очистить корзину</a></span>
+    </div>
   </div>
 </footer>
+<!-- Policy modals -->
+<div id="policyModal" class="modal-bg" style="display:none;position:fixed;inset:0;z-index:75;background:rgba(0,0,0,0.82);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
+  <div style="background:#121214;border:1px solid rgba(255,255,255,0.14);border-radius:16px;max-width:640px;width:100%;max-height:80vh;overflow:auto;padding:20px;position:relative">
+    <button style="position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer" onclick="closePolicy()">×</button>
+    <h3 id="policyTitle" style="font-weight:900;font-size:16px"></h3>
+    <div id="policyText" style="margin-top:10px;font-size:12px;line-height:1.7;color:rgba(255,255,255,0.7);white-space:pre-wrap"></div>
+    <button class="btn btn-white" style="margin-top:14px;background:#fff;color:#000;padding:8px 14px;border-radius:999px;font-weight:800" onclick="closePolicy()">Понятно</button>
+  </div>
+</div>
+
 
 <div id="adminPanel" style="display:none;position:fixed;inset:0;z-index:80;background:rgba(0,0,0,0.82);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
   <div style="background:#121214;border:1px solid rgba(255,255,255,0.14);border-radius:20px;max-width:720px;width:100%;max-height:85vh;overflow:auto;padding:20px">
@@ -375,10 +458,31 @@ nav .container{display:flex;align-items:center;justify-content:space-between;gap
         <button class="btn btn-white" style="margin-top:10px" id="admSaveSeller">Сохранить реквизиты</button>
       </div>
       <div class="glass" style="padding:14px">
-        <div style="font-weight:800;font-size:12px">Товары — цены (USD)</div>
+        <div style="font-weight:800;font-size:12px">Товары — цены (USD) — из product_prices (сервер)</div>
         <div id="admProducts" style="display:grid;gap:8px;margin-top:10px"></div>
-        <button class="btn btn-ghost" style="margin-top:10px" id="admAddProduct">+ Добавить товар</button>
-        <button class="btn btn-white" style="margin-top:8px" id="admSaveProducts">Сохранить товары</button>
+        <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-top:6px">Цены берутся из server/database/schema.sql — меняй там и перезапусти, или через API.</div>
+      </div>
+      <div class="glass" style="padding:14px">
+        <div style="font-weight:800;font-size:12px">Ключи — добавить / просмотр / удаление</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">
+          <label style="font-size:11px">Товар <select id="admKeyProduct" style="width:100%;margin-top:4px;padding:8px;border-radius:8px;background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.1)"></select></label>
+          <label style="font-size:11px">Тариф <input id="admKeyLicense" placeholder="lifetime / 1d / 30d" style="width:100%;margin-top:4px;padding:8px;border-radius:8px;background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.1)"></label>
+        </div>
+        <label style="font-size:11px;display:block;margin-top:8px">Один ключ <input id="admKeySingle" placeholder="XXXX-XXXX-XXXX" style="width:100%;margin-top:4px;padding:8px;border-radius:8px;background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.1)"></label>
+        <button class="btn btn-white" style="margin-top:8px" id="admAddKey">Добавить один</button>
+        <label style="font-size:11px;display:block;margin-top:12px">Сразу много (каждый с новой строки)
+          <textarea id="admKeysBulk" rows="4" placeholder="KEY1&#10;KEY2&#10;KEY3" style="width:100%;margin-top:4px;padding:8px;border-radius:8px;background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.1)"></textarea>
+        </label>
+        <button class="btn btn-ghost" style="margin-top:6px" id="admImportKeys">Импортировать много</button>
+        <div style="margin-top:12px">
+          <div style="font-size:11px;font-weight:700">Свободные / проданные по товарам</div>
+          <div id="admKeysStats" style="margin-top:6px;font-family:JetBrains Mono,monospace;font-size:11px;max-height:120px;overflow:auto;background:rgba(255,255,255,0.04);border-radius:8px;padding:8px"></div>
+        </div>
+        <div style="margin-top:12px">
+          <div style="font-size:11px;font-weight:700">Последние ключи (available/sold) — можно удалить только available</div>
+          <div id="admKeysList" style="margin-top:6px;font-family:JetBrains Mono,monospace;font-size:10px;max-height:160px;overflow:auto;background:rgba(255,255,255,0.04);border-radius:8px;padding:8px"></div>
+          <button class="btn btn-ghost" style="margin-top:6px;padding:6px 10px;font-size:11px" id="admRefreshKeys">Обновить</button>
+        </div>
       </div>
       <div class="glass" style="padding:14px">
         <div style="font-weight:800;font-size:12px">Заказы и пополнения (последние)</div>
@@ -436,7 +540,7 @@ const TRANSLATIONS = {
     nav_how: 'Как работает',
     nav_reviews: 'Отзывы',
     nav_faq: 'FAQ',
-    hero_title: 'LUNAS <span>SHOP</span><br>ЧИТЫ',
+    hero_title: 'ПОЛУЧИ<br>ПРЕИМУЩЕСТВО<br>НАД ИГРОКАМИ',
     hero_desc: 'Черно-белый магазин приватных читов. Для Spoofer \u2022 Rust \u2022 PUBG \u2022 Apex. <b style="color:#fff">Undetected</b> \u2022 обход Vanguard / EAC / BattlEye \u2022 <span style="color:var(--blue3)">от 7$</span>.',
     hero_catalog: 'Открыть каталог \u2192',
     hero_how: 'Как работает',
@@ -452,7 +556,7 @@ const TRANSLATIONS = {
     nav_how: 'How it works',
     nav_reviews: 'Reviews',
     nav_faq: 'FAQ',
-    hero_title: 'LUNAS <span>SHOP</span><br>CHEATS',
+    hero_title: 'GET<br>ADVANTAGE<br>OVER PLAYERS',
     hero_desc: 'Black-white private cheats shop. For Spoofer \u2022 Rust \u2022 PUBG \u2022 Apex. <b style="color:#fff">Undetected</b> \u2022 Vanguard / EAC / BattlEye bypass \u2022 <span style="color:var(--blue3)">from $7</span>.',
     hero_catalog: 'Open catalog \u2192',
     hero_how: 'How it works',
@@ -691,7 +795,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.getElement
 // AUTH — Gmail + password, left top
 let authMode='login'
 const usersKey='lunas_users', curKey='lunas_current'
-function getUsers(){try{return JSON.parse(localStorage.getItem(usersKey)||'[]')}catch{return[]}}
+function getUsers(){try{const v=JSON.parse(localStorage.getItem(usersKey)||'[]'); return Array.isArray(v)?v:[] }catch{return[]}}
 function saveUsers(u){localStorage.setItem(usersKey, JSON.stringify(u))}
 function getCurrent(){try{return JSON.parse(localStorage.getItem(curKey)||'null')}catch{return null}}
 function setCurrent(u){ if(u) localStorage.setItem(curKey, JSON.stringify(u)); else localStorage.removeItem(curKey); }
@@ -738,12 +842,16 @@ function renderAuth(){
 function openTopup(){
   const cur=getCurrent()
   if(!cur){ toast('Сначала войди'); openAuth('login'); return }
+  const curFresh=getCurrent()
+  if(!curFresh){ toast('Сначала войди'); return }
   const bg=document.getElementById('modalBg')
-  document.getElementById('modalTitle').textContent='Пополнить баланс — $'
+  document.getElementById('modalTitle').textContent='Пополнить баланс — '+SYMBOLS[getCurrency()]
   const textEl=document.getElementById('modalText')
+  const balDisplay=getBalance()
+  const curCode0=getCurrency()
   textEl.innerHTML=`
     <div style="text-align:left">
-      <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:10px">Текущий баланс: <b style="color:#fff">$${cur.balance||0}</b> • на <b style="color:#fff">${cur.email}</b></div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:10px">Текущий баланс: <b style="color:#fff">${SYMBOLS[curCode0]}${balDisplay}</b> • на <b style="color:#fff">${curFresh.email}</b></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
         <button class="btn btn-white" style="padding:8px 14px" onclick="setTopupVal(10)">10$</button>
         <button class="btn btn-ghost" style="padding:8px 14px" onclick="setTopupVal(25)">25$</button>
@@ -767,16 +875,19 @@ function openTopup(){
     const val=parseInt(document.getElementById('topupCustom').value||window._topupVal||10,10)
     if(!val || val<=0){ toast('Введи сумму'); return }
     const method=window._topupMethod||'card'
+    const cur2=getCurrent()
+    if(!cur2){ toast('Сначала войди'); return }
     const curCode=getCurrency()
     const usdDelta=Math.round(val / RATES[curCode])
     const newUSD=getBalanceUSD()+usdDelta
     setBalanceUSD(newUSD)
+    const newDisplay=getBalance()
     // save topup order
     const orders=JSON.parse(localStorage.getItem('lunas_topups')||'[]')
-    orders.push({email:cur2.email, amount:val, method, date:new Date().toISOString()})
+    orders.push({email:cur2.email, amount:val, currency:curCode, usdDelta, method, date:new Date().toISOString()})
     localStorage.setItem('lunas_topups', JSON.stringify(orders))
     bg.classList.remove('open')
-    toast('Баланс пополнен на $'+val+' — стало $'+newBal,'ok')
+    toast('Баланс пополнен на '+val+SYMBOLS[curCode]+' — стало '+newDisplay+SYMBOLS[curCode],'ok')
   }
   window._topupVal=10
   window.setTopupVal=function(v){ window._topupVal=v; const inp=document.getElementById('topupCustom'); if(inp) inp.value=v; document.querySelectorAll('#modalText .btn').forEach(b=>{if(b.textContent.includes('$')){b.className='btn btn-ghost'; b.style.background=''}}); event.target.className='btn btn-white'; event.target.style.background='#fff'; event.target.style.color='#000' }
@@ -807,7 +918,18 @@ function openAuth(mode){
   document.getElementById('emailErr').style.display='none'; document.getElementById('passErr').style.display='none'; document.getElementById('pass2Err').style.display='none';
   modal.classList.add('open'); modal.setAttribute('aria-hidden','false')
 }
-function closeAuth(){ document.getElementById('authModal').classList.remove('open'); document.getElementById('authModal').setAttribute('aria-hidden','true') }
+function closeAuth(){ 
+  document.getElementById('authModal').classList.remove('open'); 
+  document.getElementById('authModal').setAttribute('aria-hidden','true');
+  // clear sensitive fields for next login without error
+  setTimeout(()=>{
+    const e=document.getElementById('authEmail'), p=document.getElementById('authPass'), p2=document.getElementById('authPass2');
+    if(e) e.value=''; if(p) p.value=''; if(p2) p2.value='';
+    document.getElementById('emailErr').style.display='none';
+    document.getElementById('passErr').style.display='none';
+    document.getElementById('pass2Err').style.display='none';
+  }, 150)
+}
 document.addEventListener('DOMContentLoaded',()=>{
   renderAuth(); renderCurrency(); applyLang()
   document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.lang)))
@@ -1195,5 +1317,122 @@ function addSpoof(name, usdPrice){
 document.getElementById('spooferModal')?.addEventListener('click', e=>{ if(e.target.id==='spooferModal') closeSpooferModal() })
 
 </script>
-</body>
+  <script src="/api_integration_full.js">
+// BUY MODAL — выбор оплаты Kaspi/СБП/карта/крипта + email, платеж на backend
+let buyState = {product_id:null, license_type:null, name:null, provider:null}
+function buyNow(product_id, license_type, name){
+  buyState = {product_id, license_type, name, provider:null}
+  const cur = getCurrency ? getCurrency() : 'USD'
+  const sym = (typeof SYMBOLS!=='undefined' ? SYMBOLS[cur] : '$')
+  document.getElementById('buyModalTitle').textContent = name
+  document.getElementById('buyModalSub').textContent = product_id+' • '+license_type+' • '+cur
+  // Find price from product_prices or from cart? For now, fetch from server or use known map
+  const priceMap = {spoofer_lifetime:900, spoofer_tmp_1d:500, spoofer_7d:1200, spoofer_valorant:1400, spoofer_eac:1300, spoofer_be:1300, morphine_1d:600, morphine_3d:1500, morphine_7d:2500, morphine_30d:6000, pubg_full:1600, apex_full:1400}
+  const cents = priceMap[product_id]||0
+  const display = Math.round(cents/100 * (typeof RATES!=='undefined' ? RATES[cur] : 1))
+  document.getElementById('buyProductName').textContent = name
+  document.getElementById('buyProductPrice').textContent = display + sym + ' • ' + cur
+  document.getElementById('buyProductBadge').textContent = license_type
+  // Prefill email from current user
+  const curUser = getCurrent ? getCurrent() : null
+  const emailInput = document.getElementById('buyEmail')
+  if(curUser && curUser.email) emailInput.value = curUser.email
+  else emailInput.value = ''
+  // Reset provider selection
+  buyState.provider=null
+  document.querySelectorAll('.pay-method').forEach(b=>{ b.style.borderColor='rgba(255,255,255,0.08)'; b.style.background='rgba(255,255,255,0.02)' })
+  const payBtn=document.getElementById('buyPayBtn')
+  payBtn.style.opacity='0.5'; payBtn.style.pointerEvents='none'; payBtn.textContent='Сначала выбери способ'
+  document.getElementById('buyPayHint').textContent='Выбери способ — оплата создаётся на сервере'
+  document.getElementById('buyModal').style.display='flex'
+}
+function closeBuyModal(){ document.getElementById('buyModal').style.display='none' }
+document.getElementById('buyModal')?.addEventListener('click', e=>{ if(e.target.id==='buyModal') closeBuyModal() })
+document.querySelectorAll('.pay-method').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.pay-method').forEach(b=>{ b.style.borderColor='rgba(255,255,255,0.08)'; b.style.background='rgba(255,255,255,0.02)' })
+    btn.style.borderColor='#fff'; btn.style.background='rgba(255,255,255,0.06)'
+    buyState.provider = btn.dataset.pay
+    const payBtn=document.getElementById('buyPayBtn')
+    payBtn.style.opacity='1'; payBtn.style.pointerEvents='auto'
+    payBtn.textContent='Оплатить ' + buyState.provider + ' →'
+    document.getElementById('buyPayHint').textContent='Способ: '+buyState.provider+' — нажми Оплатить'
+  })
+})
+document.getElementById('buyPayBtn')?.addEventListener('click', async ()=>{
+  const email = document.getElementById('buyEmail').value.trim()
+  if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ toast('Введи корректный email'); return }
+  if(!buyState.provider){ toast('Выбери способ оплаты'); return }
+  if(!buyState.product_id){ toast('Товар не выбран'); return }
+  const currency = getCurrency ? getCurrency() : 'USD'
+  const btn=document.getElementById('buyPayBtn')
+  btn.textContent='Создаю заказ...'; btn.disabled=true
+  try{
+    // Create order on backend (price validated on server)
+    const orderRes = await fetch('/api/orders', {
+      method:'POST',
+      headers: Object.assign({'Content-Type':'application/json'}, (localStorage.getItem('lunas_token')?{'Authorization':'Bearer '+localStorage.getItem('lunas_token')}:{}) ),
+      body: JSON.stringify({product_id: buyState.product_id, license_type: buyState.license_type, email, currency, provider: buyState.provider})
+    }).then(r=>r.json().then(d=>({ok:r.ok, data:d}))).then(o=>{ if(!o.ok) throw new Error(o.data.error||'Order failed'); return o.data })
+    const orderId = orderRes.order.id
+    // Create payment on backend
+    const payRes = await fetch('/api/payments/create', {
+      method:'POST',
+      headers: Object.assign({'Content-Type':'application/json'}, (localStorage.getItem('lunas_token')?{'Authorization':'Bearer '+localStorage.getItem('lunas_token')}:{}) ),
+      body: JSON.stringify({order_id: orderId, provider: buyState.provider})
+    }).then(r=>r.json().then(d=>({ok:r.ok, data:d}))).then(o=>{ if(!o.ok) throw new Error(o.data.error||'Payment failed'); return o.data })
+    closeBuyModal()
+    // For mock, show pay page with QR and "Проверить оплату"
+    if(payRes.paymentUrl && payRes.paymentUrl.startsWith('/mock-pay/')){
+      const bg=document.getElementById('modalBg')
+      document.getElementById('modalTitle').textContent='Оплати '+(payRes.amount/100)+' '+payRes.currency
+      const sellerInfo = window.SELLER || {card:'2200 1234 5678 9012', sbpPhone:'+7 999 123-45-67', kaspi:'+7 777 123 45 67', crypto:'TQ...'}
+      let payHtml=''
+      if(buyState.provider==='kaspi'){
+        payHtml=`<b style="color:#F14635">Kaspi Gold</b> ${sellerInfo.kaspi} <button onclick="navigator.clipboard.writeText('${sellerInfo.kaspi}');toast('Kaspi скопирован','ok')" style="margin-left:6px;padding:3px 8px;border-radius:999px;background:#F14635;color:#fff;border:none;font-size:11px;font-weight:700;cursor:pointer">Копировать</button><br><img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(sellerInfo.kaspi)}" style="margin-top:10px;border-radius:10px;background:#fff;padding:6px" alt="QR">`
+      } else if(buyState.provider==='sbp'){
+        payHtml=`<b>СБП</b> ${sellerInfo.sbpPhone}<br><img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(sellerInfo.sbpPhone)}" style="margin-top:10px;border-radius:10px;background:#fff;padding:6px" alt="QR">`
+      } else if(buyState.provider==='card'){
+        payHtml=`<b>Карта</b> ${sellerInfo.card}<br><img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(sellerInfo.card)}" style="margin-top:10px;border-radius:10px;background:#fff;padding:6px" alt="QR">`
+      } else {
+        payHtml=`<b>USDT TRC20</b><br><span style="font-size:11px;word-break:break-all;background:rgba(255,255,255,0.06);padding:6px 8px;border-radius:8px;display:inline-block">${sellerInfo.crypto}</span><br><img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(sellerInfo.crypto)}" style="margin-top:10px;border-radius:10px;background:#fff;padding:6px" alt="QR">`
+      }
+      document.getElementById('modalText').innerHTML=`<div style="text-align:left"><div style="font-size:12px;color:rgba(255,255,255,0.7)">Заказ <b style="color:#fff">${orderId.slice(0,8)}</b> • ${buyState.name} — <b style="color:#fff">${payRes.amount/100} ${payRes.currency}</b> • ${buyState.provider}</div><div style="margin-top:10px;padding:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px">${payHtml}<div style="margin-top:8px;font-size:11px;color:rgba(255,255,255,0.5)">Отправь точную сумму на реквизиты и нажми «Проверить оплату». Ключ придёт на ${email} и в “Мои покупки” только после webhook подтверждения.</div></div></div>`
+      bg.classList.add('open')
+      document.getElementById('modalClose').onclick=()=>bg.classList.remove('open')
+      bg.onclick=(e)=>{if(e.target===bg) bg.classList.remove('open')}
+      const act=document.getElementById('modalAction')
+      act.style.display='inline-flex'
+      act.textContent='Проверить оплату'
+      act.onclick=async ()=>{
+        try{
+          const check = await fetch('/api/orders/'+orderId, {headers: localStorage.getItem('lunas_token')?{'Authorization':'Bearer '+localStorage.getItem('lunas_token')}:{} }).then(r=>r.json())
+          if(check.order.status==='paid' || check.order.status==='delivered'){
+            const keyVal = check.key ? check.key.key_value : '—'
+            bg.classList.remove('open')
+            if(window.modal) modal('Оплачено ✓','Ключ: <b>'+keyVal+'</b><br>Заказ '+orderId.slice(0,8)+'<br>Отправлен на '+email,'Скопировать ключ',()=>{navigator.clipboard?.writeText(keyVal); toast('Ключ скопирован','ok')})
+            if(window.loadPurchases) loadPurchases()
+          } else if(check.order.status==='pending'){
+            toast('Вы ещё не оплатили — переведите сумму и дождитесь подтверждения')
+          } else if(check.order.status==='out_of_stock'){
+            toast('Нет ключей — админ уведомлён')
+          } else {
+            toast('Статус: '+check.order.status)
+          }
+        }catch(e){ toast(e.message||'Ошибка проверки') }
+      }
+      return
+    }
+    // For real provider, redirect
+    window.location.href = payRes.paymentUrl
+  }catch(err){
+    toast(err.message||'Ошибка')
+  } finally {
+    btn.textContent='Оплатить →'
+    btn.disabled=false
+  }
+});
+
+</script>\n</body>
 </html>
+
