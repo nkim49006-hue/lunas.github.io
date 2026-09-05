@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MORPHINE — RUST • LUNAS SHOP</title>
+<meta name="description" content="MORPHINE для Rust — приватный чит с ESP, Aim, Radar. Мгновенная выдача, Windows 10/11. LUNAS SHOP.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#070708;--surface:#0F0F10;--glass:rgba(18,18,20,0.72);--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);--muted:rgba(255,255,255,0.45);--muted2:rgba(255,255,255,0.25);--text:#fff}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+.mono{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
+.container{max-width:1280px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+nav{position:fixed;top:0;left:0;right:0;z-index:50;background:#0c0c0e;background-image:linear-gradient(hsla(0,0%,100%,.01) 1px,transparent 0),linear-gradient(90deg,hsla(0,0%,100%,.01) 1px,transparent 0);background-size:36px 36px;border-bottom:1px solid rgba(255,255,255,0.06);padding:0}
+nav .container{height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{font-weight:900;letter-spacing:-0.02em;font-size:18px;display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;font-weight:800;font-size:13px;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:.25s}
+.btn-white{background:#fff;color:#000}
+.btn-ghost{background:rgba(255,255,255,0.06);color:#fff;border-color:rgba(255,255,255,0.08)}
+.btn:hover{transform:translateY(-1px)}
+.glass{background:rgba(18,18,20,0.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--border);border-radius:20px;transition:.3s}
+.section{padding:48px 0}
+.h2{font-size:28px;font-weight:900;letter-spacing:-0.03em}
+.muted{color:var(--muted);font-size:13px;line-height:1.6}
+.card-mini{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:14px}
+.hero{display:grid;grid-template-columns:1.1fr 0.9fr;gap:32px;align-items:start;padding:100px 0 32px}
+.gallery-main{aspect-ratio:16/10;background:#0F0F10;border:1px solid var(--border);border-radius:20px;overflow:hidden;position:relative}
+.gallery-main img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.gallery-main:hover img{transform:scale(1.03)}
+.thumbs{display:flex;gap:10px;margin-top:12px}
+.thumb{width:72px;height:56px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);cursor:pointer;opacity:0.7;transition:.2s}
+.thumb.active{opacity:1;border-color:#fff;box-shadow:0 0 0 1px #fff}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:#fff;color:#000;font-size:11px;font-weight:800;letter-spacing:0.04em}
+.purchase{position:sticky;top:76px}
+.price{font-size:28px;font-weight:900;letter-spacing:-0.02em}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.func-card{padding:16px}
+.func-card h4{font-size:13px;letter-spacing:0.06em;text-transform:uppercase}
+.func-card ul{margin-top:8px;list-style:none;display:flex;flex-direction:column;gap:6px}
+.func-card li{font-size:12px;color:rgba(255,255,255,0.65);display:flex;gap:8px}
+.func-card li::before{content:"•";color:rgba(255,255,255,0.35)}
+.faq-item{padding:0;overflow:hidden}
+.faq-q{width:100%;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;background:transparent;border:none;color:#fff;font-size:14px;font-weight:600;text-align:left;cursor:pointer}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s;padding:0 18px}
+.faq-item.open .faq-a{max-height:300px;padding:0 18px 16px}
+.toast-wrap{position:fixed;top:72px;right:16px;z-index:80;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:rgba(18,18,20,0.96);border:1px solid rgba(255,255,255,0.14);color:#fff;padding:10px 14px;border-radius:12px;font-size:12px;font-weight:600}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.72);backdrop-filter:blur(10px);z-index:70;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-bg.open{display:flex}
+.modal{background:#121214;border:1px solid rgba(255,255,255,0.14);border-radius:20px;padding:20px;max-width:520px;width:100%}
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;gap:20px;padding:88px 0 24px}
+  .purchase{position:static}
+  .grid-3{grid-template-columns:1fr}
+  .grid-2{grid-template-columns:1fr}
+  nav .nav-links{display:none}
+  .hamburger{display:inline-flex !important}
+}
+.hamburger{display:none;align-items:center;justify-content:center;width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff;cursor:pointer}
+.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;background:rgba(12,12,14,0.98);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06);padding:16px;flex-direction:column;gap:12px;z-index:49}
+.mobile-menu.open{display:flex}
+</style>
+<script>window.API_BASE = localStorage.getItem('api_base') || (location.port==='8765' ? 'http://127.0.0.1:3000' : '');</script>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <div style="display:flex;align-items:center;gap:18px">
+      <a href="/" class="logo"><img src="logo.png" alt="LS" style="height:32px;width:auto;display:block;border-radius:6px;object-fit:contain"><span>LUNAS<span style="color:rgba(255,255,255,0.7)">SHOP</span></span></a>
+      <div class="nav-links" style="display:flex;align-items:center;gap:18px;margin-left:12px">
+        <a href="/" style="color:#fff;text-decoration:none;font-size:13px;font-weight:700;border-bottom:2px solid #fff;padding:6px 0">Главная</a>
+        <a href="/#catalog" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:600;padding:6px 0">Магазин</a>
+        <a href="/#reviews" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:600;padding:6px 0">Отзывы</a>
+        <a href="#faq" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:600;padding:6px 0">Поддержка</a>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div id="authArea" style="display:flex;gap:6px;align-items:center"></div>
+      <div id="langSwitcher" style="display:flex;gap:3px;padding:2px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:999px"><button data-lang="ru" class="lang-btn active" style="padding:4px 7px;border-radius:999px;font-size:10px;font-weight:800;border:none;cursor:pointer;background:#fff;color:#000">RU</button><button data-lang="en" class="lang-btn" style="padding:4px 7px;border-radius:999px;font-size:10px;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6)">EN</button></div>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Меню">☰</button>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/" onclick="closeMobileMenu()">Главная</a>
+  <a href="/#catalog" onclick="closeMobileMenu()">Магазин</a>
+  <a href="/#reviews" onclick="closeMobileMenu()">Отзывы</a>
+  <a href="#faq" onclick="closeMobileMenu()">Поддержка</a>
+  <div id="mobileAuth" style="display:flex;gap:8px"></div>
+</div>
+
+<!-- HERO -->
+<section class="hero container">
+  <!-- Left: Gallery -->
+  <div>
+    <div class="gallery-main" id="galleryMain">
+      <img id="mainImg" src="morphine.webp" alt="MORPHINE">
+    </div>
+    <div class="thumbs" id="thumbs">
+      <div class="thumb active" data-src="morphine.webp"><img src="morphine.webp" alt=""></div>
+      <div class="thumb" data-src="morphine-rust.webp"><img src="morphine-rust.webp" alt="" onerror="this.parentElement.style.display='none'"></div>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+      <span class="mono">RUST • ESP • AIM • RADAR</span>
+    </div>
+  </div>
+  <!-- Right: Info + Purchase -->
+  <div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <span class="mono">RUST</span>
+      <span style="width:4px;height:4px;background:rgba(255,255,255,0.3);border-radius:50%"></span>
+      <span class="mono">PRIVATE</span>
+      <span id="instantBadge" class="badge" style="display:none">Мгновенная выдача</span>
+    </div>
+    <h1 style="margin-top:10px;font-size:36px;font-weight:900;letter-spacing:-0.03em">MORPHINE</h1>
+    <p class="muted" style="margin-top:8px">Приватный чит для Rust с полным комплектом ESP, аимом и радаром. Проверен на своих аккаунтах, обновляется ежедневно.</p>
+
+    <div class="glass purchase" style="margin-top:18px;padding:18px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+        <div class="price" id="priceDisplay">—</div>
+        <span class="mono" id="stockInfo"></span>
+      </div>
+
+      <div style="margin-top:14px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.06em;color:#fff">ВЫБЕРИТЕ ВАРИАНТ</div>
+        <div id="variants" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+          <!-- filled by JS from backend -->
+        </div>
+      </div>
+
+      <div style="margin-top:14px;display:grid;grid-template-columns:100px 1fr;gap:8px;align-items:end">
+        <label style="font-size:11px;font-weight:700;letter-spacing:0.06em;color:#fff">Количество
+          <input id="qty" type="number" min="1" max="1" value="1" readonly style="margin-top:6px;width:100%;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);color:#fff">
+        </label>
+        <label style="font-size:11px;font-weight:700;letter-spacing:0.06em;color:#fff">Email для ключа
+          <input id="buyEmail" type="email" placeholder="name@gmail.com" style="margin-top:6px;width:100%;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);color:#fff" autocomplete="email">
+        </label>
+      </div>
+
+      <button id="buyBtn" class="btn" style="width:100%;margin-top:14px;justify-content:center;padding:14px;font-size:14px;font-weight:900;background:transparent;color:#fff;border:1px solid #fff;opacity:0.5;pointer-events:none">КУПИТЬ</button>
+      <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center">
+        <span style="font-size:11px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:6px 10px;border-radius:999px">ЮKassa</span>
+        <span style="font-size:11px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:6px 10px;border-radius:999px">Kaspi</span>
+        <span style="font-size:11px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:6px 10px;border-radius:999px">СБП</span>
+        <span style="font-size:11px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:6px 10px;border-radius:999px">Крипта</span>
+      </div>
+      <div id="buyHint" style="margin-top:8px;font-size:11px;color:rgba(255,255,255,0.35);text-align:center">Выбери тариф — цена подтянется с сервера</div>
+    </div>
+
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+      <span style="font-size:11px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:6px 10px;border-radius:999px">Windows 10/11</span>
+      <span style="font-size:11px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:6px 10px;border-radius:999px">Intel / AMD</span>
+      <span style="font-size:11px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:6px 10px;border-radius:999px">Без USB</span>
+    </div>
+  </div>
+</section>
+
+<!-- Описание -->
+<section class="section container" id="desc">
+  <h2 class="h2">Описание</h2>
+  <p class="muted" style="margin-top:8px;max-width:720px">MORPHINE — приватный чит для Rust с полным набором для фарма и PVP. ESP показывает игроков, животных, луты, шкафы, тайники и руду, радар помогает ориентироваться, а аим с компенсацией отдачи закрывает стрельбу. Всё проверено на своих аккаунтах, обновления выходят ежедневно.</p>
+  <div class="grid-3" style="margin-top:16px">
+    <div class="card-mini"><div class="mono">USB-флешка</div><div style="margin-top:6px;font-weight:800">Не требуется</div><div style="margin-top:4px;font-size:11px;color:rgba(255,255,255,0.5)">Запуск без флешки</div></div>
+    <div class="card-mini"><div class="mono">Система</div><div style="margin-top:6px;font-weight:800">Windows 10 / 11</div><div style="margin-top:4px;font-size:11px;color:rgba(255,255,255,0.5)">x64, актуальные сборки</div></div>
+    <div class="card-mini"><div class="mono">Процессоры</div><div style="margin-top:6px;font-weight:800">Intel / AMD</div><div style="margin-top:4px;font-size:11px;color:rgba(255,255,255,0.5)">Без ограничений</div></div>
+  </div>
+</section>
+
+<!-- Системные требования -->
+<section class="section container">
+  <h2 class="h2">Системные требования</h2>
+  <div class="grid-3" style="margin-top:16px">
+    <div class="card-mini"><div class="mono">OS</div><div style="margin-top:6px;font-weight:800">Windows 10 / Windows 11</div><div style="margin-top:4px;font-size:11px;color:rgba(255,255,255,0.5)">64-bit, актуальные обновления</div></div>
+    <div class="card-mini"><div class="mono">CPU</div><div style="margin-top:6px;font-weight:800">Intel / AMD</div><div style="margin-top:4px;font-size:11px;color:rgba(255,255,255,0.5)">Любой современный</div></div>
+    <div class="card-mini"><div class="mono">Другое</div><div style="margin-top:6px;font-weight:800">Без дополнительных требований</div><div style="margin-top:4px;font-size:11px;color:rgba(255,255,255,0.5)">Не требуется USB, без TPM</div></div>
+  </div>
+</section>
+
+<!-- Функционал -->
+<section class="section container">
+  <h2 class="h2">Функционал</h2>
+  <div class="grid-3" style="margin-top:16px">
+    <div class="glass func-card">
+      <h4>AIM</h4>
+      <ul>
+        <li>Aimbot с выбором кости (Head/Neck/Body)</li>
+        <li>FOV и Smoothing</li>
+        <li>Visible Check — только видимые</li>
+        <li>No Recoil / No Spread</li>
+      </ul>
+    </div>
+    <div class="glass func-card">
+      <h4>ESP</h4>
+      <ul>
+        <li>Player ESP — Box, Skeleton, Health, Distance</li>
+        <li>Animals & Scientist ESP</li>
+        <li>Loot ESP — Airdrop, TC, Stash, Hemp, Ore</li>
+        <li>Radar с зумом</li>
+      </ul>
+    </div>
+    <div class="glass func-card">
+      <h4>MISC</h4>
+      <ul>
+        <li>Stream-proof (не видно на OBS)</li>
+        <li>Bright Night</li>
+        <li>Crosshair</li>
+        <li>Speedhack / Infinite Jump (опц.)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section container" id="faq">
+  <h2 class="h2">Частые вопросы</h2>
+  <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px;max-width:900px">
+    <div class="glass faq-item"><button class="faq-q">Когда я получу ключ? <span style="color:rgba(255,255,255,0.4)">+</span></button><div class="faq-a"><p class="muted">Сразу после подтверждённой оплаты. Сервер проверяет webhook от ЮKassa/Stripe, резервирует один свободный ключ атомарно и помечает его как проданный. Ключ не выдаётся по кнопке «Я оплатил».</p></div></div>
+    <div class="glass faq-item"><button class="faq-q">Куда придёт ключ? <span style="color:rgba(255,255,255,0.4)">+</span></button><div class="faq-a"><p class="muted">На email, указанный при оформлении, и в личный кабинет → «Мои покупки». Если письмо не дошло, ключ всё равно там — повторная отправка не создаёт новый ключ.</p></div></div>
+    <div class="glass faq-item"><button class="faq-q">Как происходит оплата? <span style="color:rgba(255,255,255,0.4)">+</span></button><div class="faq-a"><p class="muted">Нажми «КУПИТЬ» → введи email → backend создаёт заказ pending и платёж на сервере (цена только из product_prices). Оплати на странице ЮKassa/Stripe. Успех засчитывается только по webhook с проверкой подписи, суммы, валюты и order_id.</p></div></div>
+    <div class="glass faq-item"><button class="faq-q">Как получить поддержку? <span style="color:rgba(255,255,255,0.4)">+</span></button><div class="faq-a"><p class="muted">Discord https://discord.gg/57RhrEuqG или Telegram. Укажи номер заказа.</p></div></div>
+    <div class="glass faq-item"><button class="faq-q">Есть ли возврат? <span style="color:rgba(255,255,255,0.4)">+</span></button><div class="faq-a"><p class="muted">Цифровой товар — возврат в течение 24ч если ключ не показан и не активирован. После показа в «Мои покупки» или на email — без возврата. Если ключ невалидный — заменим.</p></div></div>
+  </div>
+</section>
+
+<!-- Отзывы -->
+<section class="section container" id="reviews">
+  <h2 class="h2">Отзывы покупателей</h2>
+  <div id="reviewsBox" style="margin-top:16px;display:grid;gap:12px"></div>
+  <div id="reviewsEmpty" style="display:none;margin-top:12px" class="muted">Пока нет отзывов</div>
+</section>
+
+<!-- Поддержка -->
+<section class="section container" id="support">
+  <div class="glass" style="padding:20px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
+    <div>
+      <div style="font-weight:900">Поддержка</div>
+      <div class="muted">Discord — ответ за минуты, Telegram — новости</div>
+    </div>
+    <div style="display:flex;gap:8px">
+      <a href="https://discord.gg/57RhrEuqG" target="_blank" class="btn" style="background:#5865F2;color:#fff">Discord</a>
+      <a href="#faq" class="btn btn-ghost">FAQ</a>
+    </div>
+  </div>
+</section>
+
+<footer style="padding:28px 0 36px;border-top:1px solid rgba(255,255,255,0.06);margin-top:12px">
+  <div class="container" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,0.3)">
+    <span>© 2026 LUNAS SHOP</span>
+    <span style="display:flex;gap:12px;flex-wrap:wrap">
+      <a href="requisites.html" style="color:#fff;text-decoration:underline">Реквизиты</a>
+      <a href="#" id="termsBtn2" style="color:inherit;text-decoration:none">Условия</a>
+      <a href="#" id="privacyBtn2" style="color:inherit;text-decoration:none">Конфиденциальность</a>
+      <a href="#" id="refundBtn2" style="color:inherit;text-decoration:none">Возврат</a>
+      <a href="https://discord.gg/57RhrEuqG" style="color:inherit;text-decoration:none">Discord</a>
+    </span>
+  </div>
+</footer>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+const API_BASE = window.API_BASE || localStorage.getItem('api_base') || '';
+function toast(m){const w=document.getElementById('toastWrap');const el=document.createElement('div');el.className='toast';el.textContent=m;el.style.cssText='background:rgba(18,18,20,0.96);border:1px solid rgba(255,255,255,0.14);padding:10px 14px;border-radius:12px;font-size:12px';w.appendChild(el);setTimeout(()=>el.remove(),2600)}
+// Gallery
+document.querySelectorAll('.thumb').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.thumb').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('mainImg').src=t.dataset.src;
+  })
+})
+// Mobile menu
+const ham=document.getElementById('hamburgerBtn'), mob=document.getElementById('mobileMenu');
+if(ham&&mob){ ham.addEventListener('click',()=>mob.classList.toggle('open')) }
+// Auth (reuse existing)
+function getToken(){ return localStorage.getItem('lunas_token') }
+function getCurrent(){
+  try{ const t=getToken(); if(!t) return null; const p=JSON.parse(atob(t.split('.')[1])); const c=JSON.parse(localStorage.getItem('lunas_current')||'null'); if(c&&c.email) return c; return {email:p.email, id:p.id} }catch{return null}
+}
+function renderAuth(){
+  const cur=getCurrent(), area=document.getElementById('authArea');
+  if(!area) return;
+  if(cur){
+    area.innerHTML=`<span style="font-size:11px;color:rgba(255,255,255,0.6)">${cur.email}</span><a href="#" class="btn btn-ghost" style="padding:6px 10px;font-size:11px" onclick="localStorage.removeItem('lunas_token');localStorage.removeItem('lunas_current');renderAuth();toast('Вышел')">Выйти</a>`;
+  } else {
+    area.innerHTML=`<a href="/#auth" class="btn btn-ghost" style="padding:6px 10px;font-size:11px">Войти</a><a href="/#auth" class="btn btn-white" style="padding:6px 10px;font-size:11px">Создать</a>`;
+  }
+}
+renderAuth();
+// Variants + prices from backend
+let selected = null;
+async function loadVariants(){
+  try{
+    const ids=['morphine_1d','morphine_3d','morphine_7d','morphine_30d'];
+    const box=document.getElementById('variants');
+    box.innerHTML='<div class="muted">Загрузка цен...</div>';
+    const results=[];
+    for(const id of ids){
+      const r=await fetch((API_BASE||'')+'/api/products/'+id).then(x=>x.json());
+      if(r.product) results.push(r);
+    }
+    if(!results.length) throw new Error('no prices');
+    // Map to variant UI
+    const labelMap={morphine_1d:'1 день', morphine_3d:'3 дня', morphine_7d:'7 дней', morphine_30d:'30 дней'};
+    box.innerHTML='';
+    results.forEach(({product, prices})=>{
+      const price = prices.find(p=>p.license_type===product.id.split('_').pop() || p.license_type==='1d') || prices[0];
+      // fallback: find by product id
+      const pid=product.id;
+      const lic = pid.includes('1d')?'1d':pid.includes('3d')?'3d':pid.includes('7d')?'7d':'30d';
+      const pr = prices.find(p=>p.license_type===lic) || prices[0];
+      const cents=pr.price_cents;
+      const usd=(cents/100).toFixed(0);
+      const div=document.createElement('button');
+      div.className='glass';
+      div.style.cssText='padding:12px;text-align:left;cursor:pointer';
+      div.dataset.pid=pid; div.dataset.lic=lic; div.dataset.cents=cents;
+      div.innerHTML=`<div style="font-weight:800;font-size:13px">${labelMap[pid]||lic}</div><div style="font-weight:800;font-size:16px;margin-top:4px">$${usd}</div><div style="font-size:11px;color:rgba(255,255,255,0.45)">${pr.available} ключей</div>`;
+      div.addEventListener('click',()=>{
+        document.querySelectorAll('#variants .glass').forEach(x=>{x.style.borderColor='rgba(255,255,255,0.08)'; x.style.background='rgba(18,18,20,0.72)'});
+        div.style.borderColor='#fff'; div.style.background='rgba(255,255,255,0.06)';
+        selected={product_id:pid, license_type:lic, price_cents:cents};
+        document.getElementById('priceDisplay').textContent='$'+usd;
+        document.getElementById('buyBtn').style.opacity='1';
+        document.getElementById('buyBtn').style.pointerEvents='auto';
+        document.getElementById('buyHint').textContent='Выбран '+labelMap[pid];
+      });
+      box.appendChild(div);
+    });
+    // Auto-select first if not selected
+    if(!selected && box.firstChild) box.firstChild.click();
+    // Instant badge
+    const anyAvailable = results.some(r=>r.prices.some(p=>p.available>0));
+    document.getElementById('instantBadge').style.display = anyAvailable ? 'inline-flex' : 'none';
+    document.getElementById('stockInfo').textContent = anyAvailable ? 'В наличии' : 'Нет ключей';
+  }catch(e){
+    document.getElementById('variants').innerHTML='<div class="muted">Не удалось загрузить цены. Попробуй обновить.</div>';
+    console.error(e);
+  }
+}
+loadVariants();
+// FAQ toggle
+document.querySelectorAll('.faq-item .faq-q').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const item=btn.closest('.faq-item');
+    const was=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!was) item.classList.add('open');
+  })
+});
+// Reviews — reuse existing system or show empty
+async function loadReviews(){
+  const box=document.getElementById('reviewsBox');
+  const empty=document.getElementById('reviewsEmpty');
+  try{
+    // Try to load from localStorage reviews (existing system)
+    const raw=localStorage.getItem('lunas_reviews_v4');
+    let list=[];
+    if(raw) list=JSON.parse(raw).filter(r=>r.game==='rust');
+    // If backend has reviews endpoint, try it
+    if(!list.length){
+      try{
+        const r=await fetch((API_BASE||'')+'/api/reviews?product=morphine').then(x=>x.json());
+        if(r.reviews) list=r.reviews;
+      }catch{}
+    }
+    if(!list.length){ empty.style.display='block'; return; }
+    empty.style.display='none';
+    box.innerHTML=list.slice(0,6).map(r=>`
+      <div class="glass" style="padding:14px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:32px;height:32px;border-radius:50%;background:#fff;color:#000;display:grid;place-items:center;font-weight:900;font-size:11px">${r.nick[0].toUpperCase()}</div>
+          <div><div style="font-weight:800;font-size:12px">${r.nick}</div><div style="font-size:10px;color:rgba(255,255,255,0.4)">${r.date||''} • ${'★'.repeat(r.rating||5)}</div></div>
+        </div>
+        <p style="margin-top:8px;font-size:12px;color:rgba(255,255,255,0.7);line-height:1.6">${r.text}</p>
+      </div>
+    `).join('');
+  }catch{ empty.style.display='block'; }
+}
+loadReviews();
+// Buy
+document.getElementById('buyBtn').addEventListener('click', async ()=>{
+  const email=document.getElementById('buyEmail').value.trim();
+  if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ toast('Введи корректный email'); return }
+  if(!selected){ toast('Выбери вариант'); return }
+  const btn=document.getElementById('buyBtn');
+  btn.textContent='Создаю заказ...'; btn.disabled=true;
+  try{
+    const headers={'Content-Type':'application/json'};
+    const token=localStorage.getItem('lunas_token');
+    if(token) headers['Authorization']='Bearer '+token;
+    // Create order
+    const orderRes=await fetch((API_BASE||'')+'/api/orders',{method:'POST',headers, body:JSON.stringify({product_id:selected.product_id, license_type:selected.license_type, email, currency:'USD'})}).then(r=>r.json().then(d=>({ok:r.ok,data:d}))).then(o=>{if(!o.ok) throw new Error(o.data.error||'Order'); return o.data});
+    const orderId=orderRes.order.id;
+    // Create payment
+    const payRes=await fetch((API_BASE||'')+'/api/payments/create',{method:'POST',headers, body:JSON.stringify({order_id:orderId})}).then(r=>r.json().then(d=>({ok:r.ok,data:d}))).then(o=>{if(!o.ok) throw new Error(o.data.error||'Payment'); return o.data});
+    if(payRes.paymentUrl && !payRes.paymentUrl.startsWith('/mock-pay/')){
+      window.location.href=payRes.paymentUrl;
+      return;
+    }
+    // Mock: show check
+    toast('Заказ создан, оплати у провайдера');
+    // Poll order
+    let tries=0;
+    const iv=setInterval(async()=>{
+      tries++;
+      try{
+        const chk=await fetch((API_BASE||'')+'/api/orders/'+orderId,{headers}).then(r=>r.json());
+        if(chk.order.status==='paid' || chk.order.status==='delivered'){
+          clearInterval(iv);
+          const key=chk.key?chk.key.key_value:'—';
+          alert('Оплачено! Ключ: '+key+'\nЗаказ '+orderId.slice(0,8)+'\nПисьмо на '+email);
+          location.reload();
+        } else if(chk.order.status==='out_of_stock'){
+          clearInterval(iv);
+          toast('Нет ключей — админ уведомлён');
+        }
+      }catch{}
+      if(tries>30) clearInterval(iv);
+    },3000);
+    // For mock auto-confirm in dev (remove in prod)
+    if(payRes.paymentUrl.startsWith('/mock-pay/')){
+      // In mock, simulate webhook after 2s via admin mock endpoint if you are admin, otherwise just poll
+      // For now, do nothing — admin must confirm via webhook
+    }
+  }catch(e){ toast(e.message||'Ошибка') } finally { btn.textContent='КУПИТЬ'; btn.disabled=false }
+});
+</script>
+</body>
+</html>
