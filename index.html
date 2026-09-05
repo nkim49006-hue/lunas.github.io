@@ -930,8 +930,8 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape') closePolicy() })
         <div style="display:flex;gap:8px;flex-wrap:wrap"><span style="font-size:11px;background:#fff;color:#000;padding:4px 8px;border-radius:999px;font-weight:700">6 товаров</span><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px">Vanguard</span><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px">EAC / BE</span></div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px"><div class="price" data-usd="5">от 5$ <small>/ 1 день</small></div><button class="btn btn-white" style="background:#fff;color:#000;padding:12px 22px;border-radius:999px;font-weight:800" onclick="event.stopPropagation(); openSpooferModal()">Выбрать спуф →</button></div>
       </div>
-      <!-- RUST — clickable to choose duration -->
-      <div class="glass card span-6" data-cat="rust" style="border:1px solid rgba(255,255,255,0.14);cursor:pointer;position:relative" onclick="openRustModal()">
+      <!-- RUST — Link to morphine.html -->
+      <div class="glass card span-6" data-cat="rust" style="border:1px solid rgba(255,255,255,0.14);cursor:pointer;position:relative;display:flex;flex-direction:column;gap:12px;text-decoration:none;color:inherit" onclick="window.location.href='morphine.html'">
         <div style="position:absolute;top:10px;right:10px;background:#fff;color:#000;font-family:JetBrains Mono,monospace;font-size:10px;font-weight:800;padding:4px 8px;border-radius:999px;z-index:1">ВЫБРАТЬ СРОК →</div>
         <div style="height:160px;border-radius:14px;background:linear-gradient(135deg,#0e0e0e 0%,#121212 100%);display:flex;align-items:center;gap:16px;padding:0 20px;border:1px solid rgba(255,255,255,0.06);position:relative;overflow:hidden">
           <div style="position:absolute;top:0;right:0;width:120px;height:120px;background:radial-gradient(circle,rgba(255,255,255,0.08),transparent 70%);pointer-events:none"></div>
@@ -942,7 +942,7 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape') closePolicy() })
         <h3 style="font-weight:800">Morphine Cheat — Private</h3>
         <p style="font-size:13px;color:rgba(255,255,255,0.55)">Нажми на карточку — выбери срок: 1 / 3 / 7 / 30 дней. Цены от 6$.</p>
         <div style="display:flex;gap:8px;flex-wrap:wrap"><span style="font-size:11px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.18);color:#10b981;padding:4px 8px;border-radius:999px">External</span><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px">Radar</span><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px">Stream-proof</span></div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px"><div class="price" data-usd="6">от 6$ <small>/ 1 день</small></div><button class="btn" style="background:#fff;color:#000;padding:12px 22px;border-radius:999px;font-weight:800" onclick="event.stopPropagation(); openRustModal()">Выбрать срок →</button></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;gap:8px"><div class="price" data-usd="6">от 6$ <small>/ 1 день</small></div><div style="display:flex;gap:8px"><a href="morphine.html" class="btn btn-ghost" style="padding:12px 18px;border-radius:999px;font-weight:800;text-decoration:none">Подробнее</a><button class="btn" style="background:#fff;color:#000;padding:12px 18px;border-radius:999px;font-weight:800" onclick="window.location.href='morphine.html'">Купить Morphine</button></div></div>
       </div>
       <!-- PUBG — COMING SOON -->
       <div class="glass card span-6" data-cat="pubg" style="opacity:0.72;position:relative;overflow:hidden">
