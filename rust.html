@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUNAS RUST — Cheat Interface</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#070708;--panel:#0F0F10;--glass:rgba(18,18,20,0.86);--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);--white:#FFFFFF;--muted:rgba(255,255,255,0.45);--muted2:rgba(255,255,255,0.25)}
+html,body{height:100%}
+body{font-family:'Inter',system-ui,sans-serif;background:#050507;color:#fff;overflow:hidden;display:grid;place-items:center;padding:20px}
+.mono{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase}
+.bg{position:fixed;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,0.06),transparent 60%),linear-gradient(180deg,#070708,#050507);z-index:-2}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:32px 32px;mask-image:radial-gradient(ellipse at center,black 60%,transparent 85%);z-index:-1;pointer-events:none}
+/* Window */
+.window{width:min(920px,100%);height:min(560px,86vh);background:rgba(12,12,13,0.88);backdrop-filter:blur(22px) saturate(1.2);-webkit-backdrop-filter:blur(22px) saturate(1.2);border:1px solid var(--border2);border-radius:18px;box-shadow:0 24px 80px rgba(0,0,0,0.65),0 0 0 1px rgba(255,255,255,0.04),inset 0 1px 0 rgba(255,255,255,0.06);display:flex;flex-direction:column;overflow:hidden;position:relative}
+.titlebar{height:42px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;border-bottom:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);cursor:move;user-select:none}
+.title-left{display:flex;align-items:center;gap:10px}
+.dots{display:flex;gap:6px}
+.dot{width:10px;height:10px;border-radius:50%;border:1px solid rgba(255,255,255,0.1)}
+.dot.r{background:#1a1a1a}.dot.y{background:#1a1a1a}.dot.g{background:#fff}
+.logo{font-weight:900;letter-spacing:-0.02em;font-size:13px;display:flex;align-items:center;gap:8px}
+.logo-mark{width:22px;height:22px;background:#fff;color:#000;border-radius:6px;display:grid;place-items:center;font-size:11px;font-weight:900}
+.status{display:flex;align-items:center;gap:10px;font-size:11px}
+.status-dot{width:7px;height:7px;background:#fff;border-radius:50%;box-shadow:0 0 10px rgba(255,255,255,0.5)}
+.body{flex:1;display:flex;min-height:0}
+.sidebar{width:180px;border-right:1px solid rgba(255,255,255,0.06);padding:12px;display:flex;flex-direction:column;gap:6px;background:rgba(255,255,255,0.01)}
+.tab{padding:10px 12px;border-radius:10px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:9px;cursor:pointer;border:1px solid transparent;color:var(--muted);transition:.2s}
+.tab.active{background:#fff;color:#000;border-color:#fff;box-shadow:0 6px 16px rgba(255,255,255,0.12)}
+.tab:hover{border-color:rgba(255,255,255,0.1);color:#fff}
+.tab small{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:9px;opacity:0.5}
+.content{flex:1;padding:18px;overflow:auto}
+.panel{display:none;gap:14px;flex-direction:column}
+.panel.active{display:flex}
+.card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:14px}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.card-title{font-weight:800;font-size:13px}
+.card-desc{font-size:11px;color:var(--muted);margin-top:2px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-top:1px solid rgba(255,255,255,0.04)}
+.row:first-of-type{border-top:none;padding-top:0}
+.row-left{flex:1}
+.row-name{font-size:12px;font-weight:600}
+.row-hint{font-size:11px;color:var(--muted)}
+/* Toggle */
+.toggle{width:40px;height:22px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);border-radius:999px;position:relative;cursor:pointer;transition:.2s;flex-shrink:0}
+.toggle.on{background:#fff;border-color:#fff;box-shadow:0 4px 12px rgba(255,255,255,0.2)}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 2px 6px rgba(0,0,0,0.3)}
+.toggle.on::after{transform:translateX(18px);background:#000}
+.slider{width:100%;accent-color:#fff;height:4px}
+.select{padding:8px 10px;border-radius:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff;font-size:12px;outline:none}
+.btn{padding:9px 14px;border-radius:999px;font-weight:800;font-size:12px;cursor:pointer;border:1px solid transparent;transition:.2s}
+.btn-white{background:#fff;color:#000}
+.btn-ghost{background:rgba(255,255,255,0.06);color:#fff;border-color:rgba(255,255,255,0.1)}
+.btn:hover{transform:translateY(-1px)}
+.footer{height:34px;border-top:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:rgba(255,255,255,0.02);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted2)}
+.hotkey{padding:4px 7px;border-radius:6px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.7)}
+.toast-wrap{position:fixed;top:14px;right:14px;z-index:99;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:rgba(12,12,13,0.96);border:1px solid rgba(255,255,255,0.14);color:#fff;padding:10px 14px;border-radius:12px;font-size:12px;font-weight:600;box-shadow:0 12px 32px rgba(0,0,0,0.5);animation:toastIn .25s forwards}
+@keyframes toastIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:700px){.window{height:90vh}.sidebar{width:56px}.tab span.txt{display:none}.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="bg-grid"></div>
+<div class="toast-wrap" id="toastWrap"></div>
+
+<div class="window" id="window">
+  <div class="titlebar" id="titlebar">
+    <div class="title-left">
+      <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+      <div class="logo"><div class="logo-mark">◐</div> LUNAS <span style="color:rgba(255,255,255,0.5)">RUST</span> <span class="mono" style="margin-left:6px;color:rgba(255,255,255,0.35)">v2.4 • черно-белый</span></div>
+    </div>
+    <div class="status"><span class="status-dot"></span><span class="mono">UNDETECTED</span><span class="mono" style="color:rgba(255,255,255,0.25)">INS — скрыть • F2 — меню</span><button class="btn btn-ghost" style="padding:6px 10px;font-size:11px;margin-left:6px" id="closeBtn">×</button></div>
+  </div>
+  <div class="body">
+    <div class="sidebar" id="sidebar">
+      <div class="tab active" data-tab="visuals"><span>◉</span> <span class="txt">Visuals</span> <small>ESP</small></div>
+      <div class="tab" data-tab="aim"><span>◎</span> <span class="txt">Aimbot</span> <small>FOV</small></div>
+      <div class="tab" data-tab="world"><span>⬢</span> <span class="txt">World</span> <small>LOOT</small></div>
+      <div class="tab" data-tab="misc"><span>⚡</span> <span class="txt">Misc</span> <small>EXTRA</small></div>
+      <div class="tab" data-tab="settings"><span>⚙</span> <span class="txt">Settings</span></div>
+      <div style="margin-top:auto;padding-top:12px;border-top:1px solid rgba(255,255,255,0.06);display:flex;flex-direction:column;gap:8px">
+        <button class="btn btn-white" style="width:100%;justify-content:center" id="saveBtn">Сохранить</button>
+        <button class="btn btn-ghost" style="width:100%;justify-content:center" id="resetBtn">Сброс</button>
+        <div class="mono" style="text-align:center;color:rgba(255,255,255,0.25)">LUNAS SHOP • #FFFFFF</div>
+      </div>
+    </div>
+    <div class="content">
+      <!-- VISUALS -->
+      <div class="panel active" id="panel-visuals">
+        <div class="grid2">
+          <div class="card">
+            <div class="card-head"><div><div class="card-title">Player ESP</div><div class="card-desc">Игроки, NPC, с линией</div></div><div class="toggle on" data-key="esp_players"></div></div>
+            <div class="row"><div class="row-left"><div class="row-name">Box ESP</div><div class="row-hint">2D коробка</div></div><div class="toggle on" data-key="box"></div></div>
+            <div class="row"><div class="row-left"><div class="row-name">Skeleton</div><div class="row-hint">Скелет</div></div><div class="toggle on" data-key="skeleton"></div></div>
+            <div class="row"><div class="row-left"><div class="row-name">Health Bar</div><div class="row-hint">HP + ник</div></div><div class="toggle on" data-key="health"></div></div>
+            <div class="row"><div class="row-left"><div class="row-name">Distance</div><div class="row-hint">Метры</div></div><div class="toggle" data-key="distance"></div></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><div><div class="card-title">Animals & NPC</div><div class="card-desc">Медведи, волки, ученые</div></div><div class="toggle" data-key="animals"></div></div>
+            <div class="row"><div class="row-left"><div class="row-name">Scientist ESP</div></div><div class="toggle" data-key="scientist"></div></div>
+            <div class="row"><div class="row-left"><div class="row-name">Animal ESP</div></div><div class="toggle on" data-key="animal_esp"></div></div>
+            <div class="row"><div class="row-left"><div class="row-name">TC Auth</div><div class="row-hint">Авторизованные</div></div><div class="toggle" data-key="tc_auth"></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">ESP Settings</div><div class="card-desc">Дальность и стиль</div></div><span class="mono">черно-белый</span></div>
+          <div class="row"><div class="row-left"><div class="row-name">Max Distance — <span id="distVal">300m</span></div></div><input type="range" class="slider" min="50" max="600" value="300" id="distSlider" style="width:160px"></div>
+          <div class="row"><div class="row-left"><div class="row-name">Box Style</div></div><select class="select" id="boxStyle"><option>Corner</option><option>Full</option><option>3D</option></select></div>
+          <div class="row"><div class="row-left"><div class="row-name">Stream-proof</div><div class="row-hint">Не видно на OBS/Discord</div></div><div class="toggle on" data-key="streamproof"></div></div>
+        </div>
+      </div>
+      <!-- AIM -->
+      <div class="panel" id="panel-aim">
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">Aimbot</div><div class="card-desc">Наведение, FOV круг</div></div><div class="toggle on" data-key="aimbot"></div></div>
+          <div class="row"><div class="row-left"><div class="row-name"> Aim Key</div><div class="row-hint">Удерживать для аима</div></div><select class="select"><option>Mouse2 (ПКМ)</option><option>Mouse4</option><option>Shift</option></select></div>
+          <div class="row"><div class="row-left"><div class="row-name">FOV — <span id="fovVal">90°</span></div></div><input type="range" class="slider" min="30" max="300" value="90" id="fovSlider" style="width:160px"></div>
+          <div class="row"><div class="row-left"><div class="row-name">Smoothing — <span id="smoothVal">4.2</span></div></div><input type="range" class="slider" min="1" max="10" step="0.1" value="4.2" id="smoothSlider" style="width:160px"></div>
+          <div class="row"><div class="row-left"><div class="row-name">Target — Head / Body</div></div><select class="select"><option>Head</option><option>Neck</option><option>Body</option></select></div>
+          <div class="row"><div class="row-left"><div class="row-name">Visible Check</div><div class="row-hint">Только видимые</div></div><div class="toggle on" data-key="vischeck"></div></div>
+          <div class="row"><div class="row-left"><div class="row-name">No Recoil</div><div class="row-hint">Компенсация отдачи</div></div><div class="toggle on" data-key="norecoil"></div></div>
+          <div class="row"><div class="row-left"><div class="row-name">No Spread</div></div><div class="toggle" data-key="nospread"></div></div>
+        </div>
+      </div>
+      <!-- WORLD -->
+      <div class="panel" id="panel-world">
+        <div class="grid2">
+          <div class="card">
+            <div class="card-head"><div><div class="card-title">Loot ESP</div></div><div class="toggle on" data-key="loot"></div></div>
+            <div class="row"><div class="row-left"><div class="row-name">Airdrop</div></div><div class="toggle on" data-key="airdrop"></div></div>
+            <div class="row"><div class="row-left"><div class="row-name">TC / Tool Cupboard</div></div><div class="toggle on" data-key="tc"></div></div>
+            <div class="row"><div class="row-left"><div class="row-name">Stash</div></div><div class="toggle" data-key="stash"></div></div>
+            <div class="row"><div class="row-left"><div class="row-name">Hemp / Food</div></div><div class="toggle" data-key="hemp"></div></div>
+            <div class="row"><div class="row-left"><div class="row-name">Ore ESP</div><div class="row-hint">Камень, сера, металл</div></div><div class="toggle on" data-key="ore"></div></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><div><div class="card-title">Radar</div><div class="card-desc">Мини-карта</div></div><div class="toggle" data-key="radar"></div></div>
+            <div class="row"><div class="row-left"><div class="row-name">Radar Zoom — <span id="radarVal">1.4x</span></div></div><input type="range" class="slider" min="0.8" max="3" step="0.1" value="1.4" id="radarSlider" style="width:140px"></div>
+            <div class="row"><div class="row-left"><div class="row-name">Show Teammates</div></div><div class="toggle on" data-key="teammates"></div></div>
+          </div>
+        </div>
+      </div>
+      <!-- MISC -->
+      <div class="panel" id="panel-misc">
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">Misc</div><div class="card-desc">Доп. функции</div></div></div>
+          <div class="row"><div class="row-left"><div class="row-name">Speedhack — <span id="speedVal">1.0x</span></div></div><input type="range" class="slider" min="1" max="2" step="0.1" value="1.0" id="speedSlider" style="width:140px"></div>
+          <div class="row"><div class="row-left"><div class="row-name">Infinite Jump</div></div><div class="toggle" data-key="infjump"></div></div>
+          <div class="row"><div class="row-left"><div class="row-name">SpiderMan ( no fall )</div></div><div class="toggle" data-key="nofall"></div></div>
+          <div class="row"><div class="row-left"><div class="row-name">Bright Night</div></div><div class="toggle on" data-key="bright"></div></div>
+          <div class="row"><div class="row-left"><div class="row-name">Crosshair</div></div><div class="toggle on" data-key="crosshair"></div></div>
+        </div>
+        <div class="card" style="border-color:rgba(255,255,255,0.14)">
+          <div class="mono" style="color:#fff">⚠ ДИСКЛЕЙМЕР</div>
+          <p style="margin-top:8px;font-size:12px;color:rgba(255,255,255,0.6);line-height:1.6">Интерфейс для предпросмотра. Использование читов нарушает ToS Rust / EAC. LUNAS SHOP не несёт ответственности. Включай на свой страх.</p>
+        </div>
+      </div>
+      <!-- SETTINGS -->
+      <div class="panel" id="panel-settings">
+        <div class="card">
+          <div class="card-head"><div><div class="card-title">Settings</div><div class="card-desc">Горячие клавиши и профиль</div></div></div>
+          <div class="row"><div class="row-left"><div class="row-name">Меню — F2 / INS</div><div class="row-hint">Скрыть оверлей</div></div><span class="hotkey">INS</span></div>
+          <div class="row"><div class="row-left"><div class="row-name">Паника — F8</div><div class="row-hint">Выгрузить чит</div></div><span class="hotkey">F8</span></div>
+          <div class="row"><div class="row-left"><div class="row-name">Язык</div></div><select class="select"><option>Русский</option><option>English</option></select></div>
+          <div style="display:flex;gap:8px;margin-top:12px">
+            <button class="btn btn-white" style="flex:1;justify-content:center" id="exportBtn">Экспорт CFG</button>
+            <button class="btn btn-ghost" style="flex:1;justify-content:center" id="importBtn">Импорт</button>
+          </div>
+        </div>
+        <div class="card" style="display:flex;align-items:center;justify-content:space-between">
+          <span class="mono">LUNAS SHOP • черно-белый • #FFFFFF • 21st.dev MCP</span>
+          <span class="mono" style="color:#fff">● 60 FPS • 12ms</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <span>© 2026 LUNAS RUST • черно-белый • INS скрыть</span>
+    <span style="display:flex;gap:8px;align-items:center"><span class="hotkey">F2</span> меню <span class="hotkey">INS</span> скрыть <span style="color:#fff">● live</span></span>
+  </div>
+</div>
+
+<script>
+const toastWrap=document.getElementById('toastWrap')
+function toast(m){const el=document.createElement('div');el.className='toast';el.textContent=m;toastWrap.appendChild(el);setTimeout(()=>{el.style.transition='all .3s';el.style.opacity='0'},2200);setTimeout(()=>el.remove(),2600)}
+// Tabs
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'))
+    t.classList.add('active')
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'))
+    document.getElementById('panel-'+t.dataset.tab).classList.add('active')
+    toast('Раздел: '+t.textContent.trim())
+  })
+})
+// Toggles
+document.querySelectorAll('.toggle').forEach(t=>{
+  t.addEventListener('click',()=>{
+    t.classList.toggle('on')
+    const key=t.dataset.key
+    const state=t.classList.contains('on')?'вкл':'выкл'
+    toast((key||'Опция')+' — '+state)
+    // save
+    const states={}
+    document.querySelectorAll('.toggle').forEach(x=>states[x.dataset.key]=x.classList.contains('on'))
+    localStorage.setItem('lunas_rust_toggles',JSON.stringify(states))
+  })
+})
+// Restore
+try{
+  const saved=JSON.parse(localStorage.getItem('lunas_rust_toggles')||'{}')
+  document.querySelectorAll('.toggle').forEach(t=>{
+    const k=t.dataset.key
+    if(k in saved){
+      t.classList.toggle('on', saved[k])
+    }
+  })
+}catch{}
+// Sliders
+const bindSlider=(id,valId,fmt)=>{
+  const s=document.getElementById(id), v=document.getElementById(valId)
+  if(!s||!v) return
+  s.addEventListener('input',()=>{v.textContent=fmt?fmt(s.value):s.value;})
+}
+bindSlider('distSlider','distVal',v=>v+'m')
+bindSlider('fovSlider','fovVal',v=>v+'°')
+bindSlider('smoothSlider','smoothVal',v=>v)
+bindSlider('radarSlider','radarVal',v=>v+'x')
+bindSlider('speedSlider','speedVal',v=>v+'x')
+// Buttons
+document.getElementById('saveBtn').addEventListener('click',()=>{
+  const states={}
+  document.querySelectorAll('.toggle').forEach(t=>states[t.dataset.key]=t.classList.contains('on'))
+  localStorage.setItem('lunas_rust_cfg',JSON.stringify({toggles:states, sliders:{
+    dist:document.getElementById('distSlider').value,
+    fov:document.getElementById('fovSlider').value
+  }}))
+  toast('Конфиг сохранён ✓')
+})
+document.getElementById('resetBtn').addEventListener('click',()=>{
+  localStorage.removeItem('lunas_rust_toggles')
+  localStorage.removeItem('lunas_rust_cfg')
+  document.querySelectorAll('.toggle').forEach(t=>t.classList.remove('on'))
+  document.querySelectorAll('.panel')[0].querySelectorAll('.toggle').forEach((t,i)=>{if(i<3) t.classList.add('on')})
+  toast('Сброшено')
+})
+document.getElementById('exportBtn').addEventListener('click',()=>{
+  const cfg=localStorage.getItem('lunas_rust_cfg')||'{}'
+  navigator.clipboard?.writeText(cfg).then(()=>toast('CFG скопирован')).catch(()=>toast(cfg.slice(0,80)))
+})
+document.getElementById('importBtn').addEventListener('click',()=>toast('Импорт — вставь CFG (демо)'))
+document.getElementById('closeBtn').addEventListener('click',()=>toast('Закрыто — нажми INS чтобы вернуть'))
+// Draggable
+const win=document.getElementById('window'), bar=document.getElementById('titlebar')
+let drag=false, sx=0, sy=0, ox=0, oy=0
+bar.addEventListener('mousedown',e=>{drag=true; sx=e.clientX; sy=e.clientY; const r=win.getBoundingClientRect(); ox=r.left; oy=r.top; win.style.position='fixed'; win.style.margin='0'})
+window.addEventListener('mousemove',e=>{if(!drag) return; win.style.left=(ox+e.clientX-sx)+'px'; win.style.top=(oy+e.clientY-sy)+'px'; win.style.transform='none'})
+window.addEventListener('mouseup',()=>drag=false)
+// Keyboard: INS hide, F2 toggle
+window.addEventListener('keydown',e=>{
+  if(e.key==='Insert'){ win.style.display=win.style.display==='none'?'flex':'none'; toast(win.style.display==='none'?'Скрыто (INS)':'Показано') }
+  if(e.key==='F2'){ win.style.display=win.style.display==='none'?'flex':'none' }
+  if(e.key==='F8'){ toast('Паника — выгружено (демо)'); win.style.display='none' }
+  if(e.key==='Escape'){ win.style.display='none' }
+})
+// Make window centered initially via grid, but after drag switch to fixed centered via transform — already handled
+</script>
+</body>
+</html>
