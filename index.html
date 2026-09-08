@@ -752,7 +752,70 @@ const ADMIN = {
 }
 function isAdmin(){ const cur=getCurrent(); return cur && cur.email.toLowerCase()===ADMIN.email.toLowerCase() }
 
+// --- AUTH / TOAST / CART — восстановлено (было удалено), нужно для кнопок Войти/Создать ---
+function toast(msg, type){
+  const wrap=document.getElementById('toastWrap'); if(!wrap) return;
+  const el=document.createElement('div'); el.className='toast'; el.textContent=msg;
+  if(type==='ok') el.style.borderColor='rgba(16,185,129,0.4)';
+  wrap.appendChild(el); setTimeout(()=>{ el.style.opacity='0'; el.style.transform='translateY(-8px)'; },2600); setTimeout(()=>el.remove(),3000);
+}
+let authMode='login';
+function openAuth(mode){
+  authMode=mode; window.authMode=mode;
+  const m=document.getElementById('authModal'); if(!m) return;
+  m.classList.add('open'); m.style.display='flex'; m.setAttribute('aria-hidden','false');
+  document.getElementById('authTitle').textContent = mode==='register' ? 'Создать аккаунт' : 'Войти в аккаунт';
+  document.getElementById('authSubmit').textContent = mode==='register' ? 'Создать' : 'Войти';
+  document.getElementById('confirmWrap').style.display = mode==='register' ? 'flex' : 'none';
+  document.getElementById('tabLogin').className = mode==='login' ? 'btn btn-blue' : 'btn btn-ghost';
+  document.getElementById('tabRegister').className = mode==='register' ? 'btn btn-blue' : 'btn btn-ghost';
+  document.getElementById('tabLogin').style.flex='1'; document.getElementById('tabRegister').style.flex='1';
+}
+function closeAuth(){
+  const m=document.getElementById('authModal'); if(!m) return;
+  m.classList.remove('open'); m.style.display='none'; m.setAttribute('aria-hidden','true');
+}
+// базовые getCurrent/setCurrent — переопределяются в api_integration_full.js когда есть сервер, но нужны для демо-режима github.io
+if(typeof window.getCurrent !== 'function'){
+  window.getCurrent=function(){ try{ return JSON.parse(localStorage.getItem('lunas_current')||'null'); }catch{ return null } }
+}
+if(typeof window.setCurrent !== 'function'){
+  window.setCurrent=function(u){ if(u) localStorage.setItem('lunas_current', JSON.stringify(u)); else localStorage.removeItem('lunas_current'); }
+}
+function renderAuth(){
+  const cur=window.getCurrent ? getCurrent() : null;
+  const area=document.getElementById('authArea'); if(!area) return;
+  // баланс
+  let bal=''; try{ const v=cur?.balanceUSD ?? cur?.balance_usd; if(v!=null) bal=' • '+v+'$'; }catch{}
+  if(cur && cur.email){
+    area.innerHTML=`<span style="font-size:11px;color:rgba(255,255,255,0.7);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${cur.email}${bal}</span><button class="btn btn-ghost" style="padding:6px 10px;font-size:11px" onclick="localStorage.removeItem('lunas_current');localStorage.removeItem('lunas_token');renderAuth();toast('Выход выполнен')">Выйти</button>`;
+  } else {
+    area.innerHTML=`<button id="loginBtn" class="btn btn-ghost" style="padding:6px 10px;font-size:11px">Войти</button><button id="registerBtn" class="btn" style="background:#fff;color:#000;padding:6px 10px;font-size:11px;font-weight:800;border-radius:999px">Зарегистрироваться</button>`;
+    document.getElementById('loginBtn')?.addEventListener('click',()=>openAuth('login'));
+    document.getElementById('registerBtn')?.addEventListener('click',()=>openAuth('register'));
+  }
+  // mobile
+  const mo=document.getElementById('mobileAuth'); if(mo) mo.innerHTML=area.innerHTML;
+}
+function closeMobileMenu(){ document.getElementById('mobileMenu')?.classList.remove('open'); }
+document.getElementById('tabLogin')?.addEventListener('click',()=>openAuth('login'));
+document.getElementById('tabRegister')?.addEventListener('click',()=>openAuth('register'));
+document.getElementById('authClose')?.addEventListener('click',closeAuth);
+document.getElementById('authModal')?.addEventListener('click',e=>{ if(e.target.id==='authModal') closeAuth() });
+document.getElementById('hamburgerBtn')?.addEventListener('click',()=>{
+  const m=document.getElementById('mobileMenu'); m.classList.toggle('open');
+  document.getElementById('hamburgerBtn').setAttribute('aria-expanded', m.classList.contains('open'));
+});
+// корзина заглушка если нет
+if(typeof window.cart==='undefined') window.cart=JSON.parse(localStorage.getItem('lunas_cart')||'[]');
+if(typeof window.updateCart!=='function') window.updateCart=function(){ const c=document.getElementById('cartCount'); if(c) c.textContent=(window.cart||[]).length; }
+if(typeof window.clearCart!=='function') window.clearCart=function(){ window.cart=[]; localStorage.setItem('lunas_cart','[]'); updateCart(); toast('Корзина очищена'); }
+if(typeof window.checkout!=='function') window.checkout=function(){ toast('Сначала войди'); openAuth('login'); }
+// инициализация
+renderAuth(); updateCart(); renderCurrency();
+
 // SELLER removed
 </script>
+<script src="api_integration_full.js"></script>
 </body>
 </html>
