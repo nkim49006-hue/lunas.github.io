@@ -71,11 +71,11 @@ nav .container{height:64px;display:flex;align-items:center;justify-content:space
 <nav>
   <div class="container">
     <div style="display:flex;align-items:center;gap:18px">
-      <a href="index.html" class="logo"><img src="logo.png" alt="LS" style="height:32px;width:auto;display:block;border-radius:6px;object-fit:contain"><span>LUNAS<span style="color:rgba(255,255,255,0.7)">SHOP</span></span></a>
+      <a href="./index.html" class="logo"><img src="./logo.png" alt="LS" style="height:32px;width:auto;display:block;border-radius:6px;object-fit:contain"><span>LUNAS<span style="color:rgba(255,255,255,0.7)">SHOP</span></span></a>
       <div class="nav-links" style="display:flex;align-items:center;gap:18px;margin-left:12px">
-        <a href="index.html" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:600;padding:6px 0">Главная</a>
-        <a href="index.html#catalog" style="color:#fff;text-decoration:none;font-size:13px;font-weight:700;border-bottom:2px solid #fff;padding:6px 0">Магазин</a>
-        <a href="index.html#reviews" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:600;padding:6px 0">Отзывы</a>
+        <a href="./index.html" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:600;padding:6px 0">Главная</a>
+        <a href="./index.html#catalog" style="color:#fff;text-decoration:none;font-size:13px;font-weight:700;border-bottom:2px solid #fff;padding:6px 0">Магазин</a>
+        <a href="./index.html#reviews" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:600;padding:6px 0">Отзывы</a>
         <a href="#faq" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:600;padding:6px 0">Поддержка</a>
       </div>
     </div>
@@ -87,15 +87,15 @@ nav .container{height:64px;display:flex;align-items:center;justify-content:space
   </div>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
-  <a href="index.html" onclick="closeMobileMenu()">Главная</a>
-  <a href="index.html#catalog" onclick="closeMobileMenu()">Магазин</a>
-  <a href="index.html#reviews" onclick="closeMobileMenu()">Отзывы</a>
+  <a href="./index.html" onclick="closeMobileMenu()">Главная</a>
+  <a href="./index.html#catalog" onclick="closeMobileMenu()">Магазин</a>
+  <a href="./index.html#reviews" onclick="closeMobileMenu()">Отзывы</a>
   <a href="#faq" onclick="closeMobileMenu()">Поддержка</a>
   <div id="mobileAuth" style="display:flex;gap:8px"></div>
 </div>
 
 <div class="container" style="padding-top:76px;padding-bottom:8px">
-  <a href="index.html#catalog" style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:0.06em;color:rgba(255,255,255,0.6);text-decoration:none;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);padding:7px 12px;border-radius:999px;transition:.2s" onmouseover="this.style.borderColor='rgba(255,255,255,0.2)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">← Магазин</a>
+  <a href="./index.html#catalog" style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:0.06em;color:rgba(255,255,255,0.6);text-decoration:none;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);padding:7px 12px;border-radius:999px;transition:.2s" onmouseover="this.style.borderColor='rgba(255,255,255,0.2)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">← Магазин</a>
   <span style="margin:0 6px;color:rgba(255,255,255,0.25)">/</span>
   <span style="font-size:11px;color:rgba(255,255,255,0.35)">MORPHINE — RUST</span>
 </div>
@@ -104,11 +104,11 @@ nav .container{height:64px;display:flex;align-items:center;justify-content:space
   <!-- Left: Gallery -->
   <div>
     <div class="gallery-main" id="galleryMain">
-      <img id="mainImg" src="morphine.webp" alt="MORPHINE">
+      <img id="mainImg" src="./morphine.webp" alt="MORPHINE">
     </div>
     <div class="thumbs" id="thumbs">
-      <div class="thumb active" data-src="morphine.webp"><img src="morphine.webp" alt=""></div>
-      <div class="thumb" data-src="morphine-rust.webp"><img src="morphine-rust.webp" alt="" onerror="this.parentElement.style.display='none'"></div>
+      <div class="thumb active" data-src="./morphine.webp"><img src="./morphine.webp" alt=""></div>
+      <div class="thumb" data-src="./morphine-rust.webp"><img src="./morphine-rust.webp" alt="" onerror="this.parentElement.style.display='none'"></div>
     </div>
     <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
       <span class="mono">RUST • ESP • AIM • RADAR</span>
@@ -297,9 +297,8 @@ function getCurrent(){
 function requireAuthOrPrompt(){
   const cur=getCurrent();
   if(cur && cur.email) return true;
-  toast('Сначала зарегистрируйся — нажми «Зарегистрироваться» на главной');
-  // если на этой странице нет модалки — ведём на главную к форме регистрации
-  setTimeout(()=>{ window.location.href='/#auth'; }, 900);
+  toast('Сначала войди — перенаправим на вход');
+  setTimeout(()=>{ window.location.href='./login.html?next=./morphine.html'; }, 700);
   return false;
 }
 const RATES_M={USD:1,EUR:0.92,RUB:95,KZT:540};
@@ -313,7 +312,7 @@ function renderAuth(){
   const displayBal=Math.round(Number(balUSD||0)*rate);
   if(cur){
     area.innerHTML=`
-      <a href="/#cabinet" onclick="event.preventDefault(); toast('Баланс: ${displayBal}${sym} — пополни в кабинете на главной'); window.location.href='/#cabinet'" title="Баланс ${displayBal}${sym}" style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.14);padding:6px 10px;border-radius:999px;text-decoration:none">
+      <a href="./index.html" title="Баланс ${displayBal}${sym} — в магазин" style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.14);padding:6px 10px;border-radius:999px;text-decoration:none">
         <span style="width:8px;height:8px;background:#10b981;border-radius:50%;box-shadow:0 0 8px #10b981"></span>
         <span style="font-size:11px;font-weight:900;color:#fff">${displayBal}${sym}</span>
         <span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.55);text-transform:uppercase">баланс</span>
@@ -321,7 +320,7 @@ function renderAuth(){
       <span style="font-size:11px;color:rgba(255,255,255,0.6);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${cur.email}</span>
       <a href="#" class="btn btn-ghost" style="padding:6px 10px;font-size:11px" onclick="localStorage.removeItem('lunas_token');localStorage.removeItem('lunas_current');renderAuth();toast('Вышел')">Выйти</a>`;
   } else {
-    area.innerHTML=`<a href="/" onclick="localStorage.setItem('lunas_auth_intent','register'); toast('На главной нажми «Зарегистрироваться» ✓'); " class="btn btn-ghost" style="padding:6px 10px;font-size:11px">Войти</a><a href="/" onclick="localStorage.setItem('lunas_auth_intent','register')" class="btn btn-white" style="padding:6px 10px;font-size:11px">Зарегистрироваться</a>`;
+    area.innerHTML=`<a href="./login.html?next=./morphine.html" class="btn btn-ghost" style="padding:6px 10px;font-size:11px">Войти</a><a href="./register.html?next=./morphine.html" class="btn btn-white" style="padding:6px 10px;font-size:11px">Регистрация</a>`;
   }
 }
 renderAuth();

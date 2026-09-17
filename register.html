@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Регистрация — LUNAS SHOP</title>
+<meta name="description" content="Создать аккаунт LUNAS SHOP — читы Rust, Spoofer.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#070708;--glass:rgba(18,18,20,0.72);--border:rgba(255,255,255,0.08);--muted:rgba(255,255,255,0.45);--text:#fff}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+.mono{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
+.container{max-width:1280px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+nav{position:fixed;top:0;left:0;right:0;z-index:50;background:#0c0c0e;background-image:linear-gradient(hsla(0,0%,100%,.01) 1px,transparent 0),linear-gradient(90deg,hsla(0,0%,100%,.01) 1px,transparent 0);background-size:36px 36px;border-bottom:1px solid rgba(255,255,255,0.06);padding:0}
+nav .container{height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{font-weight:900;letter-spacing:-0.02em;font-size:18px;display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;font-weight:800;font-size:13px;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:.25s}
+.btn-white{background:#fff;color:#000}
+.btn-ghost{background:rgba(255,255,255,0.06);color:#fff;border-color:rgba(255,255,255,0.08)}
+.glass{background:rgba(18,18,20,0.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--border);border-radius:20px;transition:.3s}
+.toast-wrap{position:fixed;top:72px;right:16px;z-index:80;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:rgba(18,18,20,0.96);border:1px solid rgba(255,255,255,0.14);color:#fff;padding:10px 14px;border-radius:12px;font-size:12px;font-weight:600}
+.hamburger{display:none;align-items:center;justify-content:center;width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff;cursor:pointer}
+.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;background:rgba(12,12,14,0.98);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06);padding:16px;flex-direction:column;gap:12px;z-index:49}
+.mobile-menu.open{display:flex}
+@media(max-width:900px){nav .nav-links{display:none}.hamburger{display:inline-flex !important}}
+</style>
+<script>window.API_BASE = localStorage.getItem('api_base') || (location.port==='8765' ? 'http://127.0.0.1:3000' : '');</script>
+</head>
+<body>
+<nav>
+  <div class="container">
+    <div style="display:flex;align-items:center;gap:18px">
+      <a href="./index.html" class="logo"><img src="./logo.png" alt="LS" style="height:32px;width:auto;display:block;border-radius:6px;object-fit:contain"><span>LUNAS<span style="color:rgba(255,255,255,0.7)">SHOP</span></span></a>
+      <div class="nav-links" style="display:flex;align-items:center;gap:18px;margin-left:12px">
+        <a href="./index.html" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:600;padding:6px 0">Главная</a>
+        <a href="./index.html#catalog" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:600;padding:6px 0">Магазин</a>
+        <a href="./index.html#reviews" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:600;padding:6px 0">Отзывы</a>
+        <a href="./index.html#faq" style="color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:600;padding:6px 0">Поддержка</a>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <div id="authArea" style="display:flex;gap:6px;align-items:center"></div>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Меню">☰</button>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="./index.html" onclick="closeMobileMenu()">Главная</a>
+  <a href="./index.html#catalog" onclick="closeMobileMenu()">Магазин</a>
+  <a href="./index.html#reviews" onclick="closeMobileMenu()">Отзывы</a>
+  <a href="./index.html#faq" onclick="closeMobileMenu()">Поддержка</a>
+  <div id="mobileAuth" style="display:flex;gap:8px"></div>
+</div>
+
+<div class="container" style="padding-top:76px;padding-bottom:8px">
+  <a href="./index.html#catalog" style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:0.06em;color:rgba(255,255,255,0.6);text-decoration:none;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);padding:7px 12px;border-radius:999px">← Магазин</a>
+  <span style="margin:0 6px;color:rgba(255,255,255,0.25)">/</span>
+  <span style="font-size:11px;color:rgba(255,255,255,0.35)">Регистрация</span>
+</div>
+
+<section class="container" style="padding:16px 24px 40px;max-width:520px">
+  <div class="glass" style="padding:24px">
+    <h1 style="font-size:24px;font-weight:900;letter-spacing:-0.02em">Создать аккаунт</h1>
+    <p style="margin-top:6px;font-size:13px;color:rgba(255,255,255,0.55)">Нужна только Gmail и пароль. Баланс 0$ — пополнишь после входа.</p>
+    <form id="regForm" style="margin-top:18px;display:flex;flex-direction:column;gap:12px" novalidate>
+      <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:600">Gmail
+        <input id="email" type="email" placeholder="name@gmail.com" required autocomplete="email" style="padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff;outline:none">
+        <span id="emailErr" style="font-size:11px;color:#ff6b6b;display:none">Нужен Gmail — оканчивается на @gmail.com</span>
+      </label>
+      <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:600">Пароль
+        <input id="pass" type="password" placeholder="минимум 6 символов" required minlength="6" autocomplete="new-password" style="padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff;outline:none">
+        <span id="passErr" style="font-size:11px;color:#ff6b6b;display:none">Пароль минимум 6 символов</span>
+      </label>
+      <label style="display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:600">Подтверди пароль
+        <input id="pass2" type="password" placeholder="повтори пароль" required autocomplete="new-password" style="padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff;outline:none">
+        <span id="pass2Err" style="font-size:11px;color:#ff6b6b;display:none">Пароли не совпадают</span>
+      </label>
+      <button type="submit" id="submitBtn" class="btn btn-white" style="justify-content:center;margin-top:4px">Создать аккаунт</button>
+      <div style="text-align:center;font-size:12px;color:rgba(255,255,255,0.5)">Уже есть аккаунт? <a href="./login.html" style="color:#fff;text-decoration:underline">Войти</a></div>
+      <div style="text-align:center"><a href="./index.html" style="font-size:11px;color:rgba(255,255,255,0.35);text-decoration:none">← Вернуться в магазин</a></div>
+    </form>
+  </div>
+</section>
+
+<footer style="padding:24px 0 36px;border-top:1px solid rgba(255,255,255,0.06)">
+  <div class="container" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,0.3)">
+    <span>© 2026 LUNAS SHOP</span>
+    <span><a href="./requisites.html" style="color:#fff;text-decoration:underline">Реквизиты</a> • <a href="https://discord.gg/57RhrEuqG" style="color:inherit;text-decoration:none">Discord</a></span>
+  </div>
+</footer>
+
+<div class="toast-wrap" id="toastWrap"></div>
+<script>
+function toast(m){const w=document.getElementById('toastWrap');const el=document.createElement('div');el.className='toast';el.textContent=m;w.appendChild(el);setTimeout(()=>el.remove(),2600)}
+const ham=document.getElementById('hamburgerBtn'), mob=document.getElementById('mobileMenu');
+if(ham&&mob){ ham.addEventListener('click',()=>mob.classList.toggle('open')); window.closeMobileMenu=()=>mob.classList.remove('open') }
+function getToken(){return localStorage.getItem('lunas_token')}
+function getCurrent(){try{const t=getToken();if(!t) return null;const p=JSON.parse(atob(t.split('.')[1]));const c=JSON.parse(localStorage.getItem('lunas_current')||'null');if(c&&c.email) return c;return {email:p.email,id:p.id}}catch{return null}}
+function renderAuth(){
+  const cur=getCurrent(), area=document.getElementById('authArea');
+  if(!area) return;
+  if(cur&&cur.email){
+    area.innerHTML=`<span style="font-size:11px;color:rgba(255,255,255,0.6);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${cur.email}</span><a href="./index.html" class="btn btn-ghost" style="padding:6px 10px;font-size:11px">Магазин</a>`;
+  } else {
+    area.innerHTML=`<a href="./login.html" class="btn btn-ghost" style="padding:6px 10px;font-size:11px">Войти</a><a href="./register.html" class="btn btn-white" style="padding:6px 10px;font-size:11px">Регистрация</a>`;
+  }
+  const mo=document.getElementById('mobileAuth'); if(mo) mo.innerHTML=area.innerHTML;
+}
+renderAuth();
+function getNext(){
+  const p=new URLSearchParams(location.search);
+  let n=p.get('next')||'';
+  if(n && !n.startsWith('http') && !n.startsWith('//')) return n;
+  if(document.referrer && document.referrer.includes(location.hostname)){
+    try{ const u=new URL(document.referrer); if(u.pathname.includes('morphine.html')) return './morphine.html'; }catch{}
+  }
+  return './index.html';
+}
+async function apiRequest(path, opts={}){
+  const token=localStorage.getItem('lunas_token');
+  const headers=Object.assign({'Content-Type':'application/json'}, opts.headers||{});
+  if(token) headers['Authorization']='Bearer '+token;
+  const base=window.API_BASE||'';
+  if(!base && location.hostname.includes('github.io')) throw new Error('no_backend');
+  const res=await fetch(base+path, Object.assign({},opts,{headers}));
+  const data=await res.json().catch(()=>({}));
+  if(!res.ok) throw new Error(data.error||'HTTP '+res.status);
+  return data;
+}
+document.getElementById('regForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const email=document.getElementById('email').value.trim();
+  const pass=document.getElementById('pass').value;
+  const pass2=document.getElementById('pass2').value;
+  const emailErr=document.getElementById('emailErr'), passErr=document.getElementById('passErr'), pass2Err=document.getElementById('pass2Err');
+  emailErr.style.display='none'; passErr.style.display='none'; pass2Err.style.display='none';
+  let ok=true;
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !/gmail\.com$/i.test(email)){ emailErr.style.display='block'; ok=false }
+  if(pass.length<6){ passErr.style.display='block'; ok=false }
+  if(pass!==pass2){ pass2Err.style.display='block'; ok=false }
+  if(!ok){ toast('Проверь поля'); return }
+  const btn=document.getElementById('submitBtn'); btn.textContent='Создаём...'; btn.disabled=true;
+  try{
+    const res=await apiRequest('/api/auth/register',{method:'POST', body:JSON.stringify({email,password:pass})});
+    localStorage.setItem('lunas_token', res.token);
+    localStorage.setItem('lunas_current', JSON.stringify(res.user));
+    toast('Аккаунт создан ✓ — баланс 0$');
+    setTimeout(()=>{ location.href=getNext(); }, 700);
+  }catch(err){
+    const msg=err.message||'';
+    const isNoBackend=msg==='no_backend' || msg.includes('Failed to fetch') || msg.includes('NetworkError');
+    if(isNoBackend){
+      try{
+        const users=JSON.parse(localStorage.getItem('lunas_users')||'[]');
+        if(users.find(u=>u.email.toLowerCase()===email.toLowerCase())){ toast('Email уже зарегистрирован'); btn.textContent='Создать аккаунт'; btn.disabled=false; return }
+        const newUser={email, pass, balanceUSD:0};
+        users.push(newUser);
+        localStorage.setItem('lunas_users', JSON.stringify(users));
+        localStorage.setItem('lunas_current', JSON.stringify({email,balance_usd:0}));
+        const fakeToken='demo.'+btoa(JSON.stringify({email,id:'demo'}))+'.sig';
+        localStorage.setItem('lunas_token', fakeToken);
+        toast('Аккаунт создан ✓ (демо) — баланс 0$');
+        setTimeout(()=>{ location.href=getNext(); }, 700);
+        return;
+      }catch{}
+    }
+    toast(msg||'Ошибка регистрации');
+    btn.textContent='Создать аккаунт'; btn.disabled=false;
+  }
+});
+if(getCurrent()){ toast('Ты уже вошёл'); setTimeout(()=>{ location.href=getNext(); }, 900); }
+</script>
+</body>
+</html>
