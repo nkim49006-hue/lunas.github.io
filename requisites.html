@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Реквизиты — LUNAS SHOP</title>
+<meta name="description" content="Реквизиты продавца LUNAS SHOP — информация для ЮKassa">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#070708;--glass:rgba(18,18,20,0.72);--border:rgba(255,255,255,0.16);--blue:#FFFFFF;--blue3:#E5E5E5;--muted:rgba(255,255,255,0.5);--text:#fff}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;min-height:100vh}
+.mono{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
+.container{max-width:900px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+.morph-blob{position:fixed;pointer-events:none;z-index:0;filter:blur(64px);opacity:0.16}
+.morph-1{top:-12%;left:-14%;width:72vw;height:72vw;background:radial-gradient(circle,rgba(255,255,255,0.14) 0%,transparent 70%);border-radius:42% 58% 70% 30% /45% 45% 55% 55%}
+.glass{background:var(--glass);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--border);border-radius:20px;transition:all .35s}
+nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(7,7,8,0.84);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08);padding:12px 0}
+nav .container{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{font-weight:900;letter-spacing:-0.02em;font-size:18px;display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;font-weight:800;font-size:13px;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:.3s}
+.btn-white{background:#FFFFFF;color:#000}
+.btn-ghost{background:rgba(255,255,255,0.06);color:#fff;border-color:rgba(255,255,255,0.1)}
+.btn:hover{transform:translateY(-1px)}
+.card-title{font-weight:900;font-size:14px;letter-spacing:0.04em}
+.field{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.06);font-size:13px}
+.field:last-child{border-bottom:none}
+.field span:first-child{color:rgba(255,255,255,0.5);font-size:12px;white-space:nowrap}
+.field span:last-child{color:#fff;font-weight:600;text-align:right;word-break:break-word}
+.placeholder{color:rgba(255,255,255,0.35) !important;font-weight:500 !important;font-family:'JetBrains Mono',monospace;font-size:12px}
+@media(max-width:600px){.field{flex-direction:column;gap:4px}.field span:last-child{text-align:left}}
+</style>
+</head>
+<body>
+<div class="morph-blob morph-1"></div>
+<nav>
+  <div class="container">
+    <a href="https://nkim49006-hue.github.io/lunas.github.io/" class="logo"><img src="logo.png" alt="LS" style="height:28px;width:auto;display:block;border-radius:6px;object-fit:contain"> LUNAS<span style="color:var(--blue3)">SHOP</span></a>
+    <a href="https://nkim49006-hue.github.io/lunas.github.io/" class="btn btn-ghost" style="padding:8px 14px;font-size:12px">← В магазин</a>
+  </div>
+</nav>
+
+<main style="padding:100px 0 40px">
+  <div class="container">
+    <h1 style="font-size:32px;font-weight:900;letter-spacing:-0.03em">Реквизиты</h1>
+    <p class="mono" style="margin-top:6px;color:rgba(255,255,255,0.35)">Информация для ЮKassa • LUNAS SHOP</p>
+
+    <div class="glass" style="margin-top:24px;padding:22px">
+      <div class="card-title">Реквизиты продавца</div>
+      <div style="margin-top:14px">
+        <div class="field"><span>Название магазина</span><span>LUNAS SHOP</span></div>
+        <div class="field"><span>Наименование продавца</span><span class="placeholder">[НИКИТА]</span></div>
+        <div class="field"><span>ИНН</span><span class="placeholder">[7744000302]</span></div>
+        <div class="field"><span>ОГРН/ОГРНИП</span><span class="placeholder">[УКАЖИ ОГРН ИЛИ ОГРНИП]</span></div>
+        <div class="field"><span>Юридический адрес</span><span class="placeholder">[УКАЖИ АДРЕС]</span></div>
+        <div class="field"><span>Email</span><span class="placeholder">[nkim49006@gmail.com]</span></div>
+        <div class="field"><span>Телефон</span><span class="placeholder">[77087582762]</span></div>
+      </div>
+      <div style="margin-top:14px;padding:10px 12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:12px;font-size:11px;color:rgba(255,255,255,0.45);line-height:1.6">
+        Поля в скобках <span style="color:#fff">[ ... ]</span> — заполни перед отправкой на проверку ЮKassa. Не указывай выдуманные ИНН/ОГРН/адрес — только реальные данные из документов.
+      </div>
+    </div>
+
+    <div class="glass" style="margin-top:16px;padding:22px">
+      <div class="card-title">Оплата</div>
+      <p style="margin-top:10px;font-size:13px;line-height:1.7;color:rgba(255,255,255,0.65)">Оплата товаров на сайте осуществляется через платёжный сервис ЮKassa. После успешной оплаты информация о заказе и товаре предоставляется покупателю в соответствии с условиями магазина.</p>
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+        <span style="font-size:11px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:6px 10px;border-radius:999px">ЮKassa</span>
+        <span style="font-size:11px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:6px 10px;border-radius:999px">Kaspi • СБП • Карта • Крипта</span>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;text-align:center">
+      <a href="https://nkim49006-hue.github.io/lunas.github.io/" class="btn btn-white" style="padding:12px 22px">Вернуться в магазин →</a>
+      <div style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.3);font-family:'JetBrains Mono',monospace">https://nkim49006-hue.github.io/lunas.github.io/</div>
+    </div>
+  </div>
+</main>
+
+<footer style="padding:20px 0 32px;border-top:1px solid rgba(255,255,255,0.06);margin-top:20px">
+  <div class="container" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,0.3)">
+    <span>© 2026 LUNAS SHOP</span>
+    <span><a href="requisites.html" style="color:#fff;text-decoration:underline">Реквизиты</a> • <a href="https://discord.gg/57RhrEuqG" style="color:inherit;text-decoration:none">Discord</a></span>
+  </div>
+</footer>
+</body>
+</html>
