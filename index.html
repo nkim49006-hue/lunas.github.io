@@ -147,10 +147,7 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape') closePolicy() })
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:10px">
-      <div id="authArea" style="display:flex;gap:6px;align-items:center">
-        <button id="loginBtn" class="btn btn-ghost" style="padding:6px 10px;font-size:11px">Войти</button>
-        <button id="registerBtn" class="btn" style="background:#fff;color:#000;padding:6px 10px;font-size:11px;font-weight:800;border-radius:999px">Зарегистрироваться</button>
-      </div>
+      <div id="authArea" style="display:none"></div>
       <div style="width:1px;height:24px;background:rgba(255,255,255,0.08);margin:0 4px"></div>
       <div id="langSwitcher" style="display:flex;gap:3px;padding:2px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:999px"><button data-lang="ru" class="lang-btn active" style="padding:4px 7px;border-radius:999px;font-size:10px;font-weight:800;border:none;cursor:pointer;background:#fff;color:#000">RU</button><button data-lang="en" class="lang-btn" style="padding:4px 7px;border-radius:999px;font-size:10px;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6)">EN</button></div>
       <div id="currencySwitcher" style="display:flex;gap:3px;padding:2px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:999px">
@@ -817,35 +814,9 @@ window.logoutCabinet = window.logoutCabinet || function(){
 document.getElementById('cabinetModal')?.addEventListener('click', e=>{ if(e.target.id==='cabinetModal') closeCabinet(); });
 
 function renderAuth(){
-  const cur=window.getCurrent ? getCurrent() : null;
-  const area=document.getElementById('authArea'); if(!area) return;
-  const curCurrency=getCurrency(); const sym=SYMBOLS[curCurrency]||'$'; const rate=RATES[curCurrency]||1;
-  let balUSD=0; try{ balUSD = cur?.balanceUSD ?? cur?.balance_usd ?? 0; }catch{}
-  // balance_usd хранится в долларах (целое), конвертим в выбранную валюту
-  const displayBal = Math.round(Number(balUSD||0) * rate);
-  if(cur && cur.email){
-    area.innerHTML=`
-      <button onclick="openCabinet()" title="Личный кабинет • баланс ${displayBal}${sym}" style="display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.14);padding:6px 12px;border-radius:999px;cursor:pointer;transition:.2s">
-        <span style="width:8px;height:8px;background:#10b981;border-radius:50%;box-shadow:0 0 8px #10b981;flex-shrink:0"></span>
-        <span style="font-size:11px;font-weight:900;color:#fff;letter-spacing:0.02em">${displayBal}${sym}</span>
-        <span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.55);text-transform:uppercase;letter-spacing:0.06em">баланс</span>
-      </button>
-      <span onclick="openCabinet()" style="font-size:11px;color:rgba(255,255,255,0.7);max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer" title="${cur.email} — личный кабинет">${cur.email}</span>
-      <button class="btn btn-ghost" style="padding:6px 10px;font-size:11px" onclick="localStorage.removeItem('lunas_current');localStorage.removeItem('lunas_token');renderAuth();toast('Выход выполнен')">Выйти</button>`;
-  } else {
-    area.innerHTML=`<button id="loginBtn" class="btn btn-ghost" style="padding:6px 10px;font-size:11px">Войти</button><button id="registerBtn" class="btn" style="background:#fff;color:#000;padding:6px 10px;font-size:11px;font-weight:800;border-radius:999px">Зарегистрироваться</button>`;
-    document.getElementById('loginBtn')?.addEventListener('click',()=>openAuth('login'));
-    document.getElementById('registerBtn')?.addEventListener('click',()=>openAuth('register'));
-  }
-  // mobile — тоже с балансом
-  const mo=document.getElementById('mobileAuth');
-  if(mo){
-    if(cur && cur.email){
-      mo.innerHTML=`<button onclick="openCabinet()" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:#fff;color:#000;padding:10px;border-radius:12px;font-weight:900;font-size:12px;border:none;cursor:pointer"><span style="width:8px;height:8px;background:#10b981;border-radius:50%"></span> ${displayBal}${sym} баланс</button><button class="btn btn-ghost" style="flex:1;justify-content:center" onclick="localStorage.removeItem('lunas_current');localStorage.removeItem('lunas_token');renderAuth();closeMobileMenu();toast('Выход выполнен')">Выйти</button>`;
-    } else {
-      mo.innerHTML=`<button class="btn btn-ghost" style="flex:1;justify-content:center" onclick="openAuth('login');closeMobileMenu()">Войти</button><button class="btn btn-white" style="flex:1;justify-content:center;background:#fff;color:#000" onclick="openAuth('register');closeMobileMenu()">Зарегистрироваться</button>`;
-    }
-  }
+  const area=document.getElementById('authArea'); if(area) area.innerHTML='';
+  const mo=document.getElementById('mobileAuth'); if(mo) mo.innerHTML='';
+  // гостевой режим — без входа, покупка сразу по email
 }
 function closeMobileMenu(){ document.getElementById('mobileMenu')?.classList.remove('open'); }
 document.getElementById('tabLogin')?.addEventListener('click',()=>openAuth('login'));
@@ -861,13 +832,7 @@ if(typeof window.cart==='undefined') window.cart=JSON.parse(localStorage.getItem
 
 function saveCart(){ localStorage.setItem('lunas_cart', JSON.stringify(window.cart)); }
 
-function requireAuthOrPrompt(){
-  const cur = window.getCurrent ? getCurrent() : null;
-  if(cur && cur.email) return true;
-  toast('Сначала зарегистрируйся — это 10 секунд, и сможешь покупать ?');
-  openAuth('register');
-  return false;
-}
+function requireAuthOrPrompt(){ return true; }
 
 window.updateCart = function(){
   const c=document.getElementById('cartCount');
@@ -937,27 +902,30 @@ window.buyNow=function(product_id, license, name){
   document.getElementById('cartBar')?.scrollIntoView({behavior:'smooth', block:'center'});
 };
 
-// Переопределяем checkout с требованием регистрации + демо-режим
+// Гостевой checkout — без регистрации, сразу выбор ключей
 const _baseCheckout = window.checkout;
 window.checkout = async function(){
-  const cur = window.getCurrent ? getCurrent() : null;
-  if(!cur || !cur.email){
-    toast('Зарегистрируйся чтобы оформить покупку — кнопка «Зарегистрироваться» сверху ?');
-    openAuth('register');
-    return;
-  }
   if(!window.cart || window.cart.length===0){ toast('Корзина пуста — выбери товар в каталоге'); return; }
+  // гость — email спросим, если есть аккаунт — возьмём его
+  const cur = window.getCurrent ? getCurrent() : null;
+  let guestEmail = cur?.email || localStorage.getItem('lunas_guest_email') || '';
+  if(!guestEmail){
+    guestEmail = prompt('Введи email для получения ключа:') || '';
+    guestEmail = guestEmail.trim();
+    if(!guestEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(guestEmail)){ toast('Введи корректный email'); return; }
+    localStorage.setItem('lunas_guest_email', guestEmail);
+  }
   // если есть бэкенд — api_integration_full.js перехватит, но если его нет или он бросит ошибку — делаем демо-покупку
   const hasBackend = !!(window.API_BASE || localStorage.getItem('api_base'));
   if(hasBackend && typeof apiRequest==='function'){
     // пробуем сервер, если упадёт — фолбэк ниже
     try{ return await _baseCheckout(); }catch(e){ console.log('checkout server failed, fallback demo', e.message); }
   }
-  // === ДЕМО-РЕЖИМ (без сервера): мгновенная выдача фейк-ключа ===
+  // === ДЕМО-РЕЖИМ (без сервера): мгновенная выдача фейк-ключа — гость ===
   const item = window.cart[0];
   const fakeKey = 'LUNAS-' + Math.random().toString(36).slice(2,10).toUpperCase() + '-' + Math.random().toString(36).slice(2,10).toUpperCase() + '-' + Date.now().toString(36).toUpperCase();
   const purchases = JSON.parse(localStorage.getItem('lunas_demo_purchases')||'[]');
-  purchases.unshift({id: 'demo_'+Date.now(), product_id: item.id||item.name, license_type: item.license||'lifetime', key_value: fakeKey, paid_at: new Date().toISOString(), status:'paid', email: cur.email});
+  purchases.unshift({id: 'demo_'+Date.now(), product_id: item.id||item.name, license_type: item.license||'lifetime', key_value: fakeKey, paid_at: new Date().toISOString(), status:'paid', email: guestEmail});
   localStorage.setItem('lunas_demo_purchases', JSON.stringify(purchases));
   window.cart=[]; saveCart(); updateCart();
   toast('Оплата прошла ? (демо-режим)','ok');

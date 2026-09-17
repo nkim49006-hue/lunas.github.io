@@ -61,11 +61,17 @@ async function refreshServerBalance(){
 setInterval(()=>{ if(getCurrent()) refreshServerBalance(); }, 5000);
 window.refreshServerBalance = refreshServerBalance;
 
-// Override checkout to use server — с фолбэком в демо-режим если бэкенда нет (github.io)
+// Гостевой checkout — без регистрации, сразу оплата
 const origCheckout = window.checkout;
 window.checkout = async function(){
   const cur=getCurrent();
-  if(!cur){ toast('Сначала зарегистрируйся — это 10 секунд и сможешь покупать ✓'); if(window.openAuth) openAuth('register'); return }
+  let guestEmail = cur?.email || localStorage.getItem('lunas_guest_email') || document.getElementById('buyEmail')?.value?.trim() || '';
+  if(!guestEmail){
+    guestEmail = prompt('Введи email для получения ключа:') || '';
+    guestEmail = guestEmail.trim();
+    if(!guestEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(guestEmail)){ toast('Введи корректный email'); return; }
+    localStorage.setItem('lunas_guest_email', guestEmail);
+  }
   const cart = window.cart || JSON.parse(localStorage.getItem('lunas_cart')||'[]');
   if(!cart || cart.length===0){ toast('Корзина пуста — добавь товар'); return }
   // если бэкенда нет — сразу в демо-режим (index.html уже имеет демо-логику, но дублируем тут для совместимости)
@@ -81,7 +87,7 @@ window.checkout = async function(){
     const item = cart[0];
     const fakeKey = 'LUNAS-' + Math.random().toString(36).slice(2,10).toUpperCase() + '-' + Math.random().toString(36).slice(2,10).toUpperCase();
     const purchases = JSON.parse(localStorage.getItem('lunas_demo_purchases')||'[]');
-    purchases.unshift({id: 'demo_'+Date.now(), product_id: item.id||item.name, license_type: item.license||'lifetime', key_value: fakeKey, paid_at: new Date().toISOString(), status:'paid', email: cur.email});
+    purchases.unshift({id: 'demo_'+Date.now(), product_id: item.id||item.name, license_type: item.license||'lifetime', key_value: fakeKey, paid_at: new Date().toISOString(), status:'paid', email: guestEmail});
     localStorage.setItem('lunas_demo_purchases', JSON.stringify(purchases));
     window.cart=[]; localStorage.setItem('lunas_cart','[]'); if(window.updateCart) updateCart();
     toast('Оплата прошла ✓ (демо-режим)','ok');
@@ -112,7 +118,7 @@ window.checkout = async function(){
   const currency = window.getCurrency ? getCurrency() : 'USD';
   try{
     toast('Создаю заказ...');
-    const orderRes = await apiRequest('/api/orders',{method:'POST', body:JSON.stringify({product_id, license_type, currency})});
+    const orderRes = await apiRequest('/api/orders',{method:'POST', body:JSON.stringify({product_id, license_type, currency, email: guestEmail})});
     const orderId = orderRes.order.id;
     const payRes = await apiRequest('/api/payments/create',{method:'POST', body:JSON.stringify({order_id: orderId})});
     if(payRes.paymentUrl && payRes.paymentUrl.startsWith('/mock-pay/')){
