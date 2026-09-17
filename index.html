@@ -902,33 +902,92 @@ window.buyNow=function(product_id, license, name){
   document.getElementById('cartBar')?.scrollIntoView({behavior:'smooth', block:'center'});
 };
 
-// Гостевой checkout — без регистрации, сразу выбор ключей
+// Гостевой checkout — без регистрации, выбор оплаты (Crypto Bot)
 const _baseCheckout = window.checkout;
+let selectedPay = null;
+function openBuyModalForCart(){
+  const item = window.cart[0];
+  if(!item) return;
+  const modal=document.getElementById('buyModal');
+  if(!modal){ // fallback старый демо
+    const fakeKey='LUNAS-'+Math.random().toString(36).slice(2,10).toUpperCase()+'-'+Math.random().toString(36).slice(2,10).toUpperCase()+'-'+Date.now().toString(36).toUpperCase();
+    const guestEmail=localStorage.getItem('lunas_guest_email')||'guest@lunas.local';
+    const purchases=JSON.parse(localStorage.getItem('lunas_demo_purchases')||'[]');
+    purchases.unshift({id:'demo_'+Date.now(),product_id:item.id||item.name,license_type:item.license||'lifetime',key_value:fakeKey,paid_at:new Date().toISOString(),status:'paid',email:guestEmail});
+    localStorage.setItem('lunas_demo_purchases',JSON.stringify(purchases));
+    window.cart=[]; saveCart(); updateCart(); toast('Оплата прошла','ok'); return;
+  }
+  document.getElementById('buyModalTitle').textContent='Оформление — '+item.name;
+  document.getElementById('buyProductName').textContent=item.name;
+  document.getElementById('buyProductPrice').textContent=item.price+'$';
+  document.getElementById('buyProductBadge').textContent='1 шт.';
+  document.getElementById('buyPriceDisplay').textContent=item.price+'$';
+  const emailInput=document.getElementById('buyEmail');
+  const savedEmail=localStorage.getItem('lunas_guest_email')||'';
+  if(emailInput && !emailInput.value) emailInput.value=savedEmail;
+  // сброс выбора оплаты
+  selectedPay=null;
+  document.querySelectorAll('.pay-method').forEach(b=>{b.style.borderColor='rgba(255,255,255,0.08)'; b.style.background='rgba(255,255,255,0.04)'; b.classList.remove('selected')});
+  const payBtn=document.getElementById('buyPayBtn');
+  if(payBtn){payBtn.textContent='Сначала выбери способ'; payBtn.style.opacity='0.5'; payBtn.style.pointerEvents='none';}
+  document.getElementById('buyPayHint').textContent='Выбери способ — Crypto Bot для крипты';
+  modal.style.display='flex';
+  // клики по способам
+  document.querySelectorAll('.pay-method').forEach(btn=>{
+    btn.onclick=()=>{
+      document.querySelectorAll('.pay-method').forEach(b=>{b.style.borderColor='rgba(255,255,255,0.08)'; b.style.background='rgba(255,255,255,0.04)'; b.classList.remove('selected')});
+      btn.style.borderColor='#fff'; btn.style.background='rgba(255,255,255,0.08)'; btn.classList.add('selected');
+      selectedPay=btn.dataset.pay;
+      if(payBtn){
+        const labels={kaspi:'Оплатить Kaspi', sbp:'Оплатить СБП', card:'Оплатить картой', crypto:'Оплатить Crypto Bot — USDT'};
+        payBtn.textContent=labels[selectedPay]||'Оплатить';
+        payBtn.style.opacity='1'; payBtn.style.pointerEvents='auto';
+      }
+      document.getElementById('buyPayHint').textContent=selectedPay==='crypto' ? 'Crypto Bot — USDT TRC20 • @CryptoBot' : 'Нажми Оплатить — создадим заказ';
+    };
+  });
+  // кнопка оплатить
+  if(payBtn){
+    payBtn.onclick=async ()=>{
+      const email=(document.getElementById('buyEmail')?.value||'').trim();
+      if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ toast('Введи корректный email'); return; }
+      localStorage.setItem('lunas_guest_email', email);
+      if(!selectedPay){ toast('Выбери способ оплаты'); return; }
+      payBtn.textContent='Создаю заказ...'; payBtn.disabled=true;
+      // демо-выдача
+      const hasBackend=!!(window.API_BASE || localStorage.getItem('api_base'));
+      if(hasBackend && typeof apiRequest==='function'){
+        try{ const curPay=selectedPay; const orderRes=await apiRequest('/api/orders',{method:'POST', body:JSON.stringify({product_id: item.id||'morphine_1d', license_type: item.license||'1d', email, currency: getCurrency(), provider: curPay})}); const orderId=orderRes.order.id; const payRes=await apiRequest('/api/payments/create',{method:'POST', body:JSON.stringify({order_id:orderId})}); if(payRes.paymentUrl && !payRes.paymentUrl.startsWith('/mock-pay/')){ window.location.href=payRes.paymentUrl; return; } }catch(e){ console.log('server order fallback',e.message); }
+      }
+      // демо + Crypto Bot
+      const fakeKey='LUNAS-'+Math.random().toString(36).slice(2,10).toUpperCase()+'-'+Math.random().toString(36).slice(2,10).toUpperCase()+'-'+Date.now().toString(36).toUpperCase();
+      const purchases=JSON.parse(localStorage.getItem('lunas_demo_purchases')||'[]');
+      purchases.unshift({id:'demo_'+Date.now(),product_id:item.id||item.name,license_type:item.license||'lifetime',key_value:fakeKey,paid_at:new Date().toISOString(),status:'paid',email});
+      localStorage.setItem('lunas_demo_purchases',JSON.stringify(purchases));
+      window.cart=[]; saveCart(); updateCart();
+      document.getElementById('buyModal').style.display='none';
+      toast('Оплата прошла ✓','ok');
+      const bg=document.getElementById('modalBg');
+      if(bg){
+        const cryptoInfo = selectedPay==='crypto' ? `<br><br><span style="display:inline-flex;align-items:center;gap:6px;background:#0A66FF;color:#fff;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:800">Crypto Bot</span> <a href="https://t.me/CryptoBot" target="_blank" style="color:#0A66FF;text-decoration:underline">t.me/CryptoBot</a> — оплата USDT` : '';
+        document.getElementById('modalTitle').textContent= selectedPay==='crypto' ? 'Оплачено — Crypto Bot ✓' : 'Оплачено ✓ — демо-режим';
+        document.getElementById('modalText').innerHTML = `Товар: <b style="color:#fff">${item.name}</b><br>Ключ: <code style="background:#fff;color:#000;padding:6px 8px;border-radius:8px;font-size:12px;word-break:break-all">${fakeKey}</code>${cryptoInfo}<br><br><span style="font-size:11px;color:rgba(255,255,255,0.5)">Демо-ключ. Для реальных ключей подключи бэкенд.</span>`;
+        bg.classList.add('open'); bg.style.display='flex';
+        document.getElementById('modalClose').onclick=()=>{ bg.classList.remove('open'); bg.style.display='none'; };
+        bg.onclick=(e)=>{ if(e.target===bg){ bg.classList.remove('open'); bg.style.display='none'; } };
+        const act=document.getElementById('modalAction'); act.textContent='Скопировать ключ'; act.style.display='inline-flex'; act.onclick=()=>{ navigator.clipboard?.writeText(fakeKey); toast('Ключ скопирован','ok'); };
+      }
+      if(window.loadPurchases) try{ loadPurchases(); }catch{}
+      renderDemoPurchases();
+      payBtn.textContent='Оплатить'; payBtn.disabled=false;
+    };
+  }
+}
+window.closeBuyModal=function(){ const m=document.getElementById('buyModal'); if(m) m.style.display='none'; };
+document.getElementById('buyModal')?.addEventListener('click',e=>{ if(e.target.id==='buyModal') closeBuyModal(); });
 window.checkout = async function(){
   if(!window.cart || window.cart.length===0){ toast('Корзина пуста — выбери товар в каталоге'); return; }
-  // гость — email спросим, если есть аккаунт — возьмём его
-  const cur = window.getCurrent ? getCurrent() : null;
-  let guestEmail = cur?.email || localStorage.getItem('lunas_guest_email') || '';
-  if(!guestEmail){
-    guestEmail = prompt('Введи email для получения ключа:') || '';
-    guestEmail = guestEmail.trim();
-    if(!guestEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(guestEmail)){ toast('Введи корректный email'); return; }
-    localStorage.setItem('lunas_guest_email', guestEmail);
-  }
-  // если есть бэкенд — api_integration_full.js перехватит, но если его нет или он бросит ошибку — делаем демо-покупку
-  const hasBackend = !!(window.API_BASE || localStorage.getItem('api_base'));
-  if(hasBackend && typeof apiRequest==='function'){
-    // пробуем сервер, если упадёт — фолбэк ниже
-    try{ return await _baseCheckout(); }catch(e){ console.log('checkout server failed, fallback demo', e.message); }
-  }
-  // === ДЕМО-РЕЖИМ (без сервера): мгновенная выдача фейк-ключа — гость ===
-  const item = window.cart[0];
-  const fakeKey = 'LUNAS-' + Math.random().toString(36).slice(2,10).toUpperCase() + '-' + Math.random().toString(36).slice(2,10).toUpperCase() + '-' + Date.now().toString(36).toUpperCase();
-  const purchases = JSON.parse(localStorage.getItem('lunas_demo_purchases')||'[]');
-  purchases.unshift({id: 'demo_'+Date.now(), product_id: item.id||item.name, license_type: item.license||'lifetime', key_value: fakeKey, paid_at: new Date().toISOString(), status:'paid', email: guestEmail});
-  localStorage.setItem('lunas_demo_purchases', JSON.stringify(purchases));
-  window.cart=[]; saveCart(); updateCart();
-  toast('Оплата прошла ? (демо-режим)','ok');
+  openBuyModalForCart();
   // показать модалку с ключом
   const bg=document.getElementById('modalBg');
   if(bg){

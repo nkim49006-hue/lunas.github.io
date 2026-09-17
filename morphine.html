@@ -172,6 +172,24 @@ nav .container{height:64px;display:flex;align-items:center;justify-content:space
   </div>
 </section>
 
+<!-- PAY CHOICE MODAL — гость, без входа, Crypto Bot -->
+<div id="payChoiceModal" class="modal-bg" style="display:none;position:fixed;inset:0;z-index:75;background:rgba(0,0,0,0.82);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
+  <div style="background:#121214;border:1px solid rgba(255,255,255,0.14);border-radius:20px;max-width:480px;width:100%;padding:22px;position:relative">
+    <button style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer" onclick="closePayChoice()">×</button>
+    <div style="font-weight:900;font-size:16px">Выбери способ оплаты</div>
+    <div style="font-size:11px;font-family:JetBrains Mono,monospace;color:rgba(255,255,255,0.5);margin-top:4px" id="payChoiceSub">MORPHINE ×1 — $—</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px">
+      <button class="glass pay-choice" data-pay="kaspi" style="padding:14px;text-align:left;cursor:pointer"><div style="font-weight:800;font-size:13px;color:#F14635">Kaspi</div><div style="font-size:11px;color:rgba(255,255,255,0.5)">Kaspi Gold • QR</div></button>
+      <button class="glass pay-choice" data-pay="sbp" style="padding:14px;text-align:left;cursor:pointer"><div style="font-weight:800;font-size:13px">СБП</div><div style="font-size:11px;color:rgba(255,255,255,0.5)">По номеру • QR</div></button>
+      <button class="glass pay-choice" data-pay="card" style="padding:14px;text-align:left;cursor:pointer"><div style="font-weight:800;font-size:13px">Карта</div><div style="font-size:11px;color:rgba(255,255,255,0.5)">Visa/MC</div></button>
+      <button class="glass pay-choice" data-pay="crypto" style="padding:14px;text-align:left;cursor:pointer;border-color:#0A66FF;background:rgba(10,102,255,0.08)"><div style="font-weight:800;font-size:13px;color:#0A66FF">Crypto Bot</div><div style="font-size:11px;color:rgba(255,255,255,0.5)">USDT • @CryptoBot</div></button>
+    </div>
+    <div id="payChoiceHint" style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.4);text-align:center">Нажми Crypto Bot для крипты — без регистрации</div>
+    <button id="payChoiceBtn" class="btn" style="width:100%;margin-top:14px;justify-content:center;padding:12px;background:#fff;color:#000;font-weight:900;opacity:0.5;pointer-events:none">Сначала выбери способ</button>
+    <div style="margin-top:8px;font-size:10px;color:rgba(255,255,255,0.3);text-align:center">Гостевой заказ — ключ придёт на email</div>
+  </div>
+</div>
+
 <!-- Описание -->
 <section class="section container" id="desc">
   <h2 class="h2">Описание</h2>
@@ -456,93 +474,88 @@ async function loadReviews(){
   }catch{ empty.style.display='block'; }
 }
 loadReviews();
-// Buy — кликабельная, с количеством (1..10), демо-режим без бэкенда
-document.getElementById('buyBtn').addEventListener('click', async ()=>{
-  if(!requireAuthOrPrompt()) return;
+// Гость — без входа, выбор оплаты с Crypto Bot
+let selectedPayChoice=null;
+window.closePayChoice=()=>{const m=document.getElementById('payChoiceModal'); if(m) m.style.display='none';};
+document.getElementById('payChoiceModal')?.addEventListener('click',e=>{ if(e.target.id==='payChoiceModal') closePayChoice(); });
+document.querySelectorAll('.pay-choice').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.pay-choice').forEach(b=>{b.style.borderColor='rgba(255,255,255,0.08)'; b.style.background='rgba(255,255,255,0.04)';});
+    btn.style.borderColor='#fff'; btn.style.background='rgba(255,255,255,0.08)';
+    selectedPayChoice=btn.dataset.pay;
+    const payBtn=document.getElementById('payChoiceBtn');
+    const labels={kaspi:'Оплатить Kaspi', sbp:'Оплатить СБП', card:'Оплатить картой', crypto:'Оплатить Crypto Bot — USDT'};
+    payBtn.textContent=labels[selectedPayChoice]||'Оплатить';
+    payBtn.style.opacity='1'; payBtn.style.pointerEvents='auto';
+    document.getElementById('payChoiceHint').textContent= selectedPayChoice==='crypto' ? 'Crypto Bot — USDT TRC20 • t.me/CryptoBot — без регистрации' : 'Гостевой заказ — ключ на email';
+  });
+});
+document.getElementById('payChoiceBtn')?.addEventListener('click', async ()=>{
   const emailEl=document.getElementById('buyEmail');
-  const email=emailEl.value.trim() || (getCurrent()?.email||'');
-  if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ toast('Введи корректный email'); emailEl?.focus(); return }
-  if(!selected){ toast('Выбери вариант — кликни на 1/3/7/30 дней'); return }
-  const buyQty = getQty();
-  // демо-режим если бэкенда нет (github.io без api_base)
-  const hasBackend = !!(window.API_BASE || localStorage.getItem('api_base'));
-  const isNoBackendHost = location.hostname.includes('github.io') && !hasBackend;
-  const cur=getCurrent();
-  if(isNoBackendHost){
-    const purchases=JSON.parse(localStorage.getItem('lunas_demo_purchases')||'[]');
-    const keys=[];
-    for(let i=0;i<buyQty;i++){
-      const fakeKey='LUNAS-'+Math.random().toString(36).slice(2,10).toUpperCase()+'-'+Math.random().toString(36).slice(2,10).toUpperCase()+'-'+Date.now().toString(36).toUpperCase().slice(-4);
-      keys.push(fakeKey);
-      purchases.unshift({id:'demo_'+Date.now()+'_'+i, product_id:selected.product_id, license_type:selected.license_type, key_value:fakeKey, paid_at:new Date().toISOString(), status:'paid', email:cur?cur.email:email});
-    }
-    localStorage.setItem('lunas_demo_purchases', JSON.stringify(purchases));
-    const list = keys.map((k,i)=> (i+1)+'. '+k).join('\n');
-    toast('Оплачено ✓ (демо '+buyQty+' шт.)','ok');
-    if(confirm('Оплачено ✓ (демо-режим)\n\nТовар: '+selected.label+' ×'+buyQty+'\nИтого: $'+(selected.price_cents/100*buyQty)+'\n\nКлючи:\n'+list+'\n\nСкопировать все?')){
-      navigator.clipboard?.writeText(keys.join('\n'));
-    }
-    return;
-  }
-  const btn=document.getElementById('buyBtn');
-  const origHTML = btn.innerHTML;
-  btn.innerHTML='Создаю '+buyQty+' заказ(ов)...'; btn.disabled=true; btn.style.opacity='0.7';
+  const email=(emailEl?.value||'').trim();
+  if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ toast('Введи корректный email'); emailEl?.focus(); return; }
+  if(!selectedPayChoice){ toast('Выбери способ оплаты'); return; }
+  if(!selected){ toast('Выбери вариант'); return; }
+  const buyQty=getQty();
+  localStorage.setItem('lunas_guest_email', email);
+  const payBtn=document.getElementById('payChoiceBtn');
+  payBtn.textContent='Создаю заказ...'; payBtn.disabled=true;
+  const hasBackend=!!(window.API_BASE || localStorage.getItem('api_base'));
   try{
-    const headers={'Content-Type':'application/json'};
-    const token=localStorage.getItem('lunas_token');
-    if(token) headers['Authorization']='Bearer '+token;
-    const created=[];
-    for(let i=0;i<buyQty;i++){
-      const orderRes=await fetch((API_BASE||'')+'/api/orders',{method:'POST',headers, body:JSON.stringify({product_id:selected.product_id, license_type:selected.license_type, email, currency:'USD'})}).then(r=>r.json().then(d=>({ok:r.ok,data:d}))).then(o=>{if(!o.ok) throw new Error(o.data.error||'Order'); return o.data});
-      const orderId=orderRes.order.id;
-      const payRes=await fetch((API_BASE||'')+'/api/payments/create',{method:'POST',headers, body:JSON.stringify({order_id:orderId})}).then(r=>r.json().then(d=>({ok:r.ok,data:d}))).then(o=>{if(!o.ok) throw new Error(o.data.error||'Payment'); return o.data});
-      if(payRes.paymentUrl && !payRes.paymentUrl.startsWith('/mock-pay/')){
-        window.location.href=payRes.paymentUrl;
-        return;
-      }
-      created.push({orderId, payRes});
-    }
-    if(created.length===1){
-      const {orderId}=created[0];
-      toast('Заказ '+orderId.slice(0,8)+' создан ×'+buyQty+' — оплати у провайдера');
-      // poll первого
-      let tries=0;
-      const iv=setInterval(async()=>{
-        tries++;
-        try{
-          const chk=await fetch((API_BASE||'')+'/api/orders/'+orderId,{headers}).then(r=>r.json());
-          if(chk.order.status==='paid' || chk.order.status==='delivered'){
-            clearInterval(iv);
-            const key=chk.key?chk.key.key_value:'—';
-            alert('Оплачено! Ключ: '+key+'\nЗаказ '+orderId.slice(0,8)+' ×'+buyQty+'\nПисьмо на '+email+(buyQty>1?' (остальные ключи — в "Мои покупки")':''));
-            location.reload();
-          } else if(chk.order.status==='out_of_stock'){ clearInterval(iv); toast('Нет ключей — админ уведомлён'); }
-        }catch{}
-        if(tries>30) clearInterval(iv);
-      },3000);
-    } else {
-      toast(created.length+' заказов создано — оплати каждый, ключи придут на '+email+' и в "Мои покупки"');
-      // показать список
-      const ids = created.map(c=> c.orderId.slice(0,8)).join(', ');
-      setTimeout(()=> alert('Создано '+buyQty+' заказов: '+ids+'\nОплати каждый — ключи выдадутся атомарно после webhook.\nСмотри статус в "Мои покупки"'), 400);
-    }
-  }catch(e){
-    const msg=e.message||'Ошибка';
-    if(msg.includes('Failed to fetch')||msg.includes('Бэкенд не подключен')){
-      toast('Бэкенд не подключен — сработал демо-режим');
-      const purchases=JSON.parse(localStorage.getItem('lunas_demo_purchases')||'[]');
-      const keys=[];
+    if(hasBackend){
+      const headers={'Content-Type':'application/json'};
+      const token=localStorage.getItem('lunas_token');
+      if(token) headers['Authorization']='Bearer '+token;
+      const created=[];
       for(let i=0;i<buyQty;i++){
-        const fakeKey='LUNAS-'+Math.random().toString(36).slice(2,10).toUpperCase();
-        keys.push(fakeKey);
-        purchases.unshift({id:'demo_'+Date.now()+'_'+i, product_id:selected.product_id, license_type:selected.license_type, key_value:fakeKey, paid_at:new Date().toISOString(), status:'paid', email:cur?cur.email:email});
+        const orderRes=await fetch((API_BASE||'')+'/api/orders',{method:'POST',headers, body:JSON.stringify({product_id:selected.product_id, license_type:selected.license_type, email, currency:'USD', provider: selectedPayChoice})}).then(r=>r.json().then(d=>({ok:r.ok,data:d}))).then(o=>{if(!o.ok) throw new Error(o.data.error||'Order'); return o.data});
+        const orderId=orderRes.order.id;
+        const payRes=await fetch((API_BASE||'')+'/api/payments/create',{method:'POST',headers, body:JSON.stringify({order_id:orderId})}).then(r=>r.json().then(d=>({ok:r.ok,data:d}))).then(o=>{if(!o.ok) throw new Error(o.data.error||'Payment'); return o.data});
+        if(payRes.paymentUrl && !payRes.paymentUrl.startsWith('/mock-pay/')){ window.location.href=payRes.paymentUrl; return; }
+        created.push(orderId);
       }
-      localStorage.setItem('lunas_demo_purchases', JSON.stringify(purchases));
-      alert('Демо-ключи ('+buyQty+' шт.):\n'+keys.join('\n'));
-    } else {
-      toast(msg);
+      closePayChoice();
+      toast('Заказ создан — оплати '+selectedPayChoice+' ✓');
+      if(selectedPayChoice==='crypto'){
+        setTimeout(()=>{ if(confirm('Crypto Bot — оплата USDT\n\nЗаказы: '+created.join(', ').slice(0,40)+'\nОткрой @CryptoBot в Telegram для оплаты?\n\nПосле оплаты ключ придёт на '+email)){ window.open('https://t.me/CryptoBot','_blank'); } },400);
+      } else {
+        setTimeout(()=> alert('Заказ '+created[0].slice(0,8)+' ×'+buyQty+' создан\nОплати '+selectedPayChoice+' — ключ придёт на '+email),400);
+      }
+      return;
     }
-  } finally { btn.innerHTML=origHTML; updatePriceDisplay(); btn.disabled=false; btn.style.opacity='1'; }
+  }catch(e){ console.log('server fallback',e.message); }
+  // демо — сразу ключи + Crypto Bot инфо
+  const purchases=JSON.parse(localStorage.getItem('lunas_demo_purchases')||'[]');
+  const keys=[];
+  for(let i=0;i<buyQty;i++){
+    const fakeKey='LUNAS-'+Math.random().toString(36).slice(2,10).toUpperCase()+'-'+Math.random().toString(36).slice(2,10).toUpperCase()+'-'+Date.now().toString(36).toUpperCase().slice(-4);
+    keys.push(fakeKey);
+    purchases.unshift({id:'demo_'+Date.now()+'_'+i, product_id:selected.product_id, license_type:selected.license_type, key_value:fakeKey, paid_at:new Date().toISOString(), status:'paid', email});
+  }
+  localStorage.setItem('lunas_demo_purchases', JSON.stringify(purchases));
+  closePayChoice();
+  toast('Оплачено ✓ '+(selectedPayChoice==='crypto'?'Crypto Bot':''),'ok');
+  const cryptoExtra = selectedPayChoice==='crypto' ? '<br><br><span style="display:inline-flex;align-items:center;gap:6px;background:#0A66FF;color:#fff;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:800">Crypto Bot</span> <a href="https://t.me/CryptoBot" target="_blank" style="color:#0A66FF;text-decoration:underline">t.me/CryptoBot → USDT</a><br><span style="font-size:11px;color:rgba(255,255,255,0.5)">Оплата без регистрации — демо, ключ уже выдан</span>' : '';
+  if(confirm('Оплачено ✓\n\nТовар: '+selected.label+' ×'+buyQty+'\nСпособ: '+selectedPayChoice+'\nИтого: $'+(selected.price_cents/100*buyQty)+'\n\nКлючи:\n'+keys.join('\n')+(selectedPayChoice==='crypto' ? '\n\nCrypto Bot: t.me/CryptoBot' : '')+'\n\nСкопировать?')){
+    navigator.clipboard?.writeText(keys.join('\n'));
+    if(selectedPayChoice==='crypto') window.open('https://t.me/CryptoBot','_blank');
+  }
+  // также показать в модалке
+  const bg=document.getElementById('modalBg') || document.body;
+  payBtn.textContent='Оплатить'; payBtn.disabled=false;
+});
+document.getElementById('buyBtn').addEventListener('click', ()=>{
+  const emailEl=document.getElementById('buyEmail');
+  const email=(emailEl?.value||'').trim();
+  if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ toast('Введи email для ключа'); emailEl?.focus(); return; }
+  if(!selected){ toast('Выбери вариант — 1/3/7/30 дней'); return; }
+  const buyQty=getQty();
+  document.getElementById('payChoiceSub').textContent= selected.label+' ×'+buyQty+' — $'+(selected.price_cents/100*buyQty)+' — '+email;
+  selectedPayChoice=null;
+  const payBtn=document.getElementById('payChoiceBtn');
+  payBtn.textContent='Сначала выбери способ'; payBtn.style.opacity='0.5'; payBtn.style.pointerEvents='none';
+  document.querySelectorAll('.pay-choice').forEach(b=>{b.style.borderColor='rgba(255,255,255,0.08)'; b.style.background='rgba(255,255,255,0.04)';});
+  document.getElementById('payChoiceModal').style.display='flex';
 });
 </script>
 </body>
