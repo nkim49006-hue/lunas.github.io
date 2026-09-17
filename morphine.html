@@ -382,7 +382,7 @@ async function loadVariants(){
       div.className='glass';
       div.style.cssText='padding:12px;text-align:left;cursor:pointer';
       div.dataset.pid=pid; div.dataset.lic=lic; div.dataset.cents=cents;
-      div.innerHTML=`<div style="font-weight:800;font-size:13px">${labelMap[pid]||lic}</div><div style="font-weight:800;font-size:16px;margin-top:4px">$${usd}</div><div style="font-size:11px;color:rgba(255,255,255,0.45)">${pr.available} ключей</div>`;
+      div.innerHTML=`<div style="font-weight:900;font-size:13px;letter-spacing:0.02em;background:linear-gradient(180deg,#FFFFFF 0%,#F2F2F2 48%,#C8C8C8 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 6px rgba(255,255,255,0.18))">${labelMap[pid]||lic}</div><div style="font-weight:900;font-size:16px;margin-top:4px;letter-spacing:-0.01em;background:linear-gradient(180deg,#FFFFFF 0%,#EDEDED 50%,#BEBEBE 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 8px rgba(255,255,255,0.20))">$${usd}</div><div style="font-size:11px;color:rgba(255,255,255,0.45)">${pr.available} ключей</div>`;
       div.addEventListener('click',()=>{
         document.querySelectorAll('#variants .glass').forEach(x=>{x.style.borderColor='rgba(255,255,255,0.08)'; x.style.background='rgba(18,18,20,0.72)'});
         div.style.borderColor='#fff'; div.style.background='rgba(255,255,255,0.06)';
@@ -415,7 +415,7 @@ async function loadVariants(){
         div.className='glass';
         div.style.cssText='padding:12px;text-align:left;cursor:pointer';
         div.dataset.pid=pid; div.dataset.lic=lic; div.dataset.cents=usd*100;
-        div.innerHTML=`<div style="font-weight:800;font-size:13px">${labelMap[pid]}</div><div style="font-weight:800;font-size:16px;margin-top:4px">$${usd}</div><div style="font-size:11px;color:rgba(255,255,255,0.45)">${avail} ключей • демо</div>`;
+        div.innerHTML=`<div style="font-weight:900;font-size:13px;letter-spacing:0.02em;background:linear-gradient(180deg,#FFFFFF 0%,#F2F2F2 48%,#C8C8C8 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 6px rgba(255,255,255,0.18))">${labelMap[pid]}</div><div style="font-weight:900;font-size:16px;margin-top:4px;letter-spacing:-0.01em;background:linear-gradient(180deg,#FFFFFF 0%,#EDEDED 50%,#BEBEBE 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 8px rgba(255,255,255,0.20))">$${usd}</div><div style="font-size:11px;color:rgba(255,255,255,0.45)">${avail} ключей • демо</div>`;
         div.addEventListener('click',()=>{
           document.querySelectorAll('#variants .glass').forEach(x=>{x.style.borderColor='rgba(255,255,255,0.08)'; x.style.background='rgba(18,18,20,0.72)'});
           div.style.borderColor='#fff'; div.style.background='rgba(255,255,255,0.06)';
