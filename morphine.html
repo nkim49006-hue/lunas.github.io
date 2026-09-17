@@ -133,16 +133,23 @@ nav .container{height:64px;display:flex;align-items:center;justify-content:space
         </div>
       </div>
 
-      <div style="margin-top:14px;display:grid;grid-template-columns:100px 1fr;gap:8px;align-items:end">
-        <label style="font-size:11px;font-weight:700;letter-spacing:0.06em;color:#fff">Количество
-          <input id="qty" type="number" min="1" max="1" value="1" readonly style="margin-top:6px;width:100%;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);color:#fff">
-        </label>
+      <div style="margin-top:14px;display:grid;grid-template-columns:140px 1fr;gap:10px;align-items:end">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.06em;color:#fff">Количество</div>
+          <div style="display:flex;align-items:center;gap:0;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:4px;height:42px">
+            <button type="button" id="qtyMinus" style="width:36px;height:32px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.06);color:#fff;font-weight:900;font-size:16px;cursor:pointer;display:grid;place-items:center">−</button>
+            <span id="qtyValue" style="flex:1;text-align:center;font-weight:900;font-size:15px;color:#fff;user-select:none">1</span>
+            <button type="button" id="qtyPlus" style="width:36px;height:32px;border-radius:8px;border:none;background:#fff;color:#000;font-weight:900;font-size:16px;cursor:pointer;display:grid;place-items:center">+</button>
+            <input id="qty" type="hidden" value="1">
+          </div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.35);text-align:center" id="qtyHint">1 шт. • один ключ = один ПК</div>
+        </div>
         <label style="font-size:11px;font-weight:700;letter-spacing:0.06em;color:#fff">Email для ключа
-          <input id="buyEmail" type="email" placeholder="name@gmail.com" style="margin-top:6px;width:100%;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);color:#fff" autocomplete="email">
+          <input id="buyEmail" type="email" placeholder="name@gmail.com" style="margin-top:6px;width:100%;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);color:#fff;height:42px" autocomplete="email">
         </label>
       </div>
 
-      <button id="buyBtn" class="btn" style="width:100%;margin-top:14px;justify-content:center;padding:14px;font-size:14px;font-weight:900;background:transparent;color:#fff;border:1px solid #fff;opacity:0.5;pointer-events:none">КУПИТЬ</button>
+      <button id="buyBtn" class="btn" style="width:100%;margin-top:14px;justify-content:center;padding:14px;font-size:14px;font-weight:900;background:#fff;color:#000;border:1px solid #fff;cursor:pointer;box-shadow:0 8px 24px rgba(255,255,255,0.12)">КУПИТЬ — <span id="buyBtnPrice">$—</span></button>
       <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center">
         <span style="font-size:11px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:6px 10px;border-radius:999px">ЮKassa</span>
         <span style="font-size:11px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:6px 10px;border-radius:999px">Kaspi</span>
@@ -282,16 +289,52 @@ function getToken(){ return localStorage.getItem('lunas_token') }
 function getCurrent(){
   try{ const t=getToken(); if(!t) return null; const p=JSON.parse(atob(t.split('.')[1])); const c=JSON.parse(localStorage.getItem('lunas_current')||'null'); if(c&&c.email) return c; return {email:p.email, id:p.id} }catch{return null}
 }
+function requireAuthOrPrompt(){
+  const cur=getCurrent();
+  if(cur && cur.email) return true;
+  toast('Сначала зарегистрируйся — нажми «Зарегистрироваться» на главной');
+  // если на этой странице нет модалки — ведём на главную к форме регистрации
+  setTimeout(()=>{ window.location.href='/#auth'; }, 900);
+  return false;
+}
 function renderAuth(){
   const cur=getCurrent(), area=document.getElementById('authArea');
   if(!area) return;
   if(cur){
-    area.innerHTML=`<span style="font-size:11px;color:rgba(255,255,255,0.6)">${cur.email}</span><a href="#" class="btn btn-ghost" style="padding:6px 10px;font-size:11px" onclick="localStorage.removeItem('lunas_token');localStorage.removeItem('lunas_current');renderAuth();toast('Вышел')">Выйти</a>`;
+    area.innerHTML=`<span style="font-size:11px;color:rgba(255,255,255,0.6);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${cur.email}</span><a href="#" class="btn btn-ghost" style="padding:6px 10px;font-size:11px" onclick="localStorage.removeItem('lunas_token');localStorage.removeItem('lunas_current');renderAuth();toast('Вышел')">Выйти</a>`;
   } else {
-    area.innerHTML=`<a href="/#auth" class="btn btn-ghost" style="padding:6px 10px;font-size:11px">Войти</a><a href="/#auth" class="btn btn-white" style="padding:6px 10px;font-size:11px">Создать</a>`;
+    area.innerHTML=`<a href="/" onclick="localStorage.setItem('lunas_auth_intent','register'); toast('На главной нажми «Зарегистрироваться» ✓'); " class="btn btn-ghost" style="padding:6px 10px;font-size:11px">Войти</a><a href="/" onclick="localStorage.setItem('lunas_auth_intent','register')" class="btn btn-white" style="padding:6px 10px;font-size:11px">Зарегистрироваться</a>`;
   }
 }
 renderAuth();
+// === КОЛИЧЕСТВО — кликабельный счётчик ===
+let qty = 1;
+const MAX_QTY = 10;
+function getQty(){ return qty }
+function setQty(n){
+  qty = Math.max(1, Math.min(MAX_QTY, n|0));
+  const v=document.getElementById('qtyValue');
+  const h=document.getElementById('qty');
+  const hint=document.getElementById('qtyHint');
+  if(v) v.textContent = qty;
+  if(h) h.value = qty;
+  if(hint) hint.textContent = qty===1 ? '1 шт. • один ключ = один ПК' : qty+' шт. • '+qty+' ключей';
+  updatePriceDisplay();
+}
+function updatePriceDisplay(){
+  if(!selected) return;
+  const unit = selected.price_cents/100;
+  const total = unit * qty;
+  const priceEl=document.getElementById('priceDisplay');
+  const btnPrice=document.getElementById('buyBtnPrice');
+  const hintEl=document.getElementById('buyHint');
+  if(priceEl) priceEl.textContent = qty>1 ? '$'+total+'  ('+qty+'×$'+unit+')' : '$'+unit;
+  if(btnPrice) btnPrice.textContent = qty>1 ? '$'+total+' ×'+qty : '$'+unit;
+  if(hintEl) hintEl.textContent = 'Выбран '+selected.label+' ×'+qty+' — итого $'+total;
+}
+document.getElementById('qtyMinus')?.addEventListener('click', ()=> setQty(qty-1));
+document.getElementById('qtyPlus')?.addEventListener('click', ()=> setQty(qty+1));
+// если пришли с intent — на index.html откроется модалка (index читает lunas_auth_intent)
 // Variants + prices from backend
 let selected = null;
 async function loadVariants(){
@@ -324,25 +367,59 @@ async function loadVariants(){
       div.addEventListener('click',()=>{
         document.querySelectorAll('#variants .glass').forEach(x=>{x.style.borderColor='rgba(255,255,255,0.08)'; x.style.background='rgba(18,18,20,0.72)'});
         div.style.borderColor='#fff'; div.style.background='rgba(255,255,255,0.06)';
-        selected={product_id:pid, license_type:lic, price_cents:cents};
-        document.getElementById('priceDisplay').textContent='$'+usd;
-        document.getElementById('buyBtn').style.opacity='1';
-        document.getElementById('buyBtn').style.pointerEvents='auto';
-        document.getElementById('buyHint').textContent='Выбран '+labelMap[pid];
+        selected={product_id:pid, license_type:lic, price_cents:cents, label: labelMap[pid]||lic};
+        updatePriceDisplay();
       });
       box.appendChild(div);
     });
     // Auto-select first if not selected
     if(!selected && box.firstChild) box.firstChild.click();
+    else updatePriceDisplay();
     // Instant badge
     const anyAvailable = results.some(r=>r.prices.some(p=>p.available>0));
     document.getElementById('instantBadge').style.display = anyAvailable ? 'inline-flex' : 'none';
     document.getElementById('stockInfo').textContent = anyAvailable ? 'В наличии' : 'Нет ключей';
   }catch(e){
+    // Fallback статика если бэкенда нет (демо)
+    const box=document.getElementById('variants');
+    if(!hasBackendFallback()){
+      const staticPrices=[
+        {pid:'morphine_1d',lic:'1d',usd:6,avail:12},
+        {pid:'morphine_3d',lic:'3d',usd:15,avail:12},
+        {pid:'morphine_7d',lic:'7d',usd:25,avail:12},
+        {pid:'morphine_30d',lic:'30d',usd:60,avail:12},
+      ];
+      const labelMap={morphine_1d:'1 день', morphine_3d:'3 дня', morphine_7d:'7 дней', morphine_30d:'30 дней'};
+      box.innerHTML='';
+      staticPrices.forEach(({pid,lic,usd,avail})=>{
+        const div=document.createElement('button');
+        div.className='glass';
+        div.style.cssText='padding:12px;text-align:left;cursor:pointer';
+        div.dataset.pid=pid; div.dataset.lic=lic; div.dataset.cents=usd*100;
+        div.innerHTML=`<div style="font-weight:800;font-size:13px">${labelMap[pid]}</div><div style="font-weight:800;font-size:16px;margin-top:4px">$${usd}</div><div style="font-size:11px;color:rgba(255,255,255,0.45)">${avail} ключей • демо</div>`;
+        div.addEventListener('click',()=>{
+          document.querySelectorAll('#variants .glass').forEach(x=>{x.style.borderColor='rgba(255,255,255,0.08)'; x.style.background='rgba(18,18,20,0.72)'});
+          div.style.borderColor='#fff'; div.style.background='rgba(255,255,255,0.06)';
+          selected={product_id:pid, license_type:lic, price_cents:usd*100, label: labelMap[pid]};
+          updatePriceDisplay();
+          // дописать демо пометку
+          const hint=document.getElementById('buyHint');
+          if(hint && hint.textContent.includes('Выбран')) hint.textContent += ' (демо-цены)';
+        });
+        box.appendChild(div);
+      });
+      if(box.firstChild) box.firstChild.click();
+      else updatePriceDisplay();
+      document.getElementById('instantBadge').style.display='inline-flex';
+      document.getElementById('stockInfo').textContent='В наличии (демо)';
+      console.log('used static fallback prices');
+      return;
+    }
     document.getElementById('variants').innerHTML='<div class="muted">Не удалось загрузить цены. Попробуй обновить.</div>';
     console.error(e);
   }
 }
+function hasBackendFallback(){ return !!(window.API_BASE || localStorage.getItem('api_base')); }
 loadVariants();
 // FAQ toggle
 document.querySelectorAll('.faq-item .faq-q').forEach(btn=>{
@@ -383,52 +460,93 @@ async function loadReviews(){
   }catch{ empty.style.display='block'; }
 }
 loadReviews();
-// Buy
+// Buy — кликабельная, с количеством (1..10), демо-режим без бэкенда
 document.getElementById('buyBtn').addEventListener('click', async ()=>{
-  const email=document.getElementById('buyEmail').value.trim();
-  if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ toast('Введи корректный email'); return }
-  if(!selected){ toast('Выбери вариант'); return }
+  if(!requireAuthOrPrompt()) return;
+  const emailEl=document.getElementById('buyEmail');
+  const email=emailEl.value.trim() || (getCurrent()?.email||'');
+  if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ toast('Введи корректный email'); emailEl?.focus(); return }
+  if(!selected){ toast('Выбери вариант — кликни на 1/3/7/30 дней'); return }
+  const buyQty = getQty();
+  // демо-режим если бэкенда нет (github.io без api_base)
+  const hasBackend = !!(window.API_BASE || localStorage.getItem('api_base'));
+  const isNoBackendHost = location.hostname.includes('github.io') && !hasBackend;
+  const cur=getCurrent();
+  if(isNoBackendHost){
+    const purchases=JSON.parse(localStorage.getItem('lunas_demo_purchases')||'[]');
+    const keys=[];
+    for(let i=0;i<buyQty;i++){
+      const fakeKey='LUNAS-'+Math.random().toString(36).slice(2,10).toUpperCase()+'-'+Math.random().toString(36).slice(2,10).toUpperCase()+'-'+Date.now().toString(36).toUpperCase().slice(-4);
+      keys.push(fakeKey);
+      purchases.unshift({id:'demo_'+Date.now()+'_'+i, product_id:selected.product_id, license_type:selected.license_type, key_value:fakeKey, paid_at:new Date().toISOString(), status:'paid', email:cur?cur.email:email});
+    }
+    localStorage.setItem('lunas_demo_purchases', JSON.stringify(purchases));
+    const list = keys.map((k,i)=> (i+1)+'. '+k).join('\n');
+    toast('Оплачено ✓ (демо '+buyQty+' шт.)','ok');
+    if(confirm('Оплачено ✓ (демо-режим)\n\nТовар: '+selected.label+' ×'+buyQty+'\nИтого: $'+(selected.price_cents/100*buyQty)+'\n\nКлючи:\n'+list+'\n\nСкопировать все?')){
+      navigator.clipboard?.writeText(keys.join('\n'));
+    }
+    return;
+  }
   const btn=document.getElementById('buyBtn');
-  btn.textContent='Создаю заказ...'; btn.disabled=true;
+  const origHTML = btn.innerHTML;
+  btn.innerHTML='Создаю '+buyQty+' заказ(ов)...'; btn.disabled=true; btn.style.opacity='0.7';
   try{
     const headers={'Content-Type':'application/json'};
     const token=localStorage.getItem('lunas_token');
     if(token) headers['Authorization']='Bearer '+token;
-    // Create order
-    const orderRes=await fetch((API_BASE||'')+'/api/orders',{method:'POST',headers, body:JSON.stringify({product_id:selected.product_id, license_type:selected.license_type, email, currency:'USD'})}).then(r=>r.json().then(d=>({ok:r.ok,data:d}))).then(o=>{if(!o.ok) throw new Error(o.data.error||'Order'); return o.data});
-    const orderId=orderRes.order.id;
-    // Create payment
-    const payRes=await fetch((API_BASE||'')+'/api/payments/create',{method:'POST',headers, body:JSON.stringify({order_id:orderId})}).then(r=>r.json().then(d=>({ok:r.ok,data:d}))).then(o=>{if(!o.ok) throw new Error(o.data.error||'Payment'); return o.data});
-    if(payRes.paymentUrl && !payRes.paymentUrl.startsWith('/mock-pay/')){
-      window.location.href=payRes.paymentUrl;
-      return;
+    const created=[];
+    for(let i=0;i<buyQty;i++){
+      const orderRes=await fetch((API_BASE||'')+'/api/orders',{method:'POST',headers, body:JSON.stringify({product_id:selected.product_id, license_type:selected.license_type, email, currency:'USD'})}).then(r=>r.json().then(d=>({ok:r.ok,data:d}))).then(o=>{if(!o.ok) throw new Error(o.data.error||'Order'); return o.data});
+      const orderId=orderRes.order.id;
+      const payRes=await fetch((API_BASE||'')+'/api/payments/create',{method:'POST',headers, body:JSON.stringify({order_id:orderId})}).then(r=>r.json().then(d=>({ok:r.ok,data:d}))).then(o=>{if(!o.ok) throw new Error(o.data.error||'Payment'); return o.data});
+      if(payRes.paymentUrl && !payRes.paymentUrl.startsWith('/mock-pay/')){
+        window.location.href=payRes.paymentUrl;
+        return;
+      }
+      created.push({orderId, payRes});
     }
-    // Mock: show check
-    toast('Заказ создан, оплати у провайдера');
-    // Poll order
-    let tries=0;
-    const iv=setInterval(async()=>{
-      tries++;
-      try{
-        const chk=await fetch((API_BASE||'')+'/api/orders/'+orderId,{headers}).then(r=>r.json());
-        if(chk.order.status==='paid' || chk.order.status==='delivered'){
-          clearInterval(iv);
-          const key=chk.key?chk.key.key_value:'—';
-          alert('Оплачено! Ключ: '+key+'\nЗаказ '+orderId.slice(0,8)+'\nПисьмо на '+email);
-          location.reload();
-        } else if(chk.order.status==='out_of_stock'){
-          clearInterval(iv);
-          toast('Нет ключей — админ уведомлён');
-        }
-      }catch{}
-      if(tries>30) clearInterval(iv);
-    },3000);
-    // For mock auto-confirm in dev (remove in prod)
-    if(payRes.paymentUrl.startsWith('/mock-pay/')){
-      // In mock, simulate webhook after 2s via admin mock endpoint if you are admin, otherwise just poll
-      // For now, do nothing — admin must confirm via webhook
+    if(created.length===1){
+      const {orderId}=created[0];
+      toast('Заказ '+orderId.slice(0,8)+' создан ×'+buyQty+' — оплати у провайдера');
+      // poll первого
+      let tries=0;
+      const iv=setInterval(async()=>{
+        tries++;
+        try{
+          const chk=await fetch((API_BASE||'')+'/api/orders/'+orderId,{headers}).then(r=>r.json());
+          if(chk.order.status==='paid' || chk.order.status==='delivered'){
+            clearInterval(iv);
+            const key=chk.key?chk.key.key_value:'—';
+            alert('Оплачено! Ключ: '+key+'\nЗаказ '+orderId.slice(0,8)+' ×'+buyQty+'\nПисьмо на '+email+(buyQty>1?' (остальные ключи — в "Мои покупки")':''));
+            location.reload();
+          } else if(chk.order.status==='out_of_stock'){ clearInterval(iv); toast('Нет ключей — админ уведомлён'); }
+        }catch{}
+        if(tries>30) clearInterval(iv);
+      },3000);
+    } else {
+      toast(created.length+' заказов создано — оплати каждый, ключи придут на '+email+' и в "Мои покупки"');
+      // показать список
+      const ids = created.map(c=> c.orderId.slice(0,8)).join(', ');
+      setTimeout(()=> alert('Создано '+buyQty+' заказов: '+ids+'\nОплати каждый — ключи выдадутся атомарно после webhook.\nСмотри статус в "Мои покупки"'), 400);
     }
-  }catch(e){ toast(e.message||'Ошибка') } finally { btn.textContent='КУПИТЬ'; btn.disabled=false }
+  }catch(e){
+    const msg=e.message||'Ошибка';
+    if(msg.includes('Failed to fetch')||msg.includes('Бэкенд не подключен')){
+      toast('Бэкенд не подключен — сработал демо-режим');
+      const purchases=JSON.parse(localStorage.getItem('lunas_demo_purchases')||'[]');
+      const keys=[];
+      for(let i=0;i<buyQty;i++){
+        const fakeKey='LUNAS-'+Math.random().toString(36).slice(2,10).toUpperCase();
+        keys.push(fakeKey);
+        purchases.unshift({id:'demo_'+Date.now()+'_'+i, product_id:selected.product_id, license_type:selected.license_type, key_value:fakeKey, paid_at:new Date().toISOString(), status:'paid', email:cur?cur.email:email});
+      }
+      localStorage.setItem('lunas_demo_purchases', JSON.stringify(purchases));
+      alert('Демо-ключи ('+buyQty+' шт.):\n'+keys.join('\n'));
+    } else {
+      toast(msg);
+    }
+  } finally { btn.innerHTML=origHTML; updatePriceDisplay(); btn.disabled=false; btn.style.opacity='1'; }
 });
 </script>
 </body>
