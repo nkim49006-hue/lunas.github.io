@@ -297,16 +297,31 @@ function requireAuthOrPrompt(){
   setTimeout(()=>{ window.location.href='/#auth'; }, 900);
   return false;
 }
+const RATES_M={USD:1,EUR:0.92,RUB:95,KZT:540};
+const SYMS_M={USD:'$',EUR:'€',RUB:'₽',KZT:'₸'};
+function getCurrencyM(){ return localStorage.getItem('lunas_currency')||'USD'; }
 function renderAuth(){
   const cur=getCurrent(), area=document.getElementById('authArea');
   if(!area) return;
+  const curC=getCurrencyM(); const sym=SYMS_M[curC]||'$'; const rate=RATES_M[curC]||1;
+  let balUSD=0; try{ balUSD=cur?.balanceUSD ?? cur?.balance_usd ?? 0; }catch{}
+  const displayBal=Math.round(Number(balUSD||0)*rate);
   if(cur){
-    area.innerHTML=`<span style="font-size:11px;color:rgba(255,255,255,0.6);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${cur.email}</span><a href="#" class="btn btn-ghost" style="padding:6px 10px;font-size:11px" onclick="localStorage.removeItem('lunas_token');localStorage.removeItem('lunas_current');renderAuth();toast('Вышел')">Выйти</a>`;
+    area.innerHTML=`
+      <a href="/#cabinet" onclick="event.preventDefault(); toast('Баланс: ${displayBal}${sym} — пополни в кабинете на главной'); window.location.href='/#cabinet'" title="Баланс ${displayBal}${sym}" style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.14);padding:6px 10px;border-radius:999px;text-decoration:none">
+        <span style="width:8px;height:8px;background:#10b981;border-radius:50%;box-shadow:0 0 8px #10b981"></span>
+        <span style="font-size:11px;font-weight:900;color:#fff">${displayBal}${sym}</span>
+        <span style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.55);text-transform:uppercase">баланс</span>
+      </a>
+      <span style="font-size:11px;color:rgba(255,255,255,0.6);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${cur.email}</span>
+      <a href="#" class="btn btn-ghost" style="padding:6px 10px;font-size:11px" onclick="localStorage.removeItem('lunas_token');localStorage.removeItem('lunas_current');renderAuth();toast('Вышел')">Выйти</a>`;
   } else {
     area.innerHTML=`<a href="/" onclick="localStorage.setItem('lunas_auth_intent','register'); toast('На главной нажми «Зарегистрироваться» ✓'); " class="btn btn-ghost" style="padding:6px 10px;font-size:11px">Войти</a><a href="/" onclick="localStorage.setItem('lunas_auth_intent','register')" class="btn btn-white" style="padding:6px 10px;font-size:11px">Зарегистрироваться</a>`;
   }
 }
 renderAuth();
+// обновлять баланс каждые 5с если залогинен
+setInterval(()=>{ if(getCurrent()) renderAuth(); }, 5000);
 // === КОЛИЧЕСТВО — кликабельный счётчик ===
 let qty = 1;
 const MAX_QTY = 10;
