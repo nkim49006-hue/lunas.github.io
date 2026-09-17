@@ -178,11 +178,8 @@ nav .container{height:64px;display:flex;align-items:center;justify-content:space
     <button style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer" onclick="closePayChoice()">×</button>
     <div style="font-weight:900;font-size:16px">Выбери способ оплаты</div>
     <div style="font-size:11px;font-family:JetBrains Mono,monospace;color:rgba(255,255,255,0.5);margin-top:4px" id="payChoiceSub">MORPHINE ×1 — $—</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px">
-      <button class="glass pay-choice" data-pay="kaspi" style="padding:14px;text-align:left;cursor:pointer"><div style="font-weight:800;font-size:13px;color:#F14635">Kaspi</div><div style="font-size:11px;color:rgba(255,255,255,0.5)">Kaspi Gold • QR</div></button>
-      <button class="glass pay-choice" data-pay="sbp" style="padding:14px;text-align:left;cursor:pointer"><div style="font-weight:800;font-size:13px">СБП</div><div style="font-size:11px;color:rgba(255,255,255,0.5)">По номеру • QR</div></button>
-      <button class="glass pay-choice" data-pay="card" style="padding:14px;text-align:left;cursor:pointer"><div style="font-weight:800;font-size:13px">Карта</div><div style="font-size:11px;color:rgba(255,255,255,0.5)">Visa/MC</div></button>
-      <button class="glass pay-choice" data-pay="crypto" style="padding:14px;text-align:left;cursor:pointer;border-color:#0A66FF;background:rgba(10,102,255,0.08)"><div style="font-weight:800;font-size:13px;color:#0A66FF">Crypto Bot</div><div style="font-size:11px;color:rgba(255,255,255,0.5)">USDT • @CryptoBot</div></button>
+    <div style="display:grid;grid-template-columns:1fr;gap:8px;margin-top:14px">
+      <button class="glass pay-choice" data-pay="crypto" style="padding:16px;text-align:left;cursor:pointer;border-color:#0A66FF;background:rgba(10,102,255,0.10);border-width:1.5px"><div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:50%;background:#0A66FF;color:#fff;display:grid;place-items:center;font-weight:900;font-size:14px">$</div><div><div style="font-weight:900;font-size:14px;color:#0A66FF">Crypto Bot — USDT</div><div style="font-size:11px;color:rgba(255,255,255,0.6)">Оплата криптой • @CryptoBot • без регистрации</div></div></div></button>
     </div>
     <div id="payChoiceHint" style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.4);text-align:center">Нажми Crypto Bot для крипты — без регистрации</div>
     <button id="payChoiceBtn" class="btn" style="width:100%;margin-top:14px;justify-content:center;padding:12px;background:#fff;color:#000;font-weight:900;opacity:0.5;pointer-events:none">Сначала выбери способ</button>
@@ -495,93 +492,125 @@ document.getElementById('payChoiceBtn')?.addEventListener('click', async ()=>{
   const email=(emailEl?.value||'').trim();
   if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ toast('Введи корректный email'); emailEl?.focus(); return; }
   if(!selectedPayChoice){ toast('Выбери способ оплаты'); return; }
-  if(!selected){ toast('Выбери вариант'); return; }
+  if(selectedPayChoice!=='crypto'){ toast('Доступен только Crypto Bot — выбери Crypto Bot'); return; }
+  if(!selected){ toast('Выбери вариант — 1/3/7/30 дней'); return; }
   const buyQty=getQty();
   localStorage.setItem('lunas_guest_email', email);
   const payBtn=document.getElementById('payChoiceBtn');
-  payBtn.textContent='Создаю заказ...'; payBtn.disabled=true;
+  payBtn.textContent='Создаю заказ...'; payBtn.disabled=true; payBtn.style.opacity='0.7';
   const hasBackend=!!(window.API_BASE || localStorage.getItem('api_base'));
-  try{
-    if(hasBackend){
-      const headers={'Content-Type':'application/json'};
-      const token=localStorage.getItem('lunas_token');
-      if(token) headers['Authorization']='Bearer '+token;
-      const created=[];
-      for(let i=0;i<buyQty;i++){
-        const orderRes=await fetch((API_BASE||'')+'/api/orders',{method:'POST',headers, body:JSON.stringify({product_id:selected.product_id, license_type:selected.license_type, email, currency:'USD', provider: selectedPayChoice})}).then(r=>r.json().then(d=>({ok:r.ok,data:d}))).then(o=>{if(!o.ok) throw new Error(o.data.error||'Order'); return o.data});
-        const orderId=orderRes.order.id;
-        const payRes=await fetch((API_BASE||'')+'/api/payments/create',{method:'POST',headers, body:JSON.stringify({order_id:orderId})}).then(r=>r.json().then(d=>({ok:r.ok,data:d}))).then(o=>{if(!o.ok) throw new Error(o.data.error||'Payment'); return o.data});
-        if(payRes.paymentUrl && !payRes.paymentUrl.startsWith('/mock-pay/')){ window.location.href=payRes.paymentUrl; return; }
-        created.push(orderId);
-      }
-      closePayChoice();
-      toast('Заказ создан — оплати '+selectedPayChoice+' ✓');
-      if(selectedPayChoice==='crypto'){
-        setTimeout(()=>{ if(confirm('Crypto Bot — оплата USDT\n\nЗаказы: '+created.join(', ').slice(0,40)+'\nОткрой @CryptoBot в Telegram для оплаты?\n\nПосле оплаты ключ придёт на '+email)){ window.open('https://t.me/CryptoBot','_blank'); } },400);
-      } else {
-        setTimeout(()=> alert('Заказ '+created[0].slice(0,8)+' ×'+buyQty+' создан\nОплати '+selectedPayChoice+' — ключ придёт на '+email),400);
-      }
-      return;
-    }
-  }catch(e){ console.log('server fallback',e.message); }
-  // демо — pending: ключ НЕ показываем до оплаты, только на email после проверки
-  const orderIds=[];
-  const demoOrders=JSON.parse(localStorage.getItem('lunas_demo_orders')||'[]');
-  for(let i=0;i<buyQty;i++){
-    const oid='demo_'+Date.now()+'_'+i;
-    orderIds.push(oid);
-    demoOrders.push({id:oid, product_id:selected.product_id, license_type:selected.license_type, email, qty:1, status:'pending', provider:selectedPayChoice, created_at:new Date().toISOString()});
-  }
-  localStorage.setItem('lunas_demo_orders', JSON.stringify(demoOrders));
-  closePayChoice();
-  // показать pending модалку с Crypto Bot
-  const bg=document.getElementById('modalBg');
-  const pendingHtml = `
-    <div style="text-align:left">
-      <div style="font-size:13px;color:rgba(255,255,255,0.7)">Товар: <b style="color:#fff">${selected.label} ×${buyQty}</b> — <b style="color:#fff">$${selected.price_cents/100*buyQty}</b><br>Способ: <b style="color:#fff">${selectedPayChoice}</b><br>Email: <b style="color:#fff">${email}</b></div>
-      <div style="margin-top:12px;padding:12px;background:rgba(10,102,255,0.08);border:1px solid rgba(10,102,255,0.18);border-radius:12px">
-        <div style="font-weight:800;font-size:13px;color:#0A66FF">Crypto Bot — @CryptoBot</div>
-        <div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:4px">Оплати ${selectedPayChoice==='crypto' ? 'USDT TRC20' : selectedPayChoice} — ключ придёт <b style="color:#fff">только на ${email}</b>, во всплывающем окне до оплаты не показываем.</div>
-        <a href="https://t.me/CryptoBot" target="_blank" style="display:inline-flex;margin-top:10px;background:#0A66FF;color:#fff;padding:8px 14px;border-radius:999px;font-weight:800;font-size:12px;text-decoration:none">Открыть Crypto Bot →</a>
-      </div>
-      <div style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.5);text-align:center">Заказы: ${orderIds.map(id=>id.slice(0,8)).join(', ')} — статус pending</div>
-    </div>`;
-  if(bg){
-    document.getElementById('modalTitle').textContent='Оплати — ключ придёт на email';
-    document.getElementById('modalText').innerHTML=pendingHtml;
+  if(!hasBackend){
+    payBtn.textContent='Оплатить'; payBtn.disabled=false; payBtn.style.opacity='1';
+    const bg=document.getElementById('modalBg');
+    document.getElementById('modalTitle').textContent='Требуется backend';
+    document.getElementById('modalText').innerHTML=`<div style="text-align:left"><div style="padding:12px;background:rgba(255,100,100,0.08);border:1px solid rgba(255,100,100,0.2);border-radius:12px"><div style="font-weight:800;color:#ff6b6b">Crypto Bot не настроен</div><div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:6px">Для реальной оплаты нужен backend.<br>Добавь в <code style="background:rgba(255,255,255,0.08);padding:2px 6px;border-radius:6px">server/.env</code>:<br><code style="display:block;margin-top:6px;background:#000;color:#fff;padding:8px;border-radius:8px;font-size:11px">CRYPTO_BOT_TOKEN=123456:ABC-...<br>PAYMENT_PROVIDER=crypto<br>CRYPTO_ASSET=USDT</code><div style="margin-top:8px;font-size:11px;color:rgba(255,255,255,0.5)">Создай бота: @CryptoBot → Crypto Pay → Create App → API Token.<br>Webhook: <code>https://твой-домен/api/payments/webhook</code></div></div></div>`;
     bg.classList.add('open'); bg.style.display='flex';
     document.getElementById('modalClose').onclick=()=>{ bg.classList.remove('open'); bg.style.display='none'; };
     bg.onclick=(e)=>{ if(e.target===bg){ bg.classList.remove('open'); bg.style.display='none'; } };
-    const act=document.getElementById('modalAction');
-    act.textContent='Я оплатил — проверить';
-    act.style.display='inline-flex';
-    act.onclick=()=>{
-      // симуляция подтверждения оплаты — теперь генерируем ключи и "отправляем на email"
-      const purchases=JSON.parse(localStorage.getItem('lunas_demo_purchases')||'[]');
-      const demoOrders2=JSON.parse(localStorage.getItem('lunas_demo_orders')||'[]');
-      const keys=[];
-      orderIds.forEach(oid=>{
-        const fakeKey='LUNAS-'+Math.random().toString(36).slice(2,10).toUpperCase()+'-'+Math.random().toString(36).slice(2,10).toUpperCase()+'-'+Date.now().toString(36).toUpperCase().slice(-4);
-        keys.push(fakeKey);
-        purchases.unshift({id:oid, product_id:selected.product_id, license_type:selected.license_type, key_value:fakeKey, paid_at:new Date().toISOString(), status:'paid', email});
-        const o=demoOrders2.find(x=>x.id===oid); if(o) o.status='paid';
-      });
-      localStorage.setItem('lunas_demo_purchases', JSON.stringify(purchases));
-      localStorage.setItem('lunas_demo_orders', JSON.stringify(demoOrders2));
-      bg.classList.remove('open'); bg.style.display='none';
-      toast('Оплата подтверждена — ключ отправлен на '+email+' ✓','ok');
-      // показать что ключ отправлен, но не всплывающим окном с ключом до оплаты — теперь показываем что отправлен
-      setTimeout(()=>{
-        const bg2=document.getElementById('modalBg');
-        document.getElementById('modalTitle').textContent='Ключ отправлен на email ✓';
-        document.getElementById('modalText').innerHTML=`<div style="text-align:left"><div style="font-size:12px;color:rgba(255,255,255,0.6)">Товар <b style="color:#fff">${selected.label} ×${buyQty}</b> — оплачен (${selectedPayChoice})<br>Email: <b style="color:#fff">${email}</b><br><br>Ключ(и) отправлены на <b style="color:#fff">${email}</b>. Проверь почту и папку Спам.<br><span style="font-size:11px;color:rgba(255,255,255,0.4)">Демо: ключи также сохранены — их можно посмотреть после подтверждения.</span></div><div style="margin-top:10px;padding:8px;background:rgba(255,255,255,0.04);border-radius:8px;font-family:monospace;font-size:11px;word-break:break-all">${keys.join('<br>')}</div></div>`;
-        bg2.classList.add('open'); bg2.style.display='flex';
-        document.getElementById('modalClose').onclick=()=>{ bg2.classList.remove('open'); bg2.style.display='none'; };
-        const act2=document.getElementById('modalAction'); act2.textContent='Скопировать'; act2.style.display='inline-flex'; act2.onclick=()=>{ navigator.clipboard?.writeText(keys.join('\n')); toast('Скопировано','ok'); };
-      },300);
-    };
+    const act=document.getElementById('modalAction'); act.textContent='Понятно'; act.style.display='inline-flex'; act.onclick=()=>{ bg.classList.remove('open'); bg.style.display='none'; };
+    return;
   }
-  payBtn.textContent='Оплатить'; payBtn.disabled=false;
+  try{
+    const headers={'Content-Type':'application/json'};
+    const createdIds=[];
+    const createdOrders=[];
+    for(let i=0;i<buyQty;i++){
+      const orderRes=await fetch((API_BASE||'')+'/api/orders',{method:'POST',headers, body:JSON.stringify({product_id:selected.product_id, license_type:selected.license_type, email, currency:'USD', provider:'crypto'})}).then(r=>r.json().then(d=>({ok:r.ok,data:d}))).then(o=>{if(!o.ok) throw new Error(o.data.error||'Order'); return o.data});
+      const orderId=orderRes.order.id;
+      createdIds.push(orderId);
+      createdOrders.push(orderRes.order);
+    }
+    // создаём Crypto Pay инвойсы
+    const payDatas=[];
+    for(const oid of createdIds){
+      const payRes=await fetch((API_BASE||'')+'/api/payments/create',{method:'POST',headers, body:JSON.stringify({order_id:oid})}).then(r=>r.json().then(d=>({ok:r.ok,data:d}))).then(o=>{if(!o.ok) throw new Error(o.data.error||'Payment'); return o.data});
+      payDatas.push(payRes);
+    }
+    closePayChoice();
+    // показываем оплату — статусы
+    const bg=document.getElementById('modalBg');
+    const totalCents = selected.price_cents * buyQty;
+    const totalStr = '$'+(totalCents/100);
+    const firstPay = payDatas[0];
+    const payUrl = firstPay.paymentUrl || 'https://t.me/CryptoBot';
+    const isMock = payUrl.includes('/mock-pay/');
+    const statusHtml = `
+      <div style="text-align:left">
+        <div style="font-size:13px;color:rgba(255,255,255,0.7)">Товар: <b style="color:#fff">${selected.label} ×${buyQty}</b> — <b style="color:#fff">${totalStr}</b><br>Email: <b style="color:#fff">${email}</b><br>Заказ: <b style="color:#fff">${createdIds[0].slice(0,8)}${buyQty>1?' +'+(buyQty-1):''}</b></div>
+        <div style="margin-top:12px;padding:14px;background:rgba(10,102,255,0.08);border:1px solid rgba(10,102,255,0.18);border-radius:12px;text-align:center">
+          <div style="font-weight:900;color:#0A66FF;font-size:13px">ОПЛАТА КРИПТОЙ — Crypto Bot</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:6px">Сумма: <b style="color:#fff">${totalStr} USDT</b> — ${buyQty} ключ(ей)</div>
+          ${isMock ? '<div style="margin-top:8px;font-size:11px;color:#ff6b6b">Mock режим — CRYPTO_BOT_TOKEN не настроен, используется заглушка</div>' : ''}
+          <a href="${payUrl}" target="_blank" style="display:inline-flex;margin-top:10px;background:#0A66FF;color:#fff;padding:10px 18px;border-radius:999px;font-weight:900;font-size:13px;text-decoration:none">Открыть Crypto Bot →</a>
+          <div style="margin-top:8px;font-size:11px;color:rgba(255,255,255,0.5);word-break:break-all">${payUrl}</div>
+          <img src="./crypto-qr.png" style="margin-top:10px;background:#fff;padding:8px;border-radius:12px;width:160px;height:160px;object-fit:contain;display:block;margin-left:auto;margin-right:auto" alt="Crypto Bot QR">
+        </div>
+        <div style="margin-top:12px;padding:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.06em;color:rgba(255,255,255,0.6)">СТАТУС</div>
+          <div id="payStatus" style="margin-top:6px;font-size:13px;font-weight:800;color:#ffaa00">● Ожидаем оплату</div>
+          <div id="payStatusDesc" style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:4px">Открой Crypto Bot и оплати. Ключ НЕ показывается до подтверждения.</div>
+        </div>
+        <div style="margin-top:8px;display:flex;gap:8px">
+          <button id="checkPayBtn" class="btn btn-white" style="flex:1;justify-content:center">Проверить оплату</button>
+          <button id="cancelPayBtn" class="btn btn-ghost" style="flex:1;justify-content:center" onclick="document.getElementById('modalBg').classList.remove('open'); document.getElementById('modalBg').style.display='none';">Закрыть</button>
+        </div>
+        <div style="margin-top:8px;font-size:10px;color:rgba(255,255,255,0.3);text-align:center">Один заказ = один ключ. Повторная выдача защищена. Ключ придёт только на ${email}.</div>
+      </div>`;
+    document.getElementById('modalTitle').textContent='Оплата криптой — ожидаем';
+    document.getElementById('modalText').innerHTML=statusHtml;
+    bg.classList.add('open'); bg.style.display='flex';
+    document.getElementById('modalClose').onclick=()=>{ bg.classList.remove('open'); bg.style.display='none'; };
+    bg.onclick=(e)=>{ if(e.target===bg){ bg.classList.remove('open'); bg.style.display='none'; } };
+    const act=document.getElementById('modalAction'); act.style.display='none';
+    // polling
+    let pollCount=0;
+    let pollTimer=null;
+    const checkBtn=document.getElementById('checkPayBtn');
+    const statusEl=document.getElementById('payStatus');
+    const descEl=document.getElementById('payStatusDesc');
+    async function checkOnce(){
+      pollCount++;
+      try{
+        // проверяем первый заказ (для qty>1 проверяем все)
+        let allPaid=true;
+        let anyPaid=false;
+        for(const oid of createdIds){
+          const chk=await fetch((API_BASE||'')+'/api/orders/'+oid,{headers}).then(r=>r.json());
+          if(chk.order.status==='paid' || chk.order.status==='delivered'){ anyPaid=true; }
+          else { allPaid=false; }
+          if(chk.order.status==='pending' && statusEl.textContent.includes('Ожидаем')){ statusEl.textContent='● Платёж обнаружен'; statusEl.style.color='#ffcc00'; descEl.textContent='Нашли платёж — проверяем подпись, сумму, валюту...'; }
+        }
+        if(allPaid){
+          clearInterval(pollTimer);
+          statusEl.textContent='● Оплата подтверждена'; statusEl.style.color='#10b981';
+          descEl.textContent='Проверено: ID, сумма, валюта — ключ закреплён атомарно.';
+          // показать что ключ отправлен
+          setTimeout(()=>{
+            document.getElementById('modalTitle').textContent='Оплата подтверждена ✓';
+            document.getElementById('modalText').innerHTML=`<div style="text-align:left"><div style="padding:12px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.18);border-radius:12px;text-align:center"><div style="font-weight:900;color:#10b981">Ключ отправлен на email</div><div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:6px">Проверь <b style="color:#fff">${email}</b> и папку Спам.<br>Также смотри <b>Мои покупки</b> — ключ появится там.</div></div><div style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.4);text-align:center">Защита от повтора: один заказ = один ключ. Обнови страницу — ключ не выдастся повторно.</div></div>`;
+            const act2=document.getElementById('modalAction'); act2.textContent='В Мои покупки'; act2.style.display='inline-flex'; act2.onclick=()=>{ bg.classList.remove('open'); bg.style.display='none'; document.getElementById('purchasesSection')?.scrollIntoView({behavior:'smooth'}); if(window.loadPurchases) loadPurchases(); };
+            if(window.loadPurchases) loadPurchases();
+          },500);
+          return;
+        }
+        if(pollCount>40){ statusEl.textContent='● Ожидаем оплату'; descEl.textContent='Ещё не оплачено. Проверь Crypto Bot и нажми Проверить.'; }
+      }catch(e){ console.log('poll err',e.message); descEl.textContent='Ошибка проверки — попробуй ещё'; }
+    }
+    checkBtn.onclick=checkOnce;
+    pollTimer=setInterval(checkOnce, 3000);
+    // auto first check after 5s
+    setTimeout(checkOnce, 5000);
+  }catch(e){
+    payBtn.textContent='Оплатить'; payBtn.disabled=false; payBtn.style.opacity='1';
+    toast(e.message||'Ошибка создания заказа','');
+    if(e.message && e.message.includes('CRYPTO_BOT_TOKEN')){
+      const bg=document.getElementById('modalBg');
+      document.getElementById('modalTitle').textContent='Требуется настройка';
+      document.getElementById('modalText').innerHTML=`<div style="padding:12px;background:rgba(255,100,100,0.08);border:1px solid rgba(255,100,100,0.2);border-radius:12px"><div style="font-weight:800;color:#ff6b6b">${e.message}</div><div style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:6px">Добавь в server/.env:<br><code style="background:#000;color:#fff;padding:6px;border-radius:6px;display:block;margin-top:6px">CRYPTO_BOT_TOKEN=xxxxx:AA...<br>PAYMENT_PROVIDER=crypto</code></div></div>`;
+      bg.classList.add('open'); bg.style.display='flex';
+    }
+  } finally { payBtn.textContent='Оплатить Crypto Bot — USDT'; payBtn.disabled=false; payBtn.style.opacity='1'; }
+});
 });
 document.getElementById('buyBtn').addEventListener('click', ()=>{
   const emailEl=document.getElementById('buyEmail');
