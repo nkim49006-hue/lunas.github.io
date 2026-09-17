@@ -806,13 +806,209 @@ document.getElementById('hamburgerBtn')?.addEventListener('click',()=>{
   const m=document.getElementById('mobileMenu'); m.classList.toggle('open');
   document.getElementById('hamburgerBtn').setAttribute('aria-expanded', m.classList.contains('open'));
 });
-// корзина заглушка если нет
+// === КОРЗИНА + ПОКУПКА С ТРЕБОВАНИЕМ РЕГИСТРАЦИИ ===
 if(typeof window.cart==='undefined') window.cart=JSON.parse(localStorage.getItem('lunas_cart')||'[]');
-if(typeof window.updateCart!=='function') window.updateCart=function(){ const c=document.getElementById('cartCount'); if(c) c.textContent=(window.cart||[]).length; }
-if(typeof window.clearCart!=='function') window.clearCart=function(){ window.cart=[]; localStorage.setItem('lunas_cart','[]'); updateCart(); toast('Корзина очищена'); }
-if(typeof window.checkout!=='function') window.checkout=function(){ toast('Сначала войди'); openAuth('login'); }
+
+function saveCart(){ localStorage.setItem('lunas_cart', JSON.stringify(window.cart)); }
+
+function requireAuthOrPrompt(){
+  const cur = window.getCurrent ? getCurrent() : null;
+  if(cur && cur.email) return true;
+  toast('Сначала зарегистрируйся — это 10 секунд, и сможешь покупать ✓');
+  openAuth('register');
+  return false;
+}
+
+window.updateCart = function(){
+  const c=document.getElementById('cartCount');
+  if(c) c.textContent=(window.cart||[]).length;
+  const bar=document.getElementById('cartBar');
+  const list=document.getElementById('cartList');
+  const total=document.getElementById('cartTotal');
+  if(!bar || !list) return;
+  if(window.cart.length===0){
+    bar.style.display='none';
+    if(total) total.textContent='';
+    list.innerHTML='';
+    return;
+  }
+  bar.style.display='flex';
+  list.innerHTML = window.cart.map((it,i)=>`<span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);padding:4px 8px;border-radius:999px;font-size:11px">${it.name} ${it.price}$ <span style="cursor:pointer;margin-left:6px" onclick="removeFromCart(${i})">×</span></span>`).join('');
+  const sum = window.cart.reduce((s,x)=>s+x.price,0);
+  const cur=getCurrency(); const sym=SYMBOLS[cur]||'$';
+  const conv=Math.round(sum*(RATES[cur]||1));
+  if(total) total.textContent=conv+sym;
+};
+
+window.removeFromCart=function(idx){
+  window.cart.splice(idx,1);
+  saveCart(); updateCart();
+  toast('Удалено из корзины');
+};
+
+if(typeof window.clearCart!=='function' || window.clearCart.toString().includes('Корзина очищена') && !window.clearCart.toString().includes('bar')){
+  window.clearCart=function(){ window.cart=[]; saveCart(); updateCart(); toast('Корзина очищена'); const bar=document.getElementById('cartBar'); if(bar) bar.style.display='none'; };
+}
+
+// --- Модалки товаров ---
+window.openSpooferModal=function(){
+  if(!requireAuthOrPrompt()) return;
+  const m=document.getElementById('spooferModal');
+  if(m){ m.style.display='flex'; renderCurrency(); }
+};
+window.closeSpooferModal=function(){ const m=document.getElementById('spooferModal'); if(m) m.style.display='none'; };
+document.getElementById('spooferModal')?.addEventListener('click',e=>{ if(e.target.id==='spooferModal') closeSpooferModal(); });
+
+window.openRustModal=function(){
+  if(!requireAuthOrPrompt()) return;
+  const m=document.getElementById('rustModal');
+  if(m){ m.style.display='flex'; renderCurrency(); }
+};
+window.closeRustModal=function(){ const m=document.getElementById('rustModal'); if(m) m.style.display='none'; };
+document.getElementById('rustModal')?.addEventListener('click',e=>{ if(e.target.id==='rustModal') closeRustModal(); });
+
+window.addSpoof=function(name, usd){
+  if(!requireAuthOrPrompt()) return;
+  window.cart.push({name, price:usd, id: name.toLowerCase().replace(/\s+/g,'_')});
+  saveCart(); updateCart();
+  toast(name+' — добавлен в корзину ✓','ok');
+  closeSpooferModal();
+};
+
+window.buyNow=function(product_id, license, name){
+  if(!requireAuthOrPrompt()) return;
+  const priceMap={ 'morphine_1d':6,'morphine_3d':15,'morphine_7d':25,'morphine_30d':60 };
+  const usd = priceMap[product_id]||6;
+  window.cart.push({name, price:usd, id:product_id, license});
+  saveCart(); updateCart();
+  toast(name+' — добавлен в корзину ✓','ok');
+  closeRustModal();
+  // прокрутка к корзине
+  document.getElementById('cartBar')?.scrollIntoView({behavior:'smooth', block:'center'});
+};
+
+// Переопределяем checkout с требованием регистрации + демо-режим
+const _baseCheckout = window.checkout;
+window.checkout = async function(){
+  const cur = window.getCurrent ? getCurrent() : null;
+  if(!cur || !cur.email){
+    toast('Зарегистрируйся чтобы оформить покупку — кнопка «Зарегистрироваться» сверху ✓');
+    openAuth('register');
+    return;
+  }
+  if(!window.cart || window.cart.length===0){ toast('Корзина пуста — выбери товар в каталоге'); return; }
+  // если есть бэкенд — api_integration_full.js перехватит, но если его нет или он бросит ошибку — делаем демо-покупку
+  const hasBackend = !!(window.API_BASE || localStorage.getItem('api_base'));
+  if(hasBackend && typeof apiRequest==='function'){
+    // пробуем сервер, если упадёт — фолбэк ниже
+    try{ return await _baseCheckout(); }catch(e){ console.log('checkout server failed, fallback demo', e.message); }
+  }
+  // === ДЕМО-РЕЖИМ (без сервера): мгновенная выдача фейк-ключа ===
+  const item = window.cart[0];
+  const fakeKey = 'LUNAS-' + Math.random().toString(36).slice(2,10).toUpperCase() + '-' + Math.random().toString(36).slice(2,10).toUpperCase() + '-' + Date.now().toString(36).toUpperCase();
+  const purchases = JSON.parse(localStorage.getItem('lunas_demo_purchases')||'[]');
+  purchases.unshift({id: 'demo_'+Date.now(), product_id: item.id||item.name, license_type: item.license||'lifetime', key_value: fakeKey, paid_at: new Date().toISOString(), status:'paid', email: cur.email});
+  localStorage.setItem('lunas_demo_purchases', JSON.stringify(purchases));
+  window.cart=[]; saveCart(); updateCart();
+  toast('Оплата прошла ✓ (демо-режим)','ok');
+  // показать модалку с ключом
+  const bg=document.getElementById('modalBg');
+  if(bg){
+    document.getElementById('modalTitle').textContent='Оплачено ✓ — демо-режим';
+    document.getElementById('modalText').innerHTML = `Товар: <b style="color:#fff">${item.name}</b><br>Ключ: <code style="background:#fff;color:#000;padding:6px 8px;border-radius:8px;font-size:12px;word-break:break-all">${fakeKey}</code><br><br><span style="font-size:11px;color:rgba(255,255,255,0.5)">Это демо-ключ (без сервера). Подключи бэкенд (см. README) — тогда будут реальные ключи + оплата Kaspi/карта.</span><br><span style="font-size:11px;color:#10b981">Ключ сохранён в «Мои покупки» (внизу страницы).</span>`;
+    bg.classList.add('open'); bg.style.display='flex';
+    document.getElementById('modalClose').onclick=()=>{ bg.classList.remove('open'); bg.style.display='none'; };
+    bg.onclick=(e)=>{ if(e.target===bg){ bg.classList.remove('open'); bg.style.display='none'; } };
+    const act=document.getElementById('modalAction');
+    act.textContent='Скопировать ключ';
+    act.style.display='inline-flex';
+    act.onclick=()=>{ navigator.clipboard?.writeText(fakeKey); toast('Ключ скопирован','ok'); };
+  }
+  // обновить секцию покупок если есть
+  if(window.loadPurchases) try{ loadPurchases(); }catch{}
+  renderDemoPurchases();
+};
+
+// Демо-секция покупок
+window.renderDemoPurchases=function(){
+  const cur=window.getCurrent?getCurrent():null;
+  if(!cur) return;
+  const demo = JSON.parse(localStorage.getItem('lunas_demo_purchases')||'[]').filter(p=>p.email===cur.email);
+  const box=document.getElementById('purchasesList');
+  if(!box || demo.length===0) return;
+  // если есть серверные покупки — демо добавим сверху
+  const existing = box.innerHTML;
+  const demoHtml = demo.map(p=>`
+    <div class="glass" style="padding:12px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-color:rgba(16,185,129,0.18)">
+      <div>
+        <div style="font-weight:800;font-size:13px">${p.product_id} <span style="font-size:11px;color:rgba(255,255,255,0.5)">${p.license_type}</span> <span style="font-size:10px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.18);color:#10b981;padding:2px 6px;border-radius:999px">DEMO</span></div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.5)">${(p.paid_at||'').slice(0,10)} • ${p.id.slice(0,8)} • ${p.status}</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <code style="background:#fff;color:#000;padding:6px 8px;border-radius:8px;font-size:11px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.key_value||'—'}</code>
+        <button class="btn btn-ghost" style="padding:6px 10px;font-size:11px" onclick="navigator.clipboard.writeText('${p.key_value||''}'); toast('Ключ скопирован','ok')">Копировать</button>
+      </div>
+    </div>
+  `).join('');
+  // если еще нет покупок — просто вставить демо, иначе добавить сверху если еще нет demo метки
+  if(!existing.includes('DEMO') || demo.length>0){
+    // не дублировать: если уже есть DEMO — перезаписать демо-часть
+    const serverPart = existing.includes('DEMO') ? existing.split('DEMO').pop() : existing;
+    // проще: если есть демо — перерисовать полностью из демо + серверные (но серверные уже в api_integration)
+    // для демо-режима без сервера — просто показать демо
+    if(!existing || existing.includes('Пока нет покупок')){
+      box.innerHTML = demoHtml;
+    } else if(!existing.includes(demo[0].key_value)){
+      box.innerHTML = demoHtml + existing;
+    }
+  }
+};
+
+// хуки для кликов по карточкам каталога — требуют регистрацию
+document.querySelectorAll('[data-cat="spoofer"], [data-cat="rust"]').forEach(card=>{
+  const orig = card.getAttribute('onclick');
+  card.addEventListener('click', (e)=>{
+    // если клик по кнопке внутри — не дублировать
+    if(e.target.closest('button') || e.target.closest('a')) return;
+    if(!requireAuthOrPrompt()){ e.preventDefault(); e.stopPropagation(); }
+  }, true);
+});
+
+// улучшить фильтр каталога
+document.querySelectorAll('#filterBar [data-filter]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const f=btn.dataset.filter;
+    document.querySelectorAll('#filterBar [data-filter]').forEach(b=>{
+      b.className = b.dataset.filter===f ? 'btn btn-white' : 'btn btn-ghost';
+      b.style.background = b.dataset.filter===f ? '#fff' : 'rgba(255,255,255,0.06)';
+      b.style.color = b.dataset.filter===f ? '#000' : '#fff';
+    });
+    document.querySelectorAll('#products [data-cat]').forEach(card=>{
+      card.style.display = (f==='all' || card.dataset.cat===f) ? '' : 'none';
+    });
+  });
+});
+
+// Esc закрывает все модалки
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape'){ closeSpooferModal(); closeRustModal(); closeAuth(); }
+});
+
 // инициализация
 renderAuth(); updateCart(); renderCurrency();
+setTimeout(renderDemoPurchases, 300);
+// если пришли с morphine.html по кнопке Зарегистрироваться — авто-открыть модалку
+(function(){
+  const intent = localStorage.getItem('lunas_auth_intent');
+  if(intent){
+    localStorage.removeItem('lunas_auth_intent');
+    setTimeout(()=>{ openAuth(intent==='register'?'register':'login'); toast('Зарегистрируйся — и сможешь покупать ✓'); }, 400);
+  }
+  // поддержка хэша #auth
+  if(location.hash==='#auth' && !getCurrent()){
+    setTimeout(()=>{ openAuth('register'); }, 300);
+  }
+})();
 
 // SELLER removed
 </script>
