@@ -959,23 +959,38 @@ function openBuyModalForCart(){
       if(hasBackend && typeof apiRequest==='function'){
         try{ const curPay=selectedPay; const orderRes=await apiRequest('/api/orders',{method:'POST', body:JSON.stringify({product_id: item.id||'morphine_1d', license_type: item.license||'1d', email, currency: getCurrency(), provider: curPay})}); const orderId=orderRes.order.id; const payRes=await apiRequest('/api/payments/create',{method:'POST', body:JSON.stringify({order_id:orderId})}); if(payRes.paymentUrl && !payRes.paymentUrl.startsWith('/mock-pay/')){ window.location.href=payRes.paymentUrl; return; } }catch(e){ console.log('server order fallback',e.message); }
       }
-      // демо + Crypto Bot
-      const fakeKey='LUNAS-'+Math.random().toString(36).slice(2,10).toUpperCase()+'-'+Math.random().toString(36).slice(2,10).toUpperCase()+'-'+Date.now().toString(36).toUpperCase();
-      const purchases=JSON.parse(localStorage.getItem('lunas_demo_purchases')||'[]');
-      purchases.unshift({id:'demo_'+Date.now(),product_id:item.id||item.name,license_type:item.license||'lifetime',key_value:fakeKey,paid_at:new Date().toISOString(),status:'paid',email});
-      localStorage.setItem('lunas_demo_purchases',JSON.stringify(purchases));
+      // демо — pending: ключ только после оплаты на email
+      const demoOrders=JSON.parse(localStorage.getItem('lunas_demo_orders')||'[]');
+      const oid='demo_'+Date.now();
+      demoOrders.push({id:oid, product_id:item.id||item.name, license_type:item.license||'lifetime', email, provider:selectedPay, status:'pending', created_at:new Date().toISOString()});
+      localStorage.setItem('lunas_demo_orders', JSON.stringify(demoOrders));
       window.cart=[]; saveCart(); updateCart();
       document.getElementById('buyModal').style.display='none';
-      toast('Оплата прошла ✓','ok');
       const bg=document.getElementById('modalBg');
       if(bg){
-        const cryptoInfo = selectedPay==='crypto' ? `<br><br><span style="display:inline-flex;align-items:center;gap:6px;background:#0A66FF;color:#fff;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:800">Crypto Bot</span> <a href="https://t.me/CryptoBot" target="_blank" style="color:#0A66FF;text-decoration:underline">t.me/CryptoBot</a> — оплата USDT` : '';
-        document.getElementById('modalTitle').textContent= selectedPay==='crypto' ? 'Оплачено — Crypto Bot ✓' : 'Оплачено ✓ — демо-режим';
-        document.getElementById('modalText').innerHTML = `Товар: <b style="color:#fff">${item.name}</b><br>Ключ: <code style="background:#fff;color:#000;padding:6px 8px;border-radius:8px;font-size:12px;word-break:break-all">${fakeKey}</code>${cryptoInfo}<br><br><span style="font-size:11px;color:rgba(255,255,255,0.5)">Демо-ключ. Для реальных ключей подключи бэкенд.</span>`;
+        document.getElementById('modalTitle').textContent='Оплати — ключ придёт на email';
+        document.getElementById('modalText').innerHTML = `Товар: <b style="color:#fff">${item.name}</b><br>Email: <b style="color:#fff">${email}</b><br>Способ: <b style="color:#fff">${selectedPay}</b><br><br><div style="padding:12px;background:rgba(10,102,255,0.08);border:1px solid rgba(10,102,255,0.18);border-radius:12px"><div style="font-weight:800;color:#0A66FF">Crypto Bot — @CryptoBot</div><div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:4px">Оплати — ключ придёт <b style="color:#fff">только на ${email}</b>, во всплывающем окне до оплаты не показываем.</div><a href="https://t.me/CryptoBot" target="_blank" style="display:inline-flex;margin-top:8px;background:#0A66FF;color:#fff;padding:8px 14px;border-radius:999px;font-weight:800;font-size:12px;text-decoration:none">Открыть Crypto Bot →</a></div>`;
         bg.classList.add('open'); bg.style.display='flex';
         document.getElementById('modalClose').onclick=()=>{ bg.classList.remove('open'); bg.style.display='none'; };
         bg.onclick=(e)=>{ if(e.target===bg){ bg.classList.remove('open'); bg.style.display='none'; } };
-        const act=document.getElementById('modalAction'); act.textContent='Скопировать ключ'; act.style.display='inline-flex'; act.onclick=()=>{ navigator.clipboard?.writeText(fakeKey); toast('Ключ скопирован','ok'); };
+        const act=document.getElementById('modalAction'); act.textContent='Я оплатил — проверить'; act.style.display='inline-flex';
+        act.onclick=()=>{
+          const purchases=JSON.parse(localStorage.getItem('lunas_demo_purchases')||'[]');
+          const fakeKey='LUNAS-'+Math.random().toString(36).slice(2,10).toUpperCase()+'-'+Math.random().toString(36).slice(2,10).toUpperCase()+'-'+Date.now().toString(36).toUpperCase();
+          purchases.unshift({id:oid, product_id:item.id||item.name, license_type:item.license||'lifetime', key_value:fakeKey, paid_at:new Date().toISOString(), status:'paid', email});
+          localStorage.setItem('lunas_demo_purchases', JSON.stringify(purchases));
+          const demoOrders2=JSON.parse(localStorage.getItem('lunas_demo_orders')||'[]'); const o=demoOrders2.find(x=>x.id===oid); if(o) o.status='paid'; localStorage.setItem('lunas_demo_orders', JSON.stringify(demoOrders2));
+          bg.classList.remove('open'); bg.style.display='none';
+          toast('Оплата подтверждена — ключ отправлен на '+email+' ✓','ok');
+          setTimeout(()=>{
+            const bg2=document.getElementById('modalBg');
+            document.getElementById('modalTitle').textContent='Ключ отправлен на email ✓';
+            document.getElementById('modalText').innerHTML=`<div style="text-align:left"><div style="font-size:12px;color:rgba(255,255,255,0.6)">Товар <b style="color:#fff">${item.name}</b> — оплачен (${selectedPay})<br>Email: <b style="color:#fff">${email}</b><br><br>Ключ отправлен на <b style="color:#fff">${email}</b>. Проверь почту и Спам.</div></div>`;
+            bg2.classList.add('open'); bg2.style.display='flex';
+            document.getElementById('modalClose').onclick=()=>{ bg2.classList.remove('open'); bg2.style.display='none'; };
+            const act2=document.getElementById('modalAction'); act2.textContent='OK'; act2.style.display='inline-flex'; act2.onclick=()=>{ bg2.classList.remove('open'); bg2.style.display='none'; };
+          },300);
+        };
       }
       if(window.loadPurchases) try{ loadPurchases(); }catch{}
       renderDemoPurchases();
@@ -988,22 +1003,6 @@ document.getElementById('buyModal')?.addEventListener('click',e=>{ if(e.target.i
 window.checkout = async function(){
   if(!window.cart || window.cart.length===0){ toast('Корзина пуста — выбери товар в каталоге'); return; }
   openBuyModalForCart();
-  // показать модалку с ключом
-  const bg=document.getElementById('modalBg');
-  if(bg){
-    document.getElementById('modalTitle').textContent='Оплачено ? — демо-режим';
-    document.getElementById('modalText').innerHTML = `Товар: <b style="color:#fff">${item.name}</b><br>Ключ: <code style="background:#fff;color:#000;padding:6px 8px;border-radius:8px;font-size:12px;word-break:break-all">${fakeKey}</code><br><br><span style="font-size:11px;color:rgba(255,255,255,0.5)">Это демо-ключ (без сервера). Подключи бэкенд (см. README) — тогда будут реальные ключи + оплата Kaspi/карта.</span><br><span style="font-size:11px;color:#10b981">Ключ сохранён в «Мои покупки» (внизу страницы).</span>`;
-    bg.classList.add('open'); bg.style.display='flex';
-    document.getElementById('modalClose').onclick=()=>{ bg.classList.remove('open'); bg.style.display='none'; };
-    bg.onclick=(e)=>{ if(e.target===bg){ bg.classList.remove('open'); bg.style.display='none'; } };
-    const act=document.getElementById('modalAction');
-    act.textContent='Скопировать ключ';
-    act.style.display='inline-flex';
-    act.onclick=()=>{ navigator.clipboard?.writeText(fakeKey); toast('Ключ скопирован','ok'); };
-  }
-  // обновить секцию покупок если есть
-  if(window.loadPurchases) try{ loadPurchases(); }catch{}
-  renderDemoPurchases();
 };
 
 // Демо-секция покупок

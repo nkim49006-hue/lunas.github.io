@@ -524,24 +524,63 @@ document.getElementById('payChoiceBtn')?.addEventListener('click', async ()=>{
       return;
     }
   }catch(e){ console.log('server fallback',e.message); }
-  // демо — сразу ключи + Crypto Bot инфо
-  const purchases=JSON.parse(localStorage.getItem('lunas_demo_purchases')||'[]');
-  const keys=[];
+  // демо — pending: ключ НЕ показываем до оплаты, только на email после проверки
+  const orderIds=[];
+  const demoOrders=JSON.parse(localStorage.getItem('lunas_demo_orders')||'[]');
   for(let i=0;i<buyQty;i++){
-    const fakeKey='LUNAS-'+Math.random().toString(36).slice(2,10).toUpperCase()+'-'+Math.random().toString(36).slice(2,10).toUpperCase()+'-'+Date.now().toString(36).toUpperCase().slice(-4);
-    keys.push(fakeKey);
-    purchases.unshift({id:'demo_'+Date.now()+'_'+i, product_id:selected.product_id, license_type:selected.license_type, key_value:fakeKey, paid_at:new Date().toISOString(), status:'paid', email});
+    const oid='demo_'+Date.now()+'_'+i;
+    orderIds.push(oid);
+    demoOrders.push({id:oid, product_id:selected.product_id, license_type:selected.license_type, email, qty:1, status:'pending', provider:selectedPayChoice, created_at:new Date().toISOString()});
   }
-  localStorage.setItem('lunas_demo_purchases', JSON.stringify(purchases));
+  localStorage.setItem('lunas_demo_orders', JSON.stringify(demoOrders));
   closePayChoice();
-  toast('Оплачено ✓ '+(selectedPayChoice==='crypto'?'Crypto Bot':''),'ok');
-  const cryptoExtra = selectedPayChoice==='crypto' ? '<br><br><span style="display:inline-flex;align-items:center;gap:6px;background:#0A66FF;color:#fff;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:800">Crypto Bot</span> <a href="https://t.me/CryptoBot" target="_blank" style="color:#0A66FF;text-decoration:underline">t.me/CryptoBot → USDT</a><br><span style="font-size:11px;color:rgba(255,255,255,0.5)">Оплата без регистрации — демо, ключ уже выдан</span>' : '';
-  if(confirm('Оплачено ✓\n\nТовар: '+selected.label+' ×'+buyQty+'\nСпособ: '+selectedPayChoice+'\nИтого: $'+(selected.price_cents/100*buyQty)+'\n\nКлючи:\n'+keys.join('\n')+(selectedPayChoice==='crypto' ? '\n\nCrypto Bot: t.me/CryptoBot' : '')+'\n\nСкопировать?')){
-    navigator.clipboard?.writeText(keys.join('\n'));
-    if(selectedPayChoice==='crypto') window.open('https://t.me/CryptoBot','_blank');
+  // показать pending модалку с Crypto Bot
+  const bg=document.getElementById('modalBg');
+  const pendingHtml = `
+    <div style="text-align:left">
+      <div style="font-size:13px;color:rgba(255,255,255,0.7)">Товар: <b style="color:#fff">${selected.label} ×${buyQty}</b> — <b style="color:#fff">$${selected.price_cents/100*buyQty}</b><br>Способ: <b style="color:#fff">${selectedPayChoice}</b><br>Email: <b style="color:#fff">${email}</b></div>
+      <div style="margin-top:12px;padding:12px;background:rgba(10,102,255,0.08);border:1px solid rgba(10,102,255,0.18);border-radius:12px">
+        <div style="font-weight:800;font-size:13px;color:#0A66FF">Crypto Bot — @CryptoBot</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:4px">Оплати ${selectedPayChoice==='crypto' ? 'USDT TRC20' : selectedPayChoice} — ключ придёт <b style="color:#fff">только на ${email}</b>, во всплывающем окне до оплаты не показываем.</div>
+        <a href="https://t.me/CryptoBot" target="_blank" style="display:inline-flex;margin-top:10px;background:#0A66FF;color:#fff;padding:8px 14px;border-radius:999px;font-weight:800;font-size:12px;text-decoration:none">Открыть Crypto Bot →</a>
+      </div>
+      <div style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.5);text-align:center">Заказы: ${orderIds.map(id=>id.slice(0,8)).join(', ')} — статус pending</div>
+    </div>`;
+  if(bg){
+    document.getElementById('modalTitle').textContent='Оплати — ключ придёт на email';
+    document.getElementById('modalText').innerHTML=pendingHtml;
+    bg.classList.add('open'); bg.style.display='flex';
+    document.getElementById('modalClose').onclick=()=>{ bg.classList.remove('open'); bg.style.display='none'; };
+    bg.onclick=(e)=>{ if(e.target===bg){ bg.classList.remove('open'); bg.style.display='none'; } };
+    const act=document.getElementById('modalAction');
+    act.textContent='Я оплатил — проверить';
+    act.style.display='inline-flex';
+    act.onclick=()=>{
+      // симуляция подтверждения оплаты — теперь генерируем ключи и "отправляем на email"
+      const purchases=JSON.parse(localStorage.getItem('lunas_demo_purchases')||'[]');
+      const demoOrders2=JSON.parse(localStorage.getItem('lunas_demo_orders')||'[]');
+      const keys=[];
+      orderIds.forEach(oid=>{
+        const fakeKey='LUNAS-'+Math.random().toString(36).slice(2,10).toUpperCase()+'-'+Math.random().toString(36).slice(2,10).toUpperCase()+'-'+Date.now().toString(36).toUpperCase().slice(-4);
+        keys.push(fakeKey);
+        purchases.unshift({id:oid, product_id:selected.product_id, license_type:selected.license_type, key_value:fakeKey, paid_at:new Date().toISOString(), status:'paid', email});
+        const o=demoOrders2.find(x=>x.id===oid); if(o) o.status='paid';
+      });
+      localStorage.setItem('lunas_demo_purchases', JSON.stringify(purchases));
+      localStorage.setItem('lunas_demo_orders', JSON.stringify(demoOrders2));
+      bg.classList.remove('open'); bg.style.display='none';
+      toast('Оплата подтверждена — ключ отправлен на '+email+' ✓','ok');
+      // показать что ключ отправлен, но не всплывающим окном с ключом до оплаты — теперь показываем что отправлен
+      setTimeout(()=>{
+        const bg2=document.getElementById('modalBg');
+        document.getElementById('modalTitle').textContent='Ключ отправлен на email ✓';
+        document.getElementById('modalText').innerHTML=`<div style="text-align:left"><div style="font-size:12px;color:rgba(255,255,255,0.6)">Товар <b style="color:#fff">${selected.label} ×${buyQty}</b> — оплачен (${selectedPayChoice})<br>Email: <b style="color:#fff">${email}</b><br><br>Ключ(и) отправлены на <b style="color:#fff">${email}</b>. Проверь почту и папку Спам.<br><span style="font-size:11px;color:rgba(255,255,255,0.4)">Демо: ключи также сохранены — их можно посмотреть после подтверждения.</span></div><div style="margin-top:10px;padding:8px;background:rgba(255,255,255,0.04);border-radius:8px;font-family:monospace;font-size:11px;word-break:break-all">${keys.join('<br>')}</div></div>`;
+        bg2.classList.add('open'); bg2.style.display='flex';
+        document.getElementById('modalClose').onclick=()=>{ bg2.classList.remove('open'); bg2.style.display='none'; };
+        const act2=document.getElementById('modalAction'); act2.textContent='Скопировать'; act2.style.display='inline-flex'; act2.onclick=()=>{ navigator.clipboard?.writeText(keys.join('\n')); toast('Скопировано','ok'); };
+      },300);
+    };
   }
-  // также показать в модалке
-  const bg=document.getElementById('modalBg') || document.body;
   payBtn.textContent='Оплатить'; payBtn.disabled=false;
 });
 document.getElementById('buyBtn').addEventListener('click', ()=>{
