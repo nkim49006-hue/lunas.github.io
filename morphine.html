@@ -8,9 +8,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#070708;--surface:#0F0F10;--glass:rgba(18,18,20,0.72);--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);--muted:rgba(255,255,255,0.45);--muted2:rgba(255,255,255,0.25);--text:#fff}
+:root{--bg:#000000;--surface:#111111;--surface2:#181818;--glass:rgba(18,18,20,0.72);--border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);--muted:rgba(255,255,255,0.5);--muted2:rgba(255,255,255,0.3);--text:#fff}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+body{font-family:'Inter',system-ui,sans-serif;background:#000000;color:var(--text);overflow-x:hidden;position:relative}
+body::before{content:"";position:fixed;inset:-18%;z-index:-2;pointer-events:none;background:radial-gradient(980px 560px at 50% -12%, rgba(255,255,255,0.07), transparent 62%),radial-gradient(720px 480px at 8% 18%, rgba(255,255,255,0.04), transparent 68%),radial-gradient(820px 520px at 92% 28%, rgba(255,255,255,0.05), transparent 64%),radial-gradient(640px 520px at 50% 110%, rgba(255,255,255,0.03), transparent 70%),linear-gradient(180deg, #111111 0%, #0A0A0A 42%, #000000 100%);background-size:150% 150%,170% 170%,160% 160%,140% 140%,100% 100%;animation:bg-drift 18s ease-in-out infinite alternate}
+body::after{content:"";position:fixed;inset:-24%;z-index:-2;pointer-events:none;background:radial-gradient(720px 480px at 76% 12%, rgba(255,255,255,0.03), transparent 62%),radial-gradient(620px 420px at 18% 78%, rgba(255,255,255,0.025), transparent 68%),radial-gradient(480px 320px at 58% 48%, rgba(255,255,255,0.015), transparent 70%);mix-blend-mode:screen;animation:bg-drift-2 24s ease-in-out infinite alternate}
+@keyframes bg-drift{0%{transform:translate3d(0,0,0) scale(1)}100%{transform:translate3d(-1.5%,1.5%,0) scale(1.03)}}
+@keyframes bg-drift-2{0%{transform:translate3d(0,0,0) scale(1)}100%{transform:translate3d(1.5%,-1%,0) scale(1.02)}}
+html::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 80% 70% at 50% 38%, transparent 35%, rgba(0,0,0,0.55) 100%)}
 .mono{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
 .container{max-width:1280px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
 nav{position:fixed;top:0;left:0;right:0;z-index:50;background:#0c0c0e;background-image:linear-gradient(hsla(0,0%,100%,.01) 1px,transparent 0),linear-gradient(90deg,hsla(0,0%,100%,.01) 1px,transparent 0);background-size:36px 36px;border-bottom:1px solid rgba(255,255,255,0.06);padding:0}
@@ -156,10 +161,7 @@ nav .container{height:64px;display:flex;align-items:center;justify-content:space
 
       <button id="buyBtn" class="btn" style="width:100%;margin-top:14px;justify-content:center;padding:14px;font-size:14px;font-weight:900;background:#fff;color:#000;border:1px solid #fff;cursor:pointer;box-shadow:0 8px 24px rgba(255,255,255,0.12)">КУПИТЬ — <span id="buyBtnPrice">$—</span></button>
       <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center">
-        <span style="font-size:11px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:6px 10px;border-radius:999px">ЮKassa</span>
-        <span style="font-size:11px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:6px 10px;border-radius:999px">Kaspi</span>
-        <span style="font-size:11px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:6px 10px;border-radius:999px">СБП</span>
-        <span style="font-size:11px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:6px 10px;border-radius:999px">Крипта</span>
+        <span style="font-size:11px;background:rgba(10,102,255,0.10);border:1px solid rgba(10,102,255,0.18);color:#0A66FF;padding:6px 10px;border-radius:999px;font-weight:800">Crypto Bot • USDT @CryptoBot</span>
       </div>
       <div id="buyHint" style="margin-top:8px;font-size:11px;color:rgba(255,255,255,0.35);text-align:center">Выбери тариф — цена подтянется с сервера</div>
     </div>
@@ -246,9 +248,9 @@ nav .container{height:64px;display:flex;align-items:center;justify-content:space
 <section class="section container" id="faq">
   <h2 class="h2">Частые вопросы</h2>
   <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px;max-width:900px">
-    <div class="glass faq-item"><button class="faq-q">Когда я получу ключ? <span style="color:rgba(255,255,255,0.4)">+</span></button><div class="faq-a"><p class="muted">Сразу после подтверждённой оплаты. Сервер проверяет webhook от ЮKassa/Stripe, резервирует один свободный ключ атомарно и помечает его как проданный. Ключ не выдаётся по кнопке «Я оплатил».</p></div></div>
-    <div class="glass faq-item"><button class="faq-q">Куда придёт ключ? <span style="color:rgba(255,255,255,0.4)">+</span></button><div class="faq-a"><p class="muted">На email, указанный при оформлении, и в личный кабинет → «Мои покупки». Если письмо не дошло, ключ всё равно там — повторная отправка не создаёт новый ключ.</p></div></div>
-    <div class="glass faq-item"><button class="faq-q">Как происходит оплата? <span style="color:rgba(255,255,255,0.4)">+</span></button><div class="faq-a"><p class="muted">Нажми «КУПИТЬ» → введи email → backend создаёт заказ pending и платёж на сервере (цена только из product_prices). Оплати на странице ЮKassa/Stripe. Успех засчитывается только по webhook с проверкой подписи, суммы, валюты и order_id.</p></div></div>
+    <div class="glass faq-item"><button class="faq-q">Когда я получу ключ? <span style="color:rgba(255,255,255,0.4)">+</span></button><div class="faq-a"><p class="muted">Сразу после подтверждённой оплаты Crypto Bot. Сервер проверяет webhook от Crypto Pay (проверка ID заказа, суммы, валюты, статуса paid через getInvoices), атомарно резервирует один свободный ключ и помечает его как проданный. Ключ не выдаётся по кнопке «Я оплатил» без проверки.</p></div></div>
+    <div class="glass faq-item"><button class="faq-q">Куда придёт ключ? <span style="color:rgba(255,255,255,0.4)">+</span></button><div class="faq-a"><p class="muted">На email, указанный при оформлении, и в личный кабинет → «Мои покупки». Если письмо не дошло, ключ всё равно там — повторная отправка не создаёт новый ключ (защита от дубля, один заказ = один ключ).</p></div></div>
+    <div class="glass faq-item"><button class="faq-q">Как происходит оплата? <span style="color:rgba(255,255,255,0.4)">+</span></button><div class="faq-a"><p class="muted">Нажми «КУПИТЬ» → введи email → backend создаёт заказ <code>pending</code> и Crypto Pay инвойс (цена только из <code>product_prices</code>). Оплати по QR <code>crypto-qr.png</code> или <code>t.me/CryptoBot</code> USDT. Успех засчитывается только по webhook с проверкой через <code>getInvoices</code> (ID, сумма, валюта, статус paid). До подтверждения видишь «Ожидаем оплату», после — «Ключ отправлен на email».</p></div></div>
     <div class="glass faq-item"><button class="faq-q">Как получить поддержку? <span style="color:rgba(255,255,255,0.4)">+</span></button><div class="faq-a"><p class="muted">Discord https://discord.gg/57RhrEuqG или Telegram. Укажи номер заказа.</p></div></div>
     <div class="glass faq-item"><button class="faq-q">Есть ли возврат? <span style="color:rgba(255,255,255,0.4)">+</span></button><div class="faq-a"><p class="muted">Цифровой товар — возврат в течение 24ч если ключ не показан и не активирован. После показа в «Мои покупки» или на email — без возврата. Если ключ невалидный — заменим.</p></div></div>
   </div>
@@ -610,7 +612,6 @@ document.getElementById('payChoiceBtn')?.addEventListener('click', async ()=>{
       bg.classList.add('open'); bg.style.display='flex';
     }
   } finally { payBtn.textContent='Оплатить Crypto Bot — USDT'; payBtn.disabled=false; payBtn.style.opacity='1'; }
-});
 });
 document.getElementById('buyBtn').addEventListener('click', ()=>{
   const emailEl=document.getElementById('buyEmail');

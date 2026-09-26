@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LUNAS SHOP — Продукты</title>
+<meta name="description" content="LUNAS SHOP — все продукты: HWID Spoofer, Morphine Rust External, PUBG, Apex. Моментальный доступ, ключ сразу после оплаты.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#000000;--surface:#0a0a0a;--surface-2:#101010;
+  --accent:#ffffff;--primary:#ffffff;--primary-light:#f5f5f5;
+  --text-white:#fff;--text-body:rgba(255,255,255,0.62);--text-muted:rgba(255,255,255,0.42);
+  --card-bg:rgba(255,255,255,0.02);--card-border:rgba(255,255,255,0.06);
+  --card-border-hover:rgba(255,255,255,0.10);
+  --glow:0 0 20px -5px rgba(255,255,255,0.30);--glow-hover:0 0 35px -5px rgba(255,255,255,0.50);
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;background:#000}
+body{font-family:'Inter',system-ui,sans-serif;background:#000;color:#e2e8f0;overflow-x:hidden;min-height:100vh;position:relative}
+body::before{
+  content:"";position:fixed;inset:-20%;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(760px 480px at 74% 8%, rgba(255,255,255,0.06) 0%, transparent 62%),
+    radial-gradient(680px 440px at 18% 72%, rgba(255,255,255,0.045) 0%, transparent 66%),
+    linear-gradient(180deg,#0c0c0c 0%,#060606 42%,#000000 100%);
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;filter:blur(80px);
+  background:
+    radial-gradient(320px 320px at 88% 20%, rgba(255,255,255,0.07) 0%, transparent 70%),
+    radial-gradient(300px 300px at 6% 60%, rgba(255,255,255,0.05) 0%, transparent 70%);
+}
+.container{max-width:1152px;margin:0 auto;padding:0 16px;position:relative;z-index:1}
+.mono{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted)}
+
+nav{
+  position:sticky;top:0;z-index:50;background:rgba(0,0,0,0.35);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid transparent;transition:background .3s,border-color .3s;
+}
+nav.scrolled{background:rgba(0,0,0,0.88);border-bottom-color:rgba(255,255,255,0.06)}
+nav .container{height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.logo img{height:26px;width:auto;display:block}
+.logo span{font-size:15px;font-weight:600;letter-spacing:0.22em;color:transparent;background:linear-gradient(180deg,#fff 0%,#e5e5e5 55%,#a3a3a3 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;align-items:center;gap:2px}
+.nav-links a{color:var(--text-body);text-decoration:none;font-size:12px;font-weight:500;letter-spacing:0.025em;padding:6px 12px;transition:color .2s,background .2s}
+.nav-links a:hover{color:#e2e8f0;background:rgba(255,255,255,0.05)}
+.nav-links a.active{color:#fff;background:rgba(255,255,255,0.05)}
+.nav-right{display:flex;align-items:center;gap:8px}
+.cur-switch{display:flex;gap:2px;padding:2px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06)}
+.cur-switch button{border:none;cursor:pointer;background:transparent;color:var(--text-body);font-family:inherit;font-size:10px;font-weight:500;padding:4px 8px;transition:all .2s}
+.cur-switch button.active{background:#fff;color:#000;font-weight:600}
+.online{display:flex;align-items:center;gap:6px;padding:0 10px;height:30px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.03)}
+.online i{position:relative;display:flex;width:6px;height:6px;flex-shrink:0}
+.online i::before{content:"";position:absolute;inset:0;border-radius:50%;background:#fff;opacity:0.75;animation:ping 1.6s cubic-bezier(0,0,0.2,1) infinite}
+.online i::after{content:"";position:relative;width:6px;height:6px;border-radius:50%;background:#fff}
+.online span{font-size:11px;font-weight:500;color:var(--text-body);font-variant-numeric:tabular-nums;white-space:nowrap}
+@keyframes ping{75%,100%{transform:scale(2.4);opacity:0}}
+.cart-btn{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;font-size:12px;font-weight:500;font-family:inherit;color:rgba(255,255,255,0.85);background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.10);cursor:pointer;transition:all .3s}
+.cart-btn:hover{background:rgba(255,255,255,0.10);border-color:rgba(255,255,255,0.35)}
+.cart-btn b{background:#fff;color:#000;padding:1px 6px;font-size:10px;font-weight:600}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  height:44px;padding:0 24px;border-radius:0;cursor:pointer;text-decoration:none;
+  font-family:inherit;font-size:14px;font-weight:600;letter-spacing:normal;text-transform:none;
+  border:1px solid transparent;position:relative;overflow:hidden;
+  transition:transform .3s,background .3s,border-color .3s,box-shadow .3s,color .3s;
+}
+.btn-primary{background:#fff;color:#000;box-shadow:var(--glow)}
+.btn-primary:hover{background:#f5f5f5;transform:scale(1.05);box-shadow:var(--glow-hover)}
+.btn-primary:active{transform:scale(0.95)}
+.btn-ghost{background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.85);border:1px solid rgba(255,255,255,0.10);backdrop-filter:blur(12px)}
+.btn-ghost:hover{background:rgba(255,255,255,0.10);border-color:rgba(255,255,255,0.35);color:#fff;transform:scale(1.05)}
+.btn-primary::after{content:"";position:absolute;top:-25%;left:-70%;width:48px;height:150%;background:rgba(255,255,255,0.30);filter:blur(12px);pointer-events:none;transition:transform .8s ease;transform:translateX(0)}
+.btn-primary:hover::after{transform:translateX(460%)}
+.btn:disabled{opacity:0.4;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+.btn:disabled::after{display:none}
+
+.page-head{padding:88px 0 28px}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-muted)}
+h1{font-size:clamp(34px,6vw,54px);font-weight:600;letter-spacing:-0.025em;line-height:1.05;color:#fff;margin-top:10px}
+.lead{color:var(--text-body);font-weight:300;line-height:1.625;letter-spacing:0.025em;max-width:520px;margin-top:14px;font-size:15px}
+
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:26px;padding-bottom:22px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.filters button{
+  height:32px;padding:0 12px;cursor:pointer;font-family:inherit;
+  font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.10);color:rgba(255,255,255,0.85);
+  transition:all .3s;
+}
+.filters button:hover{border-color:rgba(255,255,255,0.35)}
+.filters button.active{background:#fff;border-color:#fff;color:#000;font-weight:600}
+.count{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;color:var(--text-muted);margin:22px 0 14px}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pcard{
+  display:flex;flex-direction:column;background:var(--card-bg);
+  border:1px solid var(--card-border);overflow:hidden;
+  transition:background .3s,border-color .3s;
+}
+.pcard:hover{background:rgba(255,255,255,0.04);border-color:var(--card-border-hover)}
+.pcard.out{opacity:0.5}
+.pcard-body{padding:20px;display:flex;flex-direction:column;gap:10px;flex:1}
+.pcard-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted)}
+.pcard h3{font-size:17px;font-weight:600;letter-spacing:-0.01em;color:#fff;transition:color .3s;line-height:1.25}
+.pcard:hover h3{color:#fff}
+.instant{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;padding:4px 8px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#fff}
+.pcard-desc{font-size:13px;font-weight:300;line-height:1.6;color:var(--text-body)}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tags span{padding:4px 8px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);color:var(--text-muted)}
+.pcard-foot{margin-top:auto;padding-top:14px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.price{font-size:24px;font-weight:600;letter-spacing:-0.025em;color:#fff;line-height:1}
+.stock{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-body);margin-top:6px}
+.stock::before{content:"";width:5px;height:5px;border-radius:50%;background:#fff;flex-shrink:0}
+.stock.out{color:var(--text-muted)}
+.stock.out::before{background:rgba(255,255,255,0.3)}
+.pcard .btn{width:100%;margin-top:12px}
+
+.cart-bar{
+  position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:40;
+  width:min(1152px,calc(100% - 24px));display:none;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:12px 16px;background:rgba(0,0,0,0.92);backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,0.08);
+  box-shadow:0 0 60px rgba(255,255,255,0.05),inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.cart-bar.show{display:flex}
+#cartList{display:flex;gap:8px;flex-wrap:wrap;flex:1;min-width:200px}
+#cartList span{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;font-size:11px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.10)}
+#cartList span em{font-style:normal;color:var(--text-muted)}
+#cartList span i{cursor:pointer;font-style:normal;opacity:0.5}
+#cartList span i:hover{opacity:1}
+.cart-bar .btn{height:38px;padding:0 18px;font-size:13px;white-space:nowrap}
+.cart-total{font-size:18px;font-weight:600;color:#fff;white-space:nowrap}
+
+.toast-wrap{position:fixed;top:72px;right:16px;z-index:60;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:#0a0a0a;border:1px solid rgba(255,255,255,0.18);color:#e2e8f0;padding:12px 16px;font-size:13px;font-weight:500;box-shadow:0 0 20px -5px rgba(255,255,255,0.30);animation:toastIn .3s forwards}
+@keyframes toastIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+footer{border-top:1px solid rgba(255,255,255,0.06);margin-top:80px;padding:48px 0 32px}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:32px}
+.foot-grid h4{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px}
+.foot-grid a{display:block;color:var(--text-body);text-decoration:none;font-size:13px;padding:5px 0;transition:color .2s}
+.foot-grid a:hover{color:#fff}
+.foot-brand{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.foot-brand span{font-size:15px;font-weight:600;letter-spacing:0.22em;color:transparent;background:linear-gradient(180deg,#fff 0%,#e5e5e5 55%,#a3a3a3 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.foot-brand img{height:24px;width:auto}
+.copy{margin-top:36px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.06);font-size:12px;color:var(--text-muted)}
+
+@media(max-width:900px){
+  .nav-links,.online{display:none}
+  .page-head{padding:64px 0 20px}
+  .grid{grid-template-columns:1fr 1fr}
+  .foot-grid{grid-template-columns:1fr;gap:24px}
+}
+@media(max-width:560px){
+  .grid{grid-template-columns:1fr}
+  .cart-bar{left:8px;right:8px;bottom:8px;width:auto;transform:none;padding:10px 12px}
+  .toast-wrap{top:64px;right:8px;left:8px}
+}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:#000}
+::-webkit-scrollbar-thumb{background:#1f1f1f;border:2px solid #000}
+::-webkit-scrollbar-thumb:hover{background:#fff}
+::selection{background:rgba(255,255,255,0.25);color:#fff}
+</style>
+</head>
+<body>
+<nav>
+  <div class="container">
+    <a href="./index.html" class="logo"><img src="./logo.png" alt="LUNAS"><span>LUNAS</span></a>
+    <div class="nav-links">
+      <a href="./index.html">Главная</a>
+      <a href="./products.html" class="active">Продукты</a>
+      <a href="./index.html#reviews">Отзывы</a>
+      <a href="./index.html#faq">FAQ</a>
+    </div>
+    <div class="nav-right">
+      <div class="online"><i></i><span>2,4k онлайн</span></div>
+      <div class="cur-switch" id="curSwitch">
+        <button data-cur="USD" class="active">$</button>
+        <button data-cur="EUR">&euro;</button>
+        <button data-cur="RUB">&#8381;</button>
+        <button data-cur="KZT">&#8381;</button>
+      </div>
+      <button class="cart-btn" onclick="scrollToCart()">Корзина <b id="cartCount">0</b></button>
+    </div>
+  </div>
+</nav>
+
+<div class="page-head">
+  <div class="container">
+    <div class="eyebrow">R4GE-STYLE CATALOG</div>
+    <h1>Продукты</h1>
+    <p class="lead">Goyda Mason Spoofer, Morphine для Rust, PUBG и Apex. Моментальный доступ — ключ приходит сразу после оплаты.</p>
+    <div class="filters" id="filters">
+      <button class="active" data-filter="all">Все</button>
+      <button data-filter="spoofer">Goyda Mason</button>
+      <button data-filter="rust">Rust</button>
+      <button data-filter="pubg">PUBG</button>
+      <button data-filter="apex">Apex</button>
+    </div>
+    <div class="count" id="count"></div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="grid" id="grid"></div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand"><img src="./logo.png" alt="LUNAS"><span>LUNAS</span></div>
+        <p class="lead" style="font-size:13px;max-width:340px;margin-top:0">Приватные читы и спуферы. Оплата криптой, картой или СБП.</p>
+      </div>
+      <div>
+        <h4>Навигация</h4>
+        <a href="./index.html">Главная</a>
+        <a href="./products.html">Продукты</a>
+        <a href="./index.html#reviews">Отзывы</a>
+        <a href="./index.html#faq">FAQ</a>
+      </div>
+      <div>
+        <h4>Документы</h4>
+        <a href="./index.html#terms">Условия использования</a>
+        <a href="./index.html#privacy">Политика конфиденциальности</a>
+        <a href="./index.html#refund">Политика возврата</a>
+      </div>
+    </div>
+    <div class="copy">&copy; 2026 LUNAS SHOP. Все права защищены.</div>
+  </div>
+</footer>
+
+<div class="cart-bar" id="cartBar">
+  <div id="cartList"></div>
+  <div class="cart-total" id="cartTotal"></div>
+  <button class="btn btn-primary" onclick="checkout()">Оформить заказ</button>
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+const RATES={USD:1,EUR:0.92,RUB:95,KZT:540};
+const SYMBOLS={USD:'$',EUR:'\u20AC',RUB:'\u20BD',KZT:'\u20B8'};
+const getCurrency=()=>localStorage.getItem('lunas_currency')||'USD';
+const setCurrency=c=>{localStorage.setItem('lunas_currency',c);renderAll();toast('Валюта: '+c+' '+SYMBOLS[c]);};
+const convertUSD=usd=>Math.round(usd*RATES[getCurrency()]);
+const priceStr=usd=>convertUSD(usd)+SYMBOLS[getCurrency()];
+
+const PRODUCTS=[
+  {id:'goyda_1d',cat:'spoofer',eyebrow:'HWID SPOOFER',title:'Goyda Mason Spoofer — 1 день',usd:5,license:'1d',desc:'Один сброс HWID. Пробный тариф, чтобы проверить всё работает.',tags:['Пробный','Один сброс']},
+  {id:'goyda_3d',cat:'spoofer',eyebrow:'HWID SPOOFER',title:'Goyda Mason Spoofer — 3 дня',usd:15,license:'3d',desc:'Три дня unlimited сбросов HWID. Vanguard, EAC и BattlEye.',tags:['3 дня','Unlimited']},
+  {id:'goyda_7d',cat:'spoofer',eyebrow:'HWID SPOOFER',title:'Goyda Mason Spoofer — 7 дней',usd:20,license:'7d',desc:'Неделя unlimited сбросов. Все античиты в комплекте.',tags:['Неделя','Unlimited']},
+  {id:'goyda_30d',cat:'spoofer',eyebrow:'HWID SPOOFER',title:'Goyda Mason Spoofer — 30 дней',usd:40,license:'30d',desc:'Месяц unlimited сбросов HWID. Самая выгодная опция.',tags:['Выгодно','Unlimited']},
+  {id:'morphine_1d',cat:'rust',eyebrow:'RUST EXTERNAL',title:'Morphine — 1 день',usd:6,license:'1d',desc:'ESP, Aim, Loot, Radar, NoRecoil. Пробный день.',tags:['External','Radar','Stream-proof']},
+  {id:'morphine_3d',cat:'rust',eyebrow:'RUST EXTERNAL',title:'Morphine — 3 дня',usd:15,license:'3d',desc:'Тот же функционал на три дня. Хит продаж.',tags:['External','Хит','-17%']},
+  {id:'morphine_7d',cat:'rust',eyebrow:'RUST EXTERNAL',title:'Morphine — 7 дней',usd:25,license:'7d',desc:'ESP, Aim, Loot, Radar, NoRecoil. Неделя.',tags:['External','Неделя']},
+  {id:'morphine_30d',cat:'rust',eyebrow:'RUST EXTERNAL',title:'Morphine — 30 дней',usd:60,license:'30d',desc:'Месяц полного доступа. Самая выгодная опция.',tags:['External','Выгодно','-44%']},
+  {id:'pubg_full',cat:'pubg',eyebrow:'PUBG EXTERNAL',title:'PUBG Cheat — BattlEye Bypass',usd:0,desc:'Aim, ESP, Loot, Vehicles. Скоро в продаже.',tags:['BE bypass','ESP'],stock:false},
+  {id:'apex_full',cat:'apex',eyebrow:'APEX EXTERNAL',title:'Apex Legends — Full',usd:0,desc:'Prediction, Glow, NoRecoil. Скоро в продаже.',tags:['EAC bypass','Prediction'],stock:false}
+];
+
+let filter='all';
+let cart=JSON.parse(localStorage.getItem('lunas_cart')||'[]');
+const saveCart=()=>localStorage.setItem('lunas_cart',JSON.stringify(cart));
+
+function toast(msg){
+  const wrap=document.getElementById('toastWrap'); if(!wrap) return;
+  const el=document.createElement('div'); el.className='toast'; el.textContent=msg;
+  wrap.appendChild(el);
+  setTimeout(()=>{el.style.opacity='0';el.style.transform='translateY(-8px)';},2600);
+  setTimeout(()=>el.remove(),3000);
+}
+
+function renderGrid(){
+  const grid=document.getElementById('grid');
+  const list=PRODUCTS.filter(p=>filter==='all'||p.cat===filter);
+  document.getElementById('count').textContent=list.length+' '+plural(list.length)+' • instant delivery';
+  grid.innerHTML=list.map(p=>{
+    const inStock=p.stock!==false;
+    return '<article class="pcard'+(inStock?'':' out')+'" data-cat="'+p.cat+'" id="'+p.id+'">'
+      +'<div class="pcard-body">'
+      +'<div class="pcard-eyebrow">'+p.eyebrow+'</div>'
+      +'<h3>'+p.title+'</h3>'
+      +(inStock?'<span class="instant">Моментально · Доступ сразу</span>':'')
+      +'<p class="pcard-desc">'+p.desc+'</p>'
+      +'<div class="tags">'+p.tags.map(t=>'<span>'+t+'</span>').join('')+'</div>'
+      +'<div class="pcard-foot">'
+        +'<div><div class="price" data-usd="'+p.usd+'">'+(inStock?priceStr(p.usd):'—')+'</div>'
+        +'<div class="stock'+(inStock?'':' out')+'">'+(inStock?'В наличии':'Нет в наличии')+'</div></div>'
+      +'</div>'
+      +(inStock
+        ?'<button class="btn btn-primary" onclick="add(\''+p.id+'\')">Купить</button>'
+        :'<button class="btn btn-ghost" disabled>Скоро</button>')
+      +'</div></article>';
+  }).join('');
+  document.querySelectorAll('.cur-switch button').forEach(b=>{
+    const act=b.dataset.cur===getCurrency();
+    b.classList.toggle('active',act);
+  });
+}
+
+function plural(n){
+  const m=n%100, k=n%10;
+  if(m>10&&m<20) return 'товаров';
+  if(k===1) return 'товар';
+  if(k>=2&&k<=4) return 'товара';
+  return 'товаров';
+}
+
+function add(id){
+  const p=PRODUCTS.find(x=>x.id===id); if(!p||p.stock===false) return;
+  cart.push({name:p.title,price:p.usd,id:p.id,license:p.license||p.id});
+  saveCart(); renderCart();
+  toast(p.title+' — добавлен в корзину');
+}
+
+function renderCart(){
+  const c=document.getElementById('cartCount');
+  if(c) c.textContent=cart.length;
+  const bar=document.getElementById('cartBar');
+  const list=document.getElementById('cartList');
+  const total=document.getElementById('cartTotal');
+  if(cart.length===0){ bar.classList.remove('show'); list.innerHTML=''; total.textContent=''; return; }
+  bar.classList.add('show');
+  list.innerHTML=cart.map((it,i)=>'<span>'+it.name+' <em>'+priceStr(it.price)+'</em> <i onclick="removeItem('+i+')">&times;</i></span>').join('');
+  const sum=cart.reduce((s,x)=>s+x.price,0);
+  total.textContent=priceStr(sum);
+}
+
+function removeItem(i){ cart.splice(i,1); saveCart(); renderCart(); toast('Удалено из корзины'); }
+
+function scrollToCart(){
+  const bar=document.getElementById('cartBar');
+  if(cart.length===0){ document.getElementById('grid').scrollIntoView({behavior:'smooth'}); return; }
+  bar.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function checkout(){
+  if(cart.length===0){ toast('Корзина пуста — выбери товар'); return; }
+  localStorage.setItem('lunas_open_checkout','1');
+  location.href='./index-lunas-backup.html#checkout';
+}
+
+function renderAll(){ renderGrid(); renderCart(); }
+
+document.getElementById('filters').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-filter]'); if(!b) return;
+  filter=b.dataset.filter;
+  document.querySelectorAll('#filters button').forEach(x=>x.classList.toggle('active',x===b));
+  renderGrid();
+});
+
+document.getElementById('curSwitch').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-cur]'); if(!b) return;
+  setCurrency(b.dataset.cur);
+});
+
+const navEl=document.querySelector('nav');
+const onScroll=()=>navEl.classList.toggle('scrolled',window.scrollY>10);
+window.addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+
+renderAll();
+if(location.hash){
+  const el=document.querySelector(location.hash);
+  if(el) setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'center'}),80);
+}
+</script>
+</body>
+</html>
