@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LUNAS SHOP — Читы • Черно-белый</title>
-<!-- REAL PAYMENT: поменяй SELLER.* в <script> на свои реквизиты — тогда оплата станет реальной (прямой перевод). Для Stripe/YooKassa подключи API ключи и замени showPay на fetch к /create-payment -->
+<!-- ОПЛАТА: единственный способ — PayPal. Укажи PAYPAL_ME (логин paypal.me), PAYPAL_EMAIL или PAYPAL_LINK в скрипте блока checkout. Если подключён backend (API_BASE), ссылку на оплату вернёт /api/payments/create -->
 <meta name="description" content="LUNAS SHOP — приватные читы для Valorant, CS2, Rust, Apex. Черно-белый, undetected, 24/7.">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -391,14 +391,10 @@ section h3,section .card h3{font-weight:600!important}
   border:1px solid rgba(255,255,255,0.10)!important;
   border-radius:0!important;color:#ffffff!important;
 }
-.pay-method[style*="241,70,53"]{font-weight:500!important}
-.pay-method[style*="241,70,53"] div{color:#ffffff!important}
-.pay-method.selected[style*="241,70,53"]{background:rgba(255,255,255,0.07)!important;border-color:rgba(255,255,255,0.35)!important}
+.pay-method[data-pay="paypal"]{border-color:rgba(0,112,186,0.55)!important;background:rgba(0,112,186,0.10)!important}
+.pay-method[data-pay="paypal"]:hover,.pay-method[data-pay="paypal"].selected{border-color:#009cde!important;background:rgba(0,112,186,0.20)!important}
 [style*="0A66FF"]{background:rgba(255,255,255,0.04)!important;border-color:rgba(255,255,255,0.14)!important;border-radius:0!important}
-[style*="#0A66FF"],#modalText div[style*="0A66FF"]{background:#ffffff!important;border-color:#ffffff!important}
-#modalText div[style*="0A66FF"] div[style*="#0A66FF"]{background:#ffffff!important}
 a[style*="#0A66FF"]{color:#000000!important;font-weight:600!important}
-#modalText div[style*="0A66FF"] div{color:#ffffff!important}
 #topDiscordBtn{background:rgba(255,255,255,0.05)!important;border:1px solid rgba(255,255,255,0.12)!important;color:rgba(255,255,255,0.88)!important}
 #cartDiscount{color:#ffffff!important}
 @media(max-width:900px){
@@ -420,7 +416,7 @@ function openPolicy(title, text){
 function closePolicy(){ document.getElementById('policyModal').style.display='none' }
 document.getElementById('policyModal')?.addEventListener('click', e=>{ if(e.target.id==='policyModal') closePolicy() })
 document.getElementById('termsBtn')?.addEventListener('click', e=>{ e.preventDefault(); openPolicy('Условия использования', `1. LUNAS SHOP продаёт лицензии на цифровые ключи, не физический товар.\n2. Читы нарушают ToS игр (EAC/BattlEye/Vanguard) — используешь на свой страх, бан возможен.\n3. Ключ персональный, не передавай. Один ключ — один покупатель (защита от дубля).\n4. Аккаунт — только твой, не делись паролем. Пароли храним как bcrypt хеш.\n5. Запрещено перепродавать, декомпилировать лоадер.` )})
-document.getElementById('privacyBtn')?.addEventListener('click', e=>{ e.preventDefault(); openPolicy('Политика конфиденциальности', `Собираем: email, хеш пароля, заказы, ключи (привязаны к order_id), баланс.\nНе собираем: данные карты — их обрабатывает платёжный провайдер (Kaspi/СБП/Stripe).\nХранение: SQLite/Postgres, шифрование, доступ только по JWT.\nПередача: только провайдеру для платежа и email-сервису для отправки ключа.\nУдаление: напиши на support@lunasshop.local — удалим данные за 30 дней.` )})
+document.getElementById('privacyBtn')?.addEventListener('click', e=>{ e.preventDefault(); openPolicy('Политика конфиденциальности', `Собираем: email, хеш пароля, заказы, ключи (привязаны к order_id), баланс.\nНе собираем: данные карты — их обрабатывает платёжный провайдер (PayPal).\nХранение: SQLite/Postgres, шифрование, доступ только по JWT.\nПередача: только провайдеру для платежа и email-сервису для отправки ключа.\nУдаление: напиши на support@lunasshop.local — удалим данные за 30 дней.` )})
 document.getElementById('refundBtn')?.addEventListener('click', e=>{ e.preventDefault(); openPolicy('Политика возврата', `Цифровой товар — возврат в течение 24ч если ключ НЕ показан и НЕ активирован.\nПосле показа ключа в "Мои покупки" или на email — без возврата.\nЕсли ключ невалидный/не активируется — заменим в течение 24ч, покажи видео.\nЕсли ключей нет (out_of_stock) — заказ не станет paid, деньги вернём.\nПиши в Discord https://discord.gg/57RhrEuqG с номером заказа.` )})
 // footer old ToS button still exists as tosBtn, keep it
 document.getElementById('tgBtn2')?.addEventListener('click', e=>{ e.preventDefault(); toast('Telegram: t.me/lunasshop') })
@@ -544,7 +540,7 @@ nav,.container,section,footer,main,.modal,header,aside{position:relative}
   <div class="container">
     <div style="display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap">
       <h2 style="font-size:28px;font-weight:900;letter-spacing:-0.02em">Каталог <span style="color:var(--blue3)">—</span> <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;color:rgba(255,255,255,0.35)">4 ИГР • INSTANT KEY</span></h2>
-      <div class="mono pay-line">оплата: крипта • карта • sbp</div>
+      <div class="mono pay-line">оплата: PayPal</div>
       <a href="./products.html" class="btn btn-ghost" style="padding:7px 12px;font-size:11px;height:auto">Все продукты →</a>
     </div>
     <div style="display:flex;gap:8px;margin:14px 0 0;flex-wrap:wrap" class="mono" id="filterBar">
@@ -646,7 +642,7 @@ nav,.container,section,footer,main,.modal,header,aside{position:relative}
 
 
 
-<!-- BUY MODAL — выбор оплаты: Kaspi/СБП/карта/крипта + email, платеж создается на backend -->
+<!-- BUY MODAL — оплата: PayPal + email, платеж создается на backend -->
 
 <!-- PERSONAL CABINET — личный кабинет -->
 <div id="cabinetModal" class="modal-bg" style="display:none;position:fixed;inset:0;z-index:75;background:rgba(0,0,0,0.82);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
@@ -706,16 +702,22 @@ nav,.container,section,footer,main,.modal,header,aside{position:relative}
     </div>
     <div style="margin-top:14px">
       <div style="font-size:11px;font-weight:700;letter-spacing:0.06em;color:rgba(255,255,255,0.6)">СПОСОБ ОПЛАТЫ</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
-        <button class="glass pay-method" data-pay="kaspi" style="padding:12px;text-align:left;cursor:pointer;border-color:#F14635;background:rgba(241,70,53,0.08)"><div style="font-weight:800;font-size:13px;color:#F14635">Kaspi</div><div style="font-size:11px;color:rgba(255,255,255,0.5)">Kaspi Gold • QR</div></button>
-        <button class="glass pay-method" data-pay="sbp" style="padding:12px;text-align:left;cursor:pointer"><div style="font-weight:800;font-size:13px">СБП</div><div style="font-size:11px;color:rgba(255,255,255,0.5)">По номеру • QR</div></button>
-        <button class="glass pay-method" data-pay="card" style="padding:12px;text-align:left;cursor:pointer"><div style="font-weight:800;font-size:13px">Карта</div><div style="font-size:11px;color:rgba(255,255,255,0.5)">Visa/MC • 3D Secure</div></button>
-        <button class="glass pay-method" data-pay="crypto" style="padding:12px;text-align:left;cursor:pointer"><div style="font-weight:800;font-size:13px">Крипта</div><div style="font-size:11px;color:rgba(255,255,255,0.5)">USDT TRC20 • QR</div></button>
+      <div style="display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px">
+        <button class="glass pay-method selected" data-pay="paypal" type="button" style="padding:14px;text-align:left;cursor:pointer;display:flex;align-items:center;gap:12px">
+          <span style="width:36px;height:36px;border-radius:8px;background:#0070ba;display:grid;place-items:center;flex-shrink:0">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><path d="M7.1 20.8H3.8c-.2 0-.4-.2-.3-.4l2.9-16.7c0-.2.2-.3.4-.3h5.3c2.4 0 4 .5 4.8 1.6.7 1 .6 2.4.1 3.6-.7 1.9-2.2 3-4.1 3h-1.8c-.5 0-.9.4-1 .9l-.7 5.2c0 .3-.2.5-.4.5zm2.8-8.3h1.4c1.3 0 2.3-.6 2.7-1.5.1-.4.2-.8.1-1.1 0-.3 0-.5-.1-.7-.3-.9-1.1-1.3-2.4-1.3H8.3L7.1 14c0 .3.1.5.4.5zm11.2-1.6c.6.6.9 1.5.7 2.5-.4 2.1-1.9 3.4-4.1 3.4h-1.8c-.5 0-.9.4-1 .9l-.7 5.2c0 .3-.2.5-.5.5h-2.2l1.6-13.3h5.8c1 0 1.8.2 2.4.6l-1 4.7.3-.1 1.2.4 1.1.4.9.5z"/></svg>
+          </span>
+          <span style="display:block;min-width:0">
+            <span style="display:block;font-weight:800;font-size:14px">PayPal</span>
+            <span style="display:block;font-size:11px;color:rgba(255,255,255,0.55)">Карта, PayPal-баланс, Pay Later • USD / EUR</span>
+          </span>
+          <span style="margin-left:auto;font-size:10px;font-weight:700;letter-spacing:0.08em;color:rgba(255,255,255,0.45);white-space:nowrap">ЕДИНСТВЕННЫЙ</span>
+        </button>
       </div>
-      <div id="buyPayHint" style="margin-top:8px;font-size:11px;color:rgba(255,255,255,0.35);text-align:center">Выбери способ — оплата создаётся на сервере</div>
+      <div id="buyPayHint" style="margin-top:8px;font-size:11px;color:rgba(255,255,255,0.35);text-align:center">Оплата через PayPal — переход на защищённую страницу PayPal</div>
     </div>
-    <button id="buyPayBtn" class="btn btn-white" style="width:100%;margin-top:16px;justify-content:center;background:#fff;color:#000;padding:12px;border-radius:999px;font-weight:900;opacity:0.5;pointer-events:none">Сначала выбери способ</button>
-    <div style="margin-top:8px;font-size:10px;color:rgba(255,255,255,0.25);text-align:center">Нажимая «Оплатить», создаётся заказ <b>pending</b> на сервере. Оплату подтвердит webhook.</div>
+    <button id="buyPayBtn" class="btn btn-white" style="width:100%;margin-top:16px;justify-content:center;background:#fff;color:#000;padding:12px;border-radius:999px;font-weight:900">Оплатить через PayPal →</button>
+    <div style="margin-top:8px;font-size:10px;color:rgba(255,255,255,0.25);text-align:center">Нажимая «Оплатить», создаётся заказ <b>pending</b> на сервере. Оплату подтвердит webhook PayPal.</div>
   </div>
 </div>
 
@@ -756,14 +758,14 @@ nav,.container,section,footer,main,.modal,header,aside{position:relative}
       <button class="btn btn-ghost" style="flex:1;justify-content:center" onclick="closeRustModal()">Отмена</button>
       <button class="btn btn-white" style="flex:1;justify-content:center;background:#fff;color:#000" onclick="closeRustModal(); document.getElementById('catalog').scrollIntoView({behavior:'smooth'})">В каталог</button>
     </div>
-    <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,0.3);text-align:center;font-family:JetBrains Mono,monospace">Нажми на срок — товар добавится в корзину. Оплата балансом или Kaspi/карта/СБП.</div>
+    <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,0.3);text-align:center;font-family:JetBrains Mono,monospace">Нажми на срок — товар добавится в корзину. Оплата балансом или через PayPal.</div>
   </div>
 </div>
 
 <section id="how" class="reveal" style="padding:36px 0">
   <div class="container">
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
-      <div class="glass" style="padding:22px;text-align:center"><div style="width:48px;height:48px;margin:0 auto 12px;border-radius:12px;background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.22);display:grid;place-items:center">?</div><h3 style="font-weight:800">1. Оплати</h3><p style="font-size:13px;color:rgba(255,255,255,0.55);margin-top:6px">Kaspi / карта / СБП — ключ мгновенно на почту и в ЛК</p></div>
+      <div class="glass" style="padding:22px;text-align:center"><div style="width:48px;height:48px;margin:0 auto 12px;border-radius:12px;background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.22);display:grid;place-items:center">?</div><h3 style="font-weight:800">1. Оплати</h3><p style="font-size:13px;color:rgba(255,255,255,0.55);margin-top:6px">PayPal — ключ мгновенно на почту и в ЛК</p></div>
       <div class="glass" style="padding:22px;text-align:center"><div style="width:48px;height:48px;margin:0 auto 12px;border-radius:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);display:grid;place-items:center">??</div><h3 style="font-weight:800">2. Скачай лоадер</h3><p style="font-size:13px;color:rgba(255,255,255,0.55);margin-top:6px">1 файл .exe — запустил, ввел ключ, инжект 3 сек</p></div>
       <div class="glass" style="padding:22px;text-align:center"><div style="width:48px;height:48px;margin:0 auto 12px;border-radius:12px;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:900">?</div><h3 style="font-weight:800">3. Играй</h3><p style="font-size:13px;color:rgba(255,255,255,0.55);margin-top:6px">F2 — меню, INS — скрыть. Обновы ежедневно, саппорт 24/7</p></div>
     </div>
@@ -864,10 +866,8 @@ nav,.container,section,footer,main,.modal,header,aside{position:relative}
       <div class="glass" style="padding:14px">
         <div style="font-weight:800;font-size:12px">Реквизиты для оплаты (видно покупателям при пополнении)</div>
         <div style="display:grid;gap:8px;margin-top:10px">
-          <label style="font-size:11px">Карта <input id="admCard" style="width:100%;margin-top:4px;padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff"></label>
-          <label style="font-size:11px">Kaspi <input id="admKaspi" style="width:100%;margin-top:4px;padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff"></label>
-          <label style="font-size:11px">USDT TRC20 <input id="admCrypto" style="width:100%;margin-top:4px;padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff"></label>
-          <label style="font-size:11px">СБП телефон <input id="admSbp" style="width:100%;margin-top:4px;padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff"></label>
+          <label style="font-size:11px">PayPal email <input id="admPaypalEmail" placeholder="lunasshop@paypal.me" style="width:100%;margin-top:4px;padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff"></label>
+          <label style="font-size:11px">PayPal ссылка (paypal.me / Hosted Button) <input id="admPaypalLink" placeholder="https://www.paypal.com/paypalme/…" style="width:100%;margin-top:4px;padding:8px 10px;border-radius:10px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff"></label>
         </div>
         <button class="btn btn-white" style="margin-top:10px" id="admSaveSeller">Сохранить реквизиты</button>
       </div>
@@ -1203,9 +1203,33 @@ window.buyNow=function(product_id, license, name){
   document.getElementById('cartBar')?.scrollIntoView({behavior:'smooth', block:'center'});
 };
 
-// Гостевой checkout — без регистрации, выбор оплаты (Crypto Bot)
+// ===== PAYPAL — единственный способ оплаты =====
+// Заполни ОДНО из трёх полей ниже (приоритет: PAYPAL_LINK > PAYPAL_ME > PAYPAL_EMAIL).
+// Если подключён backend (API_BASE), ссылку на оплату вернёт /api/payments/create — тогда PayPal-ссылка не нужна.
+const PAYPAL_LINK  = '';   // готовая ссылка: PayPal Hosted Button / Checkout / donation link
+const PAYPAL_ME    = '';   // логин PayPal.me, напр. 'lunasshop' -> https://www.paypal.com/paypalme/lunasshop
+const PAYPAL_EMAIL = 'Nkim4900@gmail.com';   // PayPal-почта получателя
+const PAYPAL_LOCALE = 'en_US';
+// PayPal не принимает RUB/KZT — приводим к USD
+const PAYPAL_CURRENCIES = ['USD','EUR','GBP','CAD','AUD','JPY','CHF','CZK','PLN','SEK','NOK','DKK','HUF','RON','BGN','HRK','MXN','BRL','MXN','SGD','HKD','NZD','PHP','THB','MYR','TWD','ILS','AED','SAR','ARS','CLP','COP','PEN','IDR','VND','ARS'];
+function paypalCurrency(){
+  let cur=(typeof getCurrency==='function' ? getCurrency() : null) || 'USD';
+  cur=String(cur).toUpperCase();
+  return PAYPAL_CURRENCIES.includes(cur) ? cur : 'USD';
+}
+function buildPaypalUrl(amount, itemName){
+  if(PAYPAL_LINK) return PAYPAL_LINK;
+  const cur=paypalCurrency();
+  const q='amount='+encodeURIComponent(amount)+'&currency='+encodeURIComponent(cur)+'&locale='+PAYPAL_LOCALE;
+  if(PAYPAL_ME) return 'https://www.paypal.com/paypalme/'+encodeURIComponent(PAYPAL_ME)+'?'+q;
+  if(PAYPAL_EMAIL) return 'https://www.paypal.com/donate/?business='+encodeURIComponent(PAYPAL_EMAIL)+'&item_name='+encodeURIComponent(itemName||'LUNAS SHOP')+'&'+q;
+  return '';
+}
+
+// Гостевой checkout — без регистрации, оплата через PayPal
 const _baseCheckout = window.checkout;
-let selectedPay = null;
+let selectedPay = 'paypal';
+const PAYPAL_LOGO = '<svg width="16" height="16" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><path d="M7.1 20.8H3.8c-.2 0-.4-.2-.3-.4l2.9-16.7c0-.2.2-.3.4-.3h5.3c2.4 0 4 .5 4.8 1.6.7 1 .6 2.4.1 3.6-.7 1.9-2.2 3-4.1 3h-1.8c-.5 0-.9.4-1 .9l-.7 5.2c0 .3-.2.5-.4.5zm2.8-8.3h1.4c1.3 0 2.3-.6 2.7-1.5.1-.4.2-.8.1-1.1 0-.3 0-.5-.1-.7-.3-.9-1.1-1.3-2.4-1.3H8.3L7.1 14c0 .3.1.5.4.5zm11.2-1.6c.6.6.9 1.5.7 2.5-.4 2.1-1.9 3.4-4.1 3.4h-1.8c-.5 0-.9.4-1 .9l-.7 5.2c0 .3-.2.5-.5.5h-2.2l1.6-13.3h5.8c1 0 1.8.2 2.4.6l-1 4.7.3-.1 1.2.4 1.1.4.9.5z"/></svg>';
 function openBuyModalForCart(){
   const item = window.cart[0];
   if(!item) return;
@@ -1227,25 +1251,23 @@ function openBuyModalForCart(){
   const emailInput=document.getElementById('buyEmail');
   const savedEmail=localStorage.getItem('lunas_guest_email')||'';
   if(emailInput && !emailInput.value) emailInput.value=savedEmail;
-  // сброс выбора оплаты
-  selectedPay=null;
-  document.querySelectorAll('.pay-method').forEach(b=>{b.style.borderColor='rgba(255,255,255,0.08)'; b.style.background='rgba(255,255,255,0.04)'; b.classList.remove('selected')});
+  // PayPal — единственный способ, выбран по умолчанию
+  selectedPay='paypal';
+  document.querySelectorAll('.pay-method').forEach(b=>b.classList.add('selected'));
   const payBtn=document.getElementById('buyPayBtn');
-  if(payBtn){payBtn.textContent='Сначала выбери способ'; payBtn.style.opacity='0.5'; payBtn.style.pointerEvents='none';}
-  document.getElementById('buyPayHint').textContent='Выбери способ — Crypto Bot для крипты';
+  if(payBtn){payBtn.textContent='Оплатить через PayPal'; payBtn.disabled=false; payBtn.style.opacity='1'; payBtn.style.pointerEvents='auto';}
+  document.getElementById('buyPayHint').textContent='Оплата через PayPal — переход на защищённую страницу PayPal';
   modal.style.display='flex';
-  // клики по способам
+  // клик по PayPal (единственный вариант — просто подтверждаем выбор)
   document.querySelectorAll('.pay-method').forEach(btn=>{
     btn.onclick=()=>{
-      document.querySelectorAll('.pay-method').forEach(b=>{b.style.borderColor='rgba(255,255,255,0.08)'; b.style.background='rgba(255,255,255,0.04)'; b.classList.remove('selected')});
-      btn.style.borderColor='#fff'; btn.style.background='rgba(255,255,255,0.08)'; btn.classList.add('selected');
-      selectedPay=btn.dataset.pay;
+      document.querySelectorAll('.pay-method').forEach(b=>b.classList.add('selected'));
+      selectedPay='paypal';
       if(payBtn){
-        const labels={kaspi:'Оплатить Kaspi', sbp:'Оплатить СБП', card:'Оплатить картой', crypto:'Оплатить Crypto Bot — USDT'};
-        payBtn.textContent=labels[selectedPay]||'Оплатить';
+        payBtn.textContent='Оплатить через PayPal';
         payBtn.style.opacity='1'; payBtn.style.pointerEvents='auto';
       }
-      document.getElementById('buyPayHint').textContent=selectedPay==='crypto' ? 'Crypto Bot — USDT TRC20 • @CryptoBot' : 'Нажми Оплатить — создадим заказ';
+      document.getElementById('buyPayHint').textContent='Оплата через PayPal — переход на защищённую страницу PayPal';
     };
   });
   // кнопка оплатить
@@ -1256,22 +1278,30 @@ function openBuyModalForCart(){
       localStorage.setItem('lunas_guest_email', email);
       if(!selectedPay){ toast('Выбери способ оплаты'); return; }
       payBtn.textContent='Создаю заказ...'; payBtn.disabled=true;
-      // демо-выдача
-      const hasBackend=!!(window.API_BASE || localStorage.getItem('api_base'));
+      const amount=((item.price||0)*itemQty);
+      let paypalUrl=buildPaypalUrl(amount.toFixed(2), item.name);
+      // Если задана прямая PayPal-ссылка — не дёргаем backend (иначе остаётся pending-заказ без оплаты)
+      const hasBackend=!paypalUrl && !!(window.API_BASE || localStorage.getItem('api_base'));
       if(hasBackend && typeof apiRequest==='function'){
-        try{ const curPay=selectedPay; const orderRes=await apiRequest('/api/orders',{method:'POST', body:JSON.stringify({product_id: item.id||'morphine_1d', license_type: item.license||'1d', email, currency: getCurrency(), provider: curPay})}); const orderId=orderRes.order.id; const payRes=await apiRequest('/api/payments/create',{method:'POST', body:JSON.stringify({order_id:orderId})}); if(payRes.paymentUrl && !payRes.paymentUrl.startsWith('/mock-pay/')){ window.location.href=payRes.paymentUrl; return; } }catch(e){ console.log('server order fallback',e.message); }
+        try{ const orderRes=await apiRequest('/api/orders',{method:'POST', body:JSON.stringify({product_id: item.id||'morphine_1d', license_type: item.license||'1d', email, currency: getCurrency(), provider: 'paypal'})}); const orderId=orderRes.order.id; const payRes=await apiRequest('/api/payments/create',{method:'POST', body:JSON.stringify({order_id:orderId, provider: 'paypal'})}); if(payRes.paymentUrl && !payRes.paymentUrl.startsWith('/mock-pay/')) paypalUrl=payRes.paymentUrl; }catch(e){ console.log('server order fallback',e.message); }
       }
+      if(!paypalUrl) paypalUrl=buildPaypalUrl(amount.toFixed(2), item.name);
+      if(!paypalUrl){ payBtn.disabled=false; payBtn.textContent='Оплатить через PayPal'; toast('PayPal не настроен','err'); return; }
+      window.open(paypalUrl,'_blank','noopener');
       // демо — pending: ключ только после оплаты на email
       const demoOrders=JSON.parse(localStorage.getItem('lunas_demo_orders')||'[]');
       const oid='demo_'+Date.now();
-      demoOrders.push({id:oid, product_id:item.id||item.name, license_type:item.license||'lifetime', email, provider:selectedPay, status:'pending', created_at:new Date().toISOString()});
+      demoOrders.push({id:oid, product_id:item.id||item.name, license_type:item.license||'lifetime', email, provider:'paypal', amount, status:'pending', created_at:new Date().toISOString()});
       localStorage.setItem('lunas_demo_orders', JSON.stringify(demoOrders));
       window.cart=[]; saveCart(); updateCart();
       document.getElementById('buyModal').style.display='none';
       const bg=document.getElementById('modalBg');
       if(bg){
-        document.getElementById('modalTitle').textContent='Оплати — ключ придёт на email';
-        document.getElementById('modalText').innerHTML = `Товар: <b style="color:#fff">${item.name}</b><br>Email: <b style="color:#fff">${email}</b><br>Способ: <b style="color:#fff">${selectedPay}</b><br><br><div style="padding:12px;background:rgba(10,102,255,0.08);border:1px solid rgba(10,102,255,0.18);border-radius:12px"><div style="font-weight:800;color:#0A66FF">Crypto Bot — @CryptoBot</div><div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:4px">Оплати — ключ придёт <b style="color:#fff">только на ${email}</b>, во всплывающем окне до оплаты не показываем.</div><a href="https://t.me/CryptoBot" target="_blank" style="display:inline-flex;margin-top:8px;background:#0A66FF;color:#fff;padding:8px 14px;border-radius:999px;font-weight:800;font-size:12px;text-decoration:none">Открыть Crypto Bot →</a></div>`;
+        document.getElementById('modalTitle').textContent='Оплати в PayPal — ключ придёт на email';
+        const ppBlock = paypalUrl
+          ? `<div style="padding:12px;background:rgba(0,112,186,0.10);border:1px solid rgba(0,112,186,0.28);border-radius:12px"><div style="font-weight:800;display:flex;align-items:center;gap:6px">${PAYPAL_LOGO} PayPal</div><div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:4px">Оплати — ключ придёт <b style="color:#fff">только на ${email}</b>, до оплаты ключ не показываем.</div><a href="${paypalUrl}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;margin-top:8px;background:#0070ba;color:#fff;padding:9px 16px;border-radius:999px;font-weight:800;font-size:12px;text-decoration:none">${PAYPAL_LOGO} Оплатить в PayPal →</a></div>`
+          : `<div style="padding:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:12px"><div style="font-weight:800">PayPal не настроен</div><div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:4px">Укажи <b style="color:#fff">PAYPAL_ME</b>, <b style="color:#fff">PAYPAL_EMAIL</b> или <b style="color:#fff">PAYPAL_LINK</b> в скрипте checkout на странице, либо подключи backend.</div></div>`;
+        document.getElementById('modalText').innerHTML = `Товар: <b style="color:#fff">${item.name}</b><br>Сумма: <b style="color:#fff">${amount}$</b><br>Email: <b style="color:#fff">${email}</b><br>Способ: <b style="color:#fff">PayPal</b><br><br>${ppBlock}`;
         bg.classList.add('open'); bg.style.display='flex';
         document.getElementById('modalClose').onclick=()=>{ bg.classList.remove('open'); bg.style.display='none'; };
         bg.onclick=(e)=>{ if(e.target===bg){ bg.classList.remove('open'); bg.style.display='none'; } };
@@ -1287,7 +1317,7 @@ function openBuyModalForCart(){
           setTimeout(()=>{
             const bg2=document.getElementById('modalBg');
             document.getElementById('modalTitle').textContent='Ключ отправлен на email ✓';
-            document.getElementById('modalText').innerHTML=`<div style="text-align:left"><div style="font-size:12px;color:rgba(255,255,255,0.6)">Товар <b style="color:#fff">${item.name}</b> — оплачен (${selectedPay})<br>Email: <b style="color:#fff">${email}</b><br><br>Ключ отправлен на <b style="color:#fff">${email}</b>. Проверь почту и Спам.</div></div>`;
+            document.getElementById('modalText').innerHTML=`<div style="text-align:left"><div style="font-size:12px;color:rgba(255,255,255,0.6)">Товар <b style="color:#fff">${item.name}</b> — оплачен (PayPal)<br>Email: <b style="color:#fff">${email}</b><br><br>Ключ отправлен на <b style="color:#fff">${email}</b>. Проверь почту и Спам.</div></div>`;
             bg2.classList.add('open'); bg2.style.display='flex';
             document.getElementById('modalClose').onclick=()=>{ bg2.classList.remove('open'); bg2.style.display='none'; };
             const act2=document.getElementById('modalAction'); act2.textContent='OK'; act2.style.display='inline-flex'; act2.onclick=()=>{ bg2.classList.remove('open'); bg2.style.display='none'; };
@@ -1296,7 +1326,7 @@ function openBuyModalForCart(){
       }
       if(window.loadPurchases) try{ loadPurchases(); }catch{}
       renderDemoPurchases();
-      payBtn.textContent='Оплатить'; payBtn.disabled=false;
+      payBtn.textContent='Оплатить через PayPal'; payBtn.disabled=false;
     };
   }
 }
