@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="kin">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LUNAS SHOP — Продукты</title>
 <meta name="description" content="LUNAS SHOP — все продукты: HWID Spoofer, Morphine Rust External, PUBG, Apex. Моментальный доступ, ключ сразу после оплаты.">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -111,6 +112,40 @@ h1{font-size:clamp(34px,6vw,54px);font-weight:600;letter-spacing:-0.025em;line-h
 .pcard-desc{font-size:13px;font-weight:300;line-height:1.6;color:var(--text-body)}
 .tags{display:flex;gap:6px;flex-wrap:wrap}
 .tags span{padding:4px 8px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);color:var(--text-muted)}
+
+/* ---- product card with tier picker ---- */
+.pcard-hero{position:relative;width:100%;aspect-ratio:781/427;background:#0a0a0a;border-bottom:1px solid var(--card-border);overflow:hidden}
+.pcard-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.pcard-hero .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.10) 0%,rgba(0,0,0,0.30) 45%,rgba(0,0,0,0.88) 100%);pointer-events:none}
+.pcard-hero .corner{position:absolute;top:10px;right:10px;background:#fff;color:#000;font-size:10px;font-weight:800;padding:4px 8px;border-radius:999px;z-index:2}
+.pcard-hero .ov{position:absolute;left:0;right:0;bottom:0;padding:16px 22px 18px;z-index:2}
+.pcard-hero .ov .ey{font-family:'Outfit',sans-serif;font-size:.6875rem;font-weight:500;letter-spacing:.02em;color:rgba(255,255,255,.65)}
+.pcard-hero .ov .ti{font-family:'Outfit',sans-serif;font-size:1.25rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:rgba(244,244,245,1);text-shadow:0 2px 12px rgba(0,0,0,.6);margin-top:2px;line-height:1.1}
+.pcard.noimg{padding:22px}
+.tier-label{font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.tier{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:.5rem;padding:10px 6px;cursor:pointer;text-align:center;transition:all .2s;font-family:inherit;color:inherit}
+.tier:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.28)}
+.tier.on{background:linear-gradient(135deg,#ffffff 0%,#e4e4e4 100%);border-color:rgba(255,255,255,.55);box-shadow:0 2px 16px rgba(255,255,255,.12)}
+.tier .d{font-size:.75rem;font-weight:700;letter-spacing:.02em;color:rgba(244,244,245,.85);display:block}
+.tier .p{font-size:.6875rem;font-weight:500;color:rgba(255,255,255,.45);display:block;margin-top:2px;font-variant-numeric:tabular-nums}
+.tier.on .d{color:#050505}
+.tier.on .p{color:rgba(5,5,5,.65)}
+.pcard-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:4px;flex-wrap:wrap}
+.pcard-foot .price{font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:700;letter-spacing:-.025em;line-height:1;color:rgba(244,244,245,1)}
+.pcard-foot .stock{font-size:.6875rem;font-weight:500;color:rgba(255,255,255,.38);margin-top:4px}
+@media(max-width:560px){.tiers{grid-template-columns:repeat(2,1fr)}}
+
+/* ---- tier-picker card body ---- */
+.pcard-body{padding:20px;display:flex;flex-direction:column;gap:12px;flex:1}
+.pdesc{font-size:13px;line-height:1.55;color:rgba(255,255,255,0.45)}
+.ptags{display:flex;gap:6px;flex-wrap:wrap}
+.ptags span{font-family:'Outfit',sans-serif;font-size:10px;font-weight:500;letter-spacing:.04em;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07);border-radius:999px;padding:4px 9px;color:rgba(255,255,255,0.45)}
+.pbtns{display:flex;gap:8px;flex-wrap:wrap}
+.pstock{font-family:'Outfit',sans-serif;font-size:11px;font-weight:500;color:rgba(255,255,255,0.38);margin-top:4px}
+.pstock.out{color:rgba(255,255,255,0.28)}
+.empty{grid-column:1/-1;padding:60px 20px;text-align:center;font-size:14px;color:rgba(255,255,255,0.4)}
+
 .pcard-foot{margin-top:auto;padding-top:14px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
 .price{font-size:24px;font-weight:600;letter-spacing:-0.025em;color:#fff;line-height:1}
 .stock{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-body);margin-top:6px}
@@ -194,11 +229,12 @@ footer{border-top:1px solid rgba(255,255,255,0.06);margin-top:80px;padding:48px 
   <div class="container">
     <div class="eyebrow">R4GE-STYLE CATALOG</div>
     <h1>Продукты</h1>
-    <p class="lead">Goyda Mason Spoofer, Morphine для Rust, PUBG и Apex. Моментальный доступ — ключ приходит сразу после оплаты.</p>
+    <p class="lead">Goyda Mason Spoofer, Morphine и SMG Chams для Rust, PUBG и Apex. Моментальный доступ — ключ приходит сразу после оплаты.</p>
     <div class="filters" id="filters">
       <button class="active" data-filter="all">Все</button>
       <button data-filter="spoofer">Goyda Mason</button>
       <button data-filter="rust">Rust</button>
+      <button data-filter="chams">Chams</button>
       <button data-filter="pubg">PUBG</button>
       <button data-filter="apex">Apex</button>
     </div>
@@ -251,18 +287,35 @@ const setCurrency=c=>{localStorage.setItem('lunas_currency',c);renderAll();toast
 const convertUSD=usd=>Math.round(usd*RATES[getCurrency()]);
 const priceStr=usd=>convertUSD(usd)+SYMBOLS[getCurrency()];
 
-const PRODUCTS=[
-  {id:'goyda_1d',cat:'spoofer',eyebrow:'HWID SPOOFER',title:'Goyda Mason Spoofer — 1 день',usd:5,license:'1d',desc:'Один сброс HWID. Пробный тариф, чтобы проверить всё работает.',tags:['Пробный','Один сброс']},
-  {id:'goyda_3d',cat:'spoofer',eyebrow:'HWID SPOOFER',title:'Goyda Mason Spoofer — 3 дня',usd:15,license:'3d',desc:'Три дня unlimited сбросов HWID. Vanguard, EAC и BattlEye.',tags:['3 дня','Unlimited']},
-  {id:'goyda_7d',cat:'spoofer',eyebrow:'HWID SPOOFER',title:'Goyda Mason Spoofer — 7 дней',usd:20,license:'7d',desc:'Неделя unlimited сбросов. Все античиты в комплекте.',tags:['Неделя','Unlimited']},
-  {id:'goyda_30d',cat:'spoofer',eyebrow:'HWID SPOOFER',title:'Goyda Mason Spoofer — 30 дней',usd:40,license:'30d',desc:'Месяц unlimited сбросов HWID. Самая выгодная опция.',tags:['Выгодно','Unlimited']},
-  {id:'morphine_1d',cat:'rust',eyebrow:'RUST EXTERNAL',title:'Morphine — 1 день',usd:6,license:'1d',desc:'ESP, Aim, Loot, Radar, NoRecoil. Пробный день.',tags:['External','Radar','Stream-proof']},
-  {id:'morphine_3d',cat:'rust',eyebrow:'RUST EXTERNAL',title:'Morphine — 3 дня',usd:15,license:'3d',desc:'Тот же функционал на три дня. Хит продаж.',tags:['External','Хит','-17%']},
-  {id:'morphine_7d',cat:'rust',eyebrow:'RUST EXTERNAL',title:'Morphine — 7 дней',usd:25,license:'7d',desc:'ESP, Aim, Loot, Radar, NoRecoil. Неделя.',tags:['External','Неделя']},
-  {id:'morphine_30d',cat:'rust',eyebrow:'RUST EXTERNAL',title:'Morphine — 30 дней',usd:60,license:'30d',desc:'Месяц полного доступа. Самая выгодная опция.',tags:['External','Выгодно','-44%']},
-  {id:'pubg_full',cat:'pubg',eyebrow:'PUBG EXTERNAL',title:'PUBG Cheat — BattlEye Bypass',usd:0,desc:'Aim, ESP, Loot, Vehicles. Скоро в продаже.',tags:['BE bypass','ESP'],stock:false},
-  {id:'apex_full',cat:'apex',eyebrow:'APEX EXTERNAL',title:'Apex Legends — Full',usd:0,desc:'Prediction, Glow, NoRecoil. Скоро в продаже.',tags:['EAC bypass','Prediction'],stock:false}
+const TIERS=[
+  {license:'1d',label:'1 день',usd:{goyda:5,morphine:6,chams:6}},
+  {license:'3d',label:'3 дня',usd:{goyda:15,morphine:15,chams:15}},
+  {license:'7d',label:'7 дней',usd:{goyda:20,morphine:25,chams:25}},
+  {license:'30d',label:'30 дней',usd:{goyda:40,morphine:60,chams:60}}
 ];
+const GROUPS=[
+  {id:'goyda',cat:'spoofer',eyebrow:'HWID SPOOFER',title:'Goyda Mason Spoofer',img:'./spoofer-card-781.webp',ov:'Goyda Mason \u00b7 HWID cleaner',
+   desc:'\u041e\u0434\u0438\u043d \u0441\u043f\u0443\u0444\u0435\u0440, \u0447\u0435\u0442\u044b\u0440\u0435 \u0441\u0440\u043e\u043a\u0430: 1 / 3 / 7 / 30 \u0434\u043d\u0435\u0439. Vanguard, EAC \u0438 BattlEye.',
+   tags:['Unlimited \u0441\u0431\u0440\u043e\u0441\u043e\u0432','Vanguard','EAC / BE']},
+  {id:'morphine',cat:'rust',eyebrow:'RUST EXTERNAL',title:'Morphine \u2014 Rust',img:'./morphine-card-1280.webp',ov:'Morphine \u00b7 200+ days UD',
+   desc:'\u041f\u0440\u0438\u0432\u0430\u0442\u043d\u044b\u0439 \u0447\u0438\u0442: ESP, Aim, Loot, Radar, NoRecoil. Stream-proof, \u043e\u0431\u043d\u043e\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0435\u0436\u0435\u0434\u043d\u0435\u0432\u043d\u043e.',
+   tags:['External','Radar','Stream-proof']},
+  {id:'chams',cat:'chams',eyebrow:'RUST CHAMS',title:'SMG Chams',img:'./chams-card-1254.webp',ov:'SMG Chams \u00b7 Rust',
+   desc:'\u0422\u043e\u043b\u044c\u043a\u043e chams, \u0431\u0435\u0437 ESP \u0438 aim \u2014 \u0447\u0438\u0441\u0442\u044b\u0439 \u0432\u0438\u0434\u0436\u0435\u0442 \u043d\u0430 \u0432\u0440\u0435\u043c\u044f. \u0412\u0441\u0435 \u043a\u043e\u043d\u0444\u0438\u0433\u0438.',
+   tags:['Chams','External','Stream-proof']},
+  {id:'pubg',cat:'pubg',eyebrow:'PUBG EXTERNAL',title:'PUBG Cheat \u2014 BattlEye Bypass',img:'',ov:'PUBG \u00b7 BattlEye bypass',
+   desc:'\u0421\u043a\u043e\u0440\u043e \u0432 \u043f\u0440\u043e\u0434\u0430\u0436\u0435 \u2014 Aim, ESP, Loot, Vehicles.',tags:['BE bypass','ESP'],stock:false},
+  {id:'apex',cat:'apex',eyebrow:'APEX EXTERNAL',title:'Apex Legends \u2014 Full',img:'',ov:'Apex \u00b7 EAC bypass',
+   desc:'\u0421\u043a\u043e\u0440\u043e \u0432 \u043f\u0440\u043e\u0434\u0430\u0436\u0435 \u2014 Prediction, Glow, NoRecoil.',tags:['EAC bypass','Prediction'],stock:false}
+];
+const PRODUCTS=[];
+GROUPS.forEach(g=>TIERS.forEach(t2=>PRODUCTS.push({
+  id:g.id+'_'+t2.license,cat:g.cat,eyebrow:g.eyebrow,title:g.title+' \u2014 '+t2.label,
+  usd:t2.usd[g.id],license:t2.license,group:g.id,
+  desc:g.desc,tags:g.tags,stock:g.stock
+})));
+const productById=id=>PRODUCTS.find(p=>p.id===id);
+const tiersFor=gid=>TIERS.map(t2=>{const p=productById(gid+'_'+t2.license);return{license:t2.license,label:t2.label,usd:p.usd,stock:p.stock!==false};});
 
 let filter='all';
 let cart=JSON.parse(localStorage.getItem('lunas_cart')||'[]');
@@ -276,59 +329,72 @@ function toast(msg){
   setTimeout(()=>el.remove(),3000);
 }
 
+const PLURAL_FORMS=['товар','товара','товаров'];
+function plural(n){const m=n%100;if(m>=11&&m<=14)return 2;const x=n%10;return x===1?0:(x>=2&&x<=4?1:2);}
+const pluralWord=n=>PLURAL_FORMS[plural(n)];
+
 function renderGrid(){
   const grid=document.getElementById('grid');
-  const list=PRODUCTS.filter(p=>filter==='all'||p.cat===filter);
-  document.getElementById('count').textContent=list.length+' '+plural(list.length)+' • instant delivery';
-  grid.innerHTML=list.map(p=>{
-    const inStock=p.stock!==false;
-    return '<article class="pcard'+(inStock?'':' out')+'" data-cat="'+p.cat+'" id="'+p.id+'">'
-      +'<div class="pcard-body">'
-      +'<div class="pcard-eyebrow">'+p.eyebrow+'</div>'
-      +'<h3>'+p.title+'</h3>'
-      +(inStock?'<span class="instant">Моментально · Доступ сразу</span>':'')
-      +'<p class="pcard-desc">'+p.desc+'</p>'
-      +'<div class="tags">'+p.tags.map(t=>'<span>'+t+'</span>').join('')+'</div>'
-      +'<div class="pcard-foot">'
-        +'<div><div class="price" data-usd="'+p.usd+'">'+(inStock?priceStr(p.usd):'—')+'</div>'
-        +'<div class="stock'+(inStock?'':' out')+'">'+(inStock?'В наличии':'Нет в наличии')+'</div></div>'
-      +'</div>'
-      +(inStock
-        ?'<button class="btn btn-primary" onclick="add(\''+p.id+'\')">Купить</button>'
-        :'<button class="btn btn-ghost" disabled>Скоро</button>')
-      +'</div></article>';
+  const count=document.getElementById('count');
+  const list=GROUPS.filter(g=>filter==='all'||g.cat===filter);
+  if(!list.length){grid.innerHTML='<div class="empty">\u041d\u0438\u0447\u0435\u0433\u043e \u0432 \u044d\u0442\u043e\u0439 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438 \u043d\u0435\u0442 \u0443\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u044c\u0441\u0442\u0432\u0430.</div>';count.textContent='0 \u0442\u043e\u0432\u0430\u0440\u043e\u0432';return;}
+  grid.innerHTML=list.map(g=>{
+    const tiers=tiersFor(g.id);
+    const first=tiers.filter(x=>x.stock)[0]||tiers[0];
+    const hero=g.img
+      ? '<div class="pcard-hero"><img src="'+g.img+'" alt="'+g.title+'" loading="lazy" decoding="async"><div class="shade"></div><div class="corner">'+tiers.length+' \u0421\u0420\u041e\u041a\u0410</div><div class="ov"><div class="ey">'+g.ov+'</div><div class="ti">'+g.title+'</div></div></div>'
+      : '<div class="pcard-hero noimg" style="display:grid;place-items:center;background:linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01))"><div class="ey" style="text-align:center;padding:0 20px;color:rgba(255,255,255,0.35)">'+g.ov+'</div></div>';
+    const tierBtns=tiers.map(x=>'<button type="button" class="tier'+(x.license===first.license?' on':'')+'" data-g="'+g.id+'" data-license="'+x.license+'"><span class="d">'+x.label+'</span><span class="p">'+x.usd+'$</span></button>').join('');
+    return '<article class="glass pcard" data-cat="'+g.cat+'" data-group="'+g.id+'">'
+      + hero
+      + '<div class="pcard-body">'
+      + '<div class="tier-label">\u0412\u044b\u0431\u0435\u0440\u0438 \u0441\u0440\u043e\u043a</div>'
+      + '<div class="tiers" data-tiers="'+g.id+'">'+tierBtns+'</div>'
+      + '<p class="pdesc">'+g.desc+'</p>'
+      + '<div class="ptags">'+g.tags.map(x=>'<span>'+x+'</span>').join('')+'</div>'
+      + '<div class="pcard-foot">'
+      + '<div><div class="price" data-lic="'+first.license+'">'+first.usd+'$</div><div class="pstock" data-stock="'+g.id+'">'+(first.stock?'\u043c\u0433\u043d\u043e\u0432\u0435\u043d\u043d\u0430\u044f \u0432\u044b\u0434\u0430\u0447\u0430':'\u0432\u0440\u0435\u043c\u0435\u043d\u043d\u043e \u043d\u0435\u0442')+'</div></div>'
+      + '<div class="pbtns"><a class="btn btn-ghost" href="./product.html?p='+g.id+'" style="text-decoration:none;height:44px;padding:0 20px">\u041f\u043e\u0434\u0440\u043e\u0431\u043d\u0435\u0435</a><button class="btn btn-primary" data-buy="'+g.id+'">\u041a\u0443\u043f\u0438\u0442\u044c</button></div>'
+      + '</div></div></article>';
   }).join('');
-  document.querySelectorAll('.cur-switch button').forEach(b=>{
-    const act=b.dataset.cur===getCurrency();
-    b.classList.toggle('active',act);
-  });
-}
-
-function plural(n){
-  const m=n%100, k=n%10;
-  if(m>10&&m<20) return 'товаров';
-  if(k===1) return 'товар';
-  if(k>=2&&k<=4) return 'товара';
-  return 'товаров';
+  count.textContent=list.length+' '+pluralWord(list.length)+' \u2022 instant delivery';
+  grid.querySelectorAll('.tier').forEach(btn=>btn.addEventListener('click',()=>{
+    const g=GROUPS.find(x=>x.id===btn.dataset.g);
+    const card=btn.closest('.pcard');
+    card.querySelectorAll('.tier').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    const t2=tiersFor(g.id).find(x=>x.license===btn.dataset.license);
+    card.querySelector('.price').textContent=t2.usd+'$';
+    card.querySelector('.price').dataset.lic=t2.license;
+    card.querySelector('.pstock').textContent=t2.stock?'\u043c\u0433\u043d\u043e\u0432\u0435\u043d\u043d\u0430\u044f \u0432\u044b\u0434\u0430\u0447\u0430':'\u0432\u0440\u0435\u043c\u0435\u043d\u043d\u043e \u043d\u0435\u0442';
+    card.querySelector('.pstock').classList.toggle('out',!t2.stock);
+  }));
+  grid.querySelectorAll('[data-buy]').forEach(b=>b.addEventListener('click',()=>{
+    const g=GROUPS.find(x=>x.id===b.dataset.buy);
+    const lic=b.closest('.pcard').querySelector('.price').dataset.lic;
+    location.href='./product.html?p='+g.id+'&lic='+lic;
+  }));
 }
 
 function add(id){
-  const p=PRODUCTS.find(x=>x.id===id); if(!p||p.stock===false) return;
-  cart.push({name:p.title,price:p.usd,id:p.id,license:p.license||p.id});
+  const p=PRODUCTS.find(x=>x.id===id); if(!p||p.stock===false){toast('Товар временно нет');return;}
+  const ex=cart.find(x=>x.id===id);
+  if(ex) ex.qty=(ex.qty||1)+1;
+  else cart.push({name:p.title,price:p.usd,id:p.id,license:p.license,qty:1});
   saveCart(); renderCart();
-  toast(p.title+' — добавлен в корзину');
+  toast(p.title+' → в корзину');
 }
 
 function renderCart(){
   const c=document.getElementById('cartCount');
-  if(c) c.textContent=cart.length;
+  if(c) c.textContent=cart.reduce((s,x)=>s+(x.qty||1),0);
   const bar=document.getElementById('cartBar');
   const list=document.getElementById('cartList');
   const total=document.getElementById('cartTotal');
   if(cart.length===0){ bar.classList.remove('show'); list.innerHTML=''; total.textContent=''; return; }
   bar.classList.add('show');
-  list.innerHTML=cart.map((it,i)=>'<span>'+it.name+' <em>'+priceStr(it.price)+'</em> <i onclick="removeItem('+i+')">&times;</i></span>').join('');
-  const sum=cart.reduce((s,x)=>s+x.price,0);
+  list.innerHTML=cart.map((it,i)=>'<span>'+it.name+(it.qty>1?' ×'+it.qty:'')+' <em>'+priceStr(it.price*(it.qty||1))+'</em> <i onclick="removeItem('+i+')">&times;</i></span>').join('');
+  const sum=cart.reduce((s,x)=>s+x.price*(x.qty||1),0);
   total.textContent=priceStr(sum);
 }
 
@@ -343,7 +409,7 @@ function scrollToCart(){
 function checkout(){
   if(cart.length===0){ toast('Корзина пуста — выбери товар'); return; }
   localStorage.setItem('lunas_open_checkout','1');
-  location.href='./index-lunas-backup.html#checkout';
+  location.href='./index.html#checkout';
 }
 
 function renderAll(){ renderGrid(); renderCart(); }
@@ -371,5 +437,35 @@ if(location.hash){
   if(el) setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'center'}),80);
 }
 </script>
+<style id="ktext-p">
+/* ===== KERNELAB-INSPIRED TEXT SYSTEM - products.html ===== */
+.kin body,.kin input,.kin button,.kin select,.kin textarea{font-family:'Outfit',system-ui,-apple-system,sans-serif!important;letter-spacing:0!important}
+.kin [style*="JetBrains"]{font-family:'Outfit',sans-serif!important}
+.kin body{background:#050505!important;color:#f4f4f5!important;font-size:15px!important;font-weight:400!important;line-height:1.45!important}
+.kin .eyebrow{font-family:'Outfit',sans-serif!important;font-size:.75rem!important;font-weight:700!important;letter-spacing:.18em!important;text-transform:uppercase!important;color:rgba(255,255,255,.4)!important}
+.kin .page-head h1{font-family:'Outfit',sans-serif!important;font-size:clamp(1.75rem,4vw,2.5rem)!important;font-weight:800!important;letter-spacing:-.03em!important;color:#fafafa!important;text-shadow:0 0 40px rgba(255,255,255,.12)!important}
+.kin .lead{font-size:.925rem!important;line-height:1.6!important;color:rgba(255,255,255,.45)!important;font-weight:400!important}
+.kin .count{font-size:.75rem!important;color:rgba(255,255,255,.38)!important;letter-spacing:.02em!important}
+.kin .filters button{border-radius:.5rem!important;font-size:.75rem!important;font-weight:600!important;letter-spacing:.02em!important;color:rgba(244,244,245,.6)!important}
+.kin .filters button.active{background:rgba(255,255,255,.1)!important;color:rgba(244,244,245,.95)!important;border-color:rgba(255,255,255,.2)!important}
+.kin .pcard{border-radius:12px!important;background:rgba(255,255,255,.03)!important;border:1px solid rgba(255,255,255,.08)!important}
+.kin .pcard-eyebrow{font-family:'Outfit',sans-serif!important;font-size:.625rem!important;font-weight:700!important;letter-spacing:.04em!important;text-transform:uppercase!important;color:rgba(255,255,255,.4)!important}
+.kin .pcard h3{font-family:'Outfit',sans-serif!important;font-size:.9375rem!important;font-weight:700!important;letter-spacing:-.01em!important;color:rgba(244,244,245,1)!important}
+.kin .pcard-desc{font-size:.8125rem!important;line-height:1.6!important;font-weight:400!important;color:rgba(255,255,255,.45)!important}
+.kin .instant{font-size:.625rem!important;font-weight:700!important;letter-spacing:.04em!important;text-transform:uppercase!important;border-radius:999px!important}
+.kin .tags span{font-size:.6875rem!important;font-weight:500!important;letter-spacing:0!important;color:rgba(255,255,255,.45)!important;border-radius:999px!important}
+.kin .pcard .price{font-family:'Outfit',sans-serif!important;font-size:1.5rem!important;font-weight:700!important;letter-spacing:-.025em!important;line-height:1!important;color:rgba(244,244,245,1)!important}
+.kin .stock{font-size:.6875rem!important;font-weight:500!important;letter-spacing:.02em!important;color:rgba(255,255,255,.38)!important}
+.kin .btn{border-radius:.5rem!important;font-size:.875rem!important;font-weight:600!important;line-height:1!important;letter-spacing:0!important}
+.kin .btn-primary{background:linear-gradient(135deg,#ffffff 0%,#e4e4e4 100%)!important;color:#050505!important;border:1px solid rgba(255,255,255,.55)!important;box-shadow:0 2px 16px rgba(255,255,255,.12)!important}
+.kin .btn-ghost{background:rgba(255,255,255,.04)!important;color:rgba(244,244,245,.7)!important;border:1px solid rgba(255,255,255,.08)!important}
+.kin nav a{font-size:.8125rem!important;font-weight:500!important;color:rgba(244,244,245,.5)!important;border-radius:.5rem!important}
+.kin .cart-btn{border-radius:.5rem!important;font-size:.875rem!important;font-weight:600!important}
+.kin .foot-brand span{font-size:1.05rem!important;font-weight:700!important;letter-spacing:-.02em!important;color:#fafafa!important}
+.kin .foot-grid h4{font-size:.75rem!important;font-weight:700!important;letter-spacing:.14em!important;text-transform:uppercase!important;color:rgba(255,255,255,.4)!important}
+.kin .foot-grid a{font-size:.8125rem!important;color:rgba(255,255,255,.45)!important}
+.kin .foot-grid a:hover{color:rgba(244,244,245,.85)!important}
+.kin .copy{font-size:.75rem!important;color:rgba(255,255,255,.38)!important}
+</style>
 </body>
 </html>

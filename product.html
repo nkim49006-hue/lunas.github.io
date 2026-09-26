@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ru" class="kin">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LUNAS SHOP — Выбери срок</title>
+<meta name="description" content="Выбери срок активации отдельно: 1, 3, 7 и 30 дней.">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#000000;--surface:#0a0a0a;--surface-2:#101010;
+  --accent:#ffffff;--primary:#ffffff;--primary-light:#f5f5f5;
+  --text-white:#fff;--text-body:rgba(255,255,255,0.62);--text-muted:rgba(255,255,255,0.42);
+  --card-bg:rgba(255,255,255,0.02);--card-border:rgba(255,255,255,0.06);
+  --card-border-hover:rgba(255,255,255,0.10);
+  --glow:0 0 20px -5px rgba(255,255,255,0.30);--glow-hover:0 0 35px -5px rgba(255,255,255,0.50);
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;background:#000}
+body{font-family:'Inter',system-ui,sans-serif;background:#000;color:#e2e8f0;overflow-x:hidden;min-height:100vh;position:relative}
+body::before{
+  content:"";position:fixed;inset:-20%;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(760px 480px at 74% 8%, rgba(255,255,255,0.06) 0%, transparent 62%),
+    radial-gradient(680px 440px at 18% 72%, rgba(255,255,255,0.045) 0%, transparent 66%),
+    linear-gradient(180deg,#0c0c0c 0%,#060606 42%,#000000 100%);
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;filter:blur(80px);
+  background:
+    radial-gradient(320px 320px at 88% 20%, rgba(255,255,255,0.07) 0%, transparent 70%),
+    radial-gradient(300px 300px at 6% 60%, rgba(255,255,255,0.05) 0%, transparent 70%);
+}
+.container{max-width:1152px;margin:0 auto;padding:0 16px;position:relative;z-index:1}
+.mono{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted)}
+
+nav{
+  position:sticky;top:0;z-index:50;background:rgba(0,0,0,0.35);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid transparent;transition:background .3s,border-color .3s;
+}
+nav.scrolled{background:rgba(0,0,0,0.88);border-bottom-color:rgba(255,255,255,0.06)}
+nav .container{height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:9px;text-decoration:none}
+.logo img{height:26px;width:auto;display:block}
+.logo span{font-size:15px;font-weight:600;letter-spacing:0.22em;color:transparent;background:linear-gradient(180deg,#fff 0%,#e5e5e5 55%,#a3a3a3 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;align-items:center;gap:2px}
+.nav-links a{color:var(--text-body);text-decoration:none;font-size:12px;font-weight:500;letter-spacing:0.025em;padding:6px 12px;transition:color .2s,background .2s}
+.nav-links a:hover{color:#e2e8f0;background:rgba(255,255,255,0.05)}
+.nav-links a.active{color:#fff;background:rgba(255,255,255,0.05)}
+.nav-right{display:flex;align-items:center;gap:8px}
+.cur-switch{display:flex;gap:2px;padding:2px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06)}
+.cur-switch button{border:none;cursor:pointer;background:transparent;color:var(--text-body);font-family:inherit;font-size:10px;font-weight:500;padding:4px 8px;transition:all .2s}
+.cur-switch button.active{background:#fff;color:#000;font-weight:600}
+.online{display:flex;align-items:center;gap:6px;padding:0 10px;height:30px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.03)}
+.online i{position:relative;display:flex;width:6px;height:6px;flex-shrink:0}
+.online i::before{content:"";position:absolute;inset:0;border-radius:50%;background:#fff;opacity:0.75;animation:ping 1.6s cubic-bezier(0,0,0.2,1) infinite}
+.online i::after{content:"";position:relative;width:6px;height:6px;border-radius:50%;background:#fff}
+.online span{font-size:11px;font-weight:500;color:var(--text-body);font-variant-numeric:tabular-nums;white-space:nowrap}
+@keyframes ping{75%,100%{transform:scale(2.4);opacity:0}}
+.cart-btn{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;font-size:12px;font-weight:500;font-family:inherit;color:rgba(255,255,255,0.85);background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.10);cursor:pointer;transition:all .3s}
+.cart-btn:hover{background:rgba(255,255,255,0.10);border-color:rgba(255,255,255,0.35)}
+.cart-btn b{background:#fff;color:#000;padding:1px 6px;font-size:10px;font-weight:600}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  height:44px;padding:0 24px;border-radius:0;cursor:pointer;text-decoration:none;
+  font-family:inherit;font-size:14px;font-weight:600;letter-spacing:normal;text-transform:none;
+  border:1px solid transparent;position:relative;overflow:hidden;
+  transition:transform .3s,background .3s,border-color .3s,box-shadow .3s,color .3s;
+}
+.btn-primary{background:#fff;color:#000;box-shadow:var(--glow)}
+.btn-primary:hover{background:#f5f5f5;transform:scale(1.05);box-shadow:var(--glow-hover)}
+.btn-primary:active{transform:scale(0.95)}
+.btn-ghost{background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.85);border:1px solid rgba(255,255,255,0.10);backdrop-filter:blur(12px)}
+.btn-ghost:hover{background:rgba(255,255,255,0.10);border-color:rgba(255,255,255,0.35);color:#fff;transform:scale(1.05)}
+.btn-primary::after{content:"";position:absolute;top:-25%;left:-70%;width:48px;height:150%;background:rgba(255,255,255,0.30);filter:blur(12px);pointer-events:none;transition:transform .8s ease;transform:translateX(0)}
+.btn-primary:hover::after{transform:translateX(460%)}
+.btn:disabled{opacity:0.4;cursor:not-allowed;transform:none!important;box-shadow:none!important}
+.btn:disabled::after{display:none}
+
+.page-head{padding:88px 0 28px}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-muted)}
+h1{font-size:clamp(34px,6vw,54px);font-weight:600;letter-spacing:-0.025em;line-height:1.05;color:#fff;margin-top:10px}
+.lead{color:var(--text-body);font-weight:300;line-height:1.625;letter-spacing:0.025em;max-width:520px;margin-top:14px;font-size:15px}
+
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:26px;padding-bottom:22px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.filters button{
+  height:32px;padding:0 12px;cursor:pointer;font-family:inherit;
+  font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;
+  background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.10);color:rgba(255,255,255,0.85);
+  transition:all .3s;
+}
+.filters button:hover{border-color:rgba(255,255,255,0.35)}
+.filters button.active{background:#fff;border-color:#fff;color:#000;font-weight:600}
+.count{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;color:var(--text-muted);margin:22px 0 14px}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pcard{
+  display:flex;flex-direction:column;background:var(--card-bg);
+  border:1px solid var(--card-border);overflow:hidden;
+  transition:background .3s,border-color .3s;
+}
+.pcard:hover{background:rgba(255,255,255,0.04);border-color:var(--card-border-hover)}
+.pcard.out{opacity:0.5}
+.pcard-body{padding:20px;display:flex;flex-direction:column;gap:10px;flex:1}
+.pcard-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted)}
+.pcard h3{font-size:17px;font-weight:600;letter-spacing:-0.01em;color:#fff;transition:color .3s;line-height:1.25}
+.pcard:hover h3{color:#fff}
+.instant{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;padding:4px 8px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#fff}
+.pcard-desc{font-size:13px;font-weight:300;line-height:1.6;color:var(--text-body)}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tags span{padding:4px 8px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);color:var(--text-muted)}
+
+/* ---- product card with tier picker ---- */
+.pcard-hero{position:relative;width:100%;aspect-ratio:781/427;background:#0a0a0a;border-bottom:1px solid var(--card-border);overflow:hidden}
+.pcard-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.pcard-hero .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.10) 0%,rgba(0,0,0,0.30) 45%,rgba(0,0,0,0.88) 100%);pointer-events:none}
+.pcard-hero .corner{position:absolute;top:10px;right:10px;background:#fff;color:#000;font-size:10px;font-weight:800;padding:4px 8px;border-radius:999px;z-index:2}
+.pcard-hero .ov{position:absolute;left:0;right:0;bottom:0;padding:16px 22px 18px;z-index:2}
+.pcard-hero .ov .ey{font-family:'Outfit',sans-serif;font-size:.6875rem;font-weight:500;letter-spacing:.02em;color:rgba(255,255,255,.65)}
+.pcard-hero .ov .ti{font-family:'Outfit',sans-serif;font-size:1.25rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:rgba(244,244,245,1);text-shadow:0 2px 12px rgba(0,0,0,.6);margin-top:2px;line-height:1.1}
+.pcard.noimg{padding:22px}
+.tier-label{font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.tier{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:.5rem;padding:10px 6px;cursor:pointer;text-align:center;transition:all .2s;font-family:inherit;color:inherit}
+.tier:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.28)}
+.tier.on{background:linear-gradient(135deg,#ffffff 0%,#e4e4e4 100%);border-color:rgba(255,255,255,.55);box-shadow:0 2px 16px rgba(255,255,255,.12)}
+.tier .d{font-size:.75rem;font-weight:700;letter-spacing:.02em;color:rgba(244,244,245,.85);display:block}
+.tier .p{font-size:.6875rem;font-weight:500;color:rgba(255,255,255,.45);display:block;margin-top:2px;font-variant-numeric:tabular-nums}
+.tier.on .d{color:#050505}
+.tier.on .p{color:rgba(5,5,5,.65)}
+.pcard-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:4px;flex-wrap:wrap}
+.pcard-foot .price{font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:700;letter-spacing:-.025em;line-height:1;color:rgba(244,244,245,1)}
+.pcard-foot .stock{font-size:.6875rem;font-weight:500;color:rgba(255,255,255,.38);margin-top:4px}
+@media(max-width:560px){.tiers{grid-template-columns:repeat(2,1fr)}}
+
+/* ---- tier-picker card body ---- */
+.pcard-body{padding:20px;display:flex;flex-direction:column;gap:12px;flex:1}
+.pdesc{font-size:13px;line-height:1.55;color:rgba(255,255,255,0.45)}
+.ptags{display:flex;gap:6px;flex-wrap:wrap}
+.ptags span{font-family:'Outfit',sans-serif;font-size:10px;font-weight:500;letter-spacing:.04em;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07);border-radius:999px;padding:4px 9px;color:rgba(255,255,255,0.45)}
+.pbtns{display:flex;gap:8px;flex-wrap:wrap}
+.pstock{font-family:'Outfit',sans-serif;font-size:11px;font-weight:500;color:rgba(255,255,255,0.38);margin-top:4px}
+.pstock.out{color:rgba(255,255,255,0.28)}
+.empty{grid-column:1/-1;padding:60px 20px;text-align:center;font-size:14px;color:rgba(255,255,255,0.4)}
+
+
+.pcard-foot{margin-top:auto;padding-top:14px;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.price{font-size:24px;font-weight:600;letter-spacing:-0.025em;color:#fff;line-height:1}
+.stock{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-body);margin-top:6px}
+.stock::before{content:"";width:5px;height:5px;border-radius:50%;background:#fff;flex-shrink:0}
+.stock.out{color:var(--text-muted)}
+.stock.out::before{background:rgba(255,255,255,0.3)}
+.pcard .btn{width:100%;margin-top:12px}
+
+.cart-bar{
+  position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:40;
+  width:min(1152px,calc(100% - 24px));display:none;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:12px 16px;background:rgba(0,0,0,0.92);backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,0.08);
+  box-shadow:0 0 60px rgba(255,255,255,0.05),inset 0 1px 0 rgba(255,255,255,0.06);
+}
+.cart-bar.show{display:flex}
+#cartList{display:flex;gap:8px;flex-wrap:wrap;flex:1;min-width:200px}
+#cartList span{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;font-size:11px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.10)}
+#cartList span em{font-style:normal;color:var(--text-muted)}
+#cartList span i{cursor:pointer;font-style:normal;opacity:0.5}
+#cartList span i:hover{opacity:1}
+.cart-bar .btn{height:38px;padding:0 18px;font-size:13px;white-space:nowrap}
+.cart-total{font-size:18px;font-weight:600;color:#fff;white-space:nowrap}
+
+.toast-wrap{position:fixed;top:72px;right:16px;z-index:60;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:#0a0a0a;border:1px solid rgba(255,255,255,0.18);color:#e2e8f0;padding:12px 16px;font-size:13px;font-weight:500;box-shadow:0 0 20px -5px rgba(255,255,255,0.30);animation:toastIn .3s forwards}
+@keyframes toastIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+footer{border-top:1px solid rgba(255,255,255,0.06);margin-top:80px;padding:48px 0 32px}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:32px}
+.foot-grid h4{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px}
+.foot-grid a{display:block;color:var(--text-body);text-decoration:none;font-size:13px;padding:5px 0;transition:color .2s}
+.foot-grid a:hover{color:#fff}
+.foot-brand{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.foot-brand span{font-size:15px;font-weight:600;letter-spacing:0.22em;color:transparent;background:linear-gradient(180deg,#fff 0%,#e5e5e5 55%,#a3a3a3 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.foot-brand img{height:24px;width:auto}
+.copy{margin-top:36px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.06);font-size:12px;color:var(--text-muted)}
+
+@media(max-width:900px){
+  .nav-links,.online{display:none}
+  .page-head{padding:64px 0 20px}
+  .grid{grid-template-columns:1fr 1fr}
+  .foot-grid{grid-template-columns:1fr;gap:24px}
+}
+@media(max-width:560px){
+  .grid{grid-template-columns:1fr}
+  .cart-bar{left:8px;right:8px;bottom:8px;width:auto;transform:none;padding:10px 12px}
+  .toast-wrap{top:64px;right:8px;left:8px}
+}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:#000}
+::-webkit-scrollbar-thumb{background:#1f1f1f;border:2px solid #000}
+::-webkit-scrollbar-thumb:hover{background:#fff}
+::selection{background:rgba(255,255,255,0.25);color:#fff}
+
+
+/* ===== KERNELAB-INSPIRED TEXT SYSTEM - products.html ===== */
+.kin body,.kin input,.kin button,.kin select,.kin textarea{font-family:'Outfit',system-ui,-apple-system,sans-serif!important;letter-spacing:0!important}
+.kin [style*="JetBrains"]{font-family:'Outfit',sans-serif!important}
+.kin body{background:#050505!important;color:#f4f4f5!important;font-size:15px!important;font-weight:400!important;line-height:1.45!important}
+.kin .eyebrow{font-family:'Outfit',sans-serif!important;font-size:.75rem!important;font-weight:700!important;letter-spacing:.18em!important;text-transform:uppercase!important;color:rgba(255,255,255,.4)!important}
+.kin .page-head h1{font-family:'Outfit',sans-serif!important;font-size:clamp(1.75rem,4vw,2.5rem)!important;font-weight:800!important;letter-spacing:-.03em!important;color:#fafafa!important;text-shadow:0 0 40px rgba(255,255,255,.12)!important}
+.kin .lead{font-size:.925rem!important;line-height:1.6!important;color:rgba(255,255,255,.45)!important;font-weight:400!important}
+.kin .count{font-size:.75rem!important;color:rgba(255,255,255,.38)!important;letter-spacing:.02em!important}
+.kin .filters button{border-radius:.5rem!important;font-size:.75rem!important;font-weight:600!important;letter-spacing:.02em!important;color:rgba(244,244,245,.6)!important}
+.kin .filters button.active{background:rgba(255,255,255,.1)!important;color:rgba(244,244,245,.95)!important;border-color:rgba(255,255,255,.2)!important}
+.kin .pcard{border-radius:12px!important;background:rgba(255,255,255,.03)!important;border:1px solid rgba(255,255,255,.08)!important}
+.kin .pcard-eyebrow{font-family:'Outfit',sans-serif!important;font-size:.625rem!important;font-weight:700!important;letter-spacing:.04em!important;text-transform:uppercase!important;color:rgba(255,255,255,.4)!important}
+.kin .pcard h3{font-family:'Outfit',sans-serif!important;font-size:.9375rem!important;font-weight:700!important;letter-spacing:-.01em!important;color:rgba(244,244,245,1)!important}
+.kin .pcard-desc{font-size:.8125rem!important;line-height:1.6!important;font-weight:400!important;color:rgba(255,255,255,.45)!important}
+.kin .instant{font-size:.625rem!important;font-weight:700!important;letter-spacing:.04em!important;text-transform:uppercase!important;border-radius:999px!important}
+.kin .tags span{font-size:.6875rem!important;font-weight:500!important;letter-spacing:0!important;color:rgba(255,255,255,.45)!important;border-radius:999px!important}
+.kin .pcard .price{font-family:'Outfit',sans-serif!important;font-size:1.5rem!important;font-weight:700!important;letter-spacing:-.025em!important;line-height:1!important;color:rgba(244,244,245,1)!important}
+.kin .stock{font-size:.6875rem!important;font-weight:500!important;letter-spacing:.02em!important;color:rgba(255,255,255,.38)!important}
+.kin .btn{border-radius:.5rem!important;font-size:.875rem!important;font-weight:600!important;line-height:1!important;letter-spacing:0!important}
+.kin .btn-primary{background:linear-gradient(135deg,#ffffff 0%,#e4e4e4 100%)!important;color:#050505!important;border:1px solid rgba(255,255,255,.55)!important;box-shadow:0 2px 16px rgba(255,255,255,.12)!important}
+.kin .btn-ghost{background:rgba(255,255,255,.04)!important;color:rgba(244,244,245,.7)!important;border:1px solid rgba(255,255,255,.08)!important}
+.kin nav a{font-size:.8125rem!important;font-weight:500!important;color:rgba(244,244,245,.5)!important;border-radius:.5rem!important}
+.kin .cart-btn{border-radius:.5rem!important;font-size:.875rem!important;font-weight:600!important}
+.kin .foot-brand span{font-size:1.05rem!important;font-weight:700!important;letter-spacing:-.02em!important;color:#fafafa!important}
+.kin .foot-grid h4{font-size:.75rem!important;font-weight:700!important;letter-spacing:.14em!important;text-transform:uppercase!important;color:rgba(255,255,255,.4)!important}
+.kin .foot-grid a{font-size:.8125rem!important;color:rgba(255,255,255,.45)!important}
+.kin .foot-grid a:hover{color:rgba(244,244,245,.85)!important}
+.kin .copy{font-size:.75rem!important;color:rgba(255,255,255,.38)!important}
+
+/* ===== product page ===== */
+.crumb{font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:500;letter-spacing:.04em;color:rgba(255,255,255,.4);display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding-top:22px}
+.crumb a{color:rgba(255,255,255,.4);text-decoration:none}
+.crumb a:hover{color:rgba(255,255,255,.8)}
+.phero{position:relative;width:100%;aspect-ratio:781/427;background:#0a0a0a;overflow:hidden;border:1px solid var(--card-border);border-radius:14px;margin-top:18px}
+.phero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.phero .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.10) 0%,rgba(0,0,0,0.30) 45%,rgba(0,0,0,0.88) 100%)}
+.phero .ov{position:absolute;left:0;right:0;bottom:0;padding:26px 30px 30px;z-index:2}
+.phero .ey{font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:500;letter-spacing:.02em;color:rgba(255,255,255,.65)}
+.phero .ti{font-family:'Outfit',sans-serif;font-size:clamp(1.5rem,3.4vw,2.25rem);font-weight:800;letter-spacing:-.03em;text-transform:uppercase;line-height:1.05;color:#fafafa;text-shadow:0 2px 16px rgba(0,0,0,.6);margin-top:6px}
+.pgrid{display:grid;grid-template-columns:1fr 380px;gap:22px;align-items:start;margin-top:22px;padding-bottom:70px}
+@media(max-width:900px){.pgrid{grid-template-columns:1fr}}
+.pbuy{position:sticky;top:70px;padding:20px;display:flex;flex-direction:column;gap:16px}
+.plabel{font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.days{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.day{position:relative;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:.5rem;padding:12px 12px 11px;cursor:pointer;text-align:left;transition:all .2s;font-family:inherit;color:inherit;display:block;width:100%}
+.day:hover:not(.on):not(.dis){background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.26)}
+.day.on{background:linear-gradient(135deg,#ffffff 0%,#e4e4e4 100%);border-color:rgba(255,255,255,.55);box-shadow:0 2px 18px rgba(255,255,255,.12)}
+.day.dis{opacity:.35;cursor:not-allowed}
+.day .dd{font-size:.8125rem;font-weight:700;letter-spacing:.01em;color:rgba(244,244,245,.85);display:block}
+.day .dp{font-size:1.05rem;font-weight:700;letter-spacing:-.02em;color:rgba(244,244,245,.95);display:block;margin-top:3px;font-variant-numeric:tabular-nums}
+.day .ds{font-size:10px;font-weight:500;color:rgba(255,255,255,.4);display:block;margin-top:1px}
+.day.on .dd{color:#050505}
+.day.on .dp{color:#050505}
+.day.on .ds{color:rgba(5,5,5,.6)}
+.day .per{position:absolute;top:9px;right:10px;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.4);background:rgba(255,255,255,.08);border-radius:999px;padding:2px 6px}
+.day.on .per{color:rgba(5,5,5,.65);background:rgba(5,5,5,.08)}
+.pbig{font-family:'Outfit',sans-serif;font-size:2.5rem;font-weight:700;letter-spacing:-.03em;line-height:1;color:rgba(244,244,245,1)}
+.qty{display:flex;align-items:center;gap:0;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:.5rem;padding:4px;height:42px}
+.qty button{width:38px;height:32px;border-radius:.375rem;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.06);color:#fff;font-weight:800;font-size:16px;cursor:pointer;display:grid;place-items:center;font-family:inherit}
+.qty button:hover{background:rgba(255,255,255,.14)}
+.qty span{flex:1;text-align:center;font-weight:700;font-size:15px;color:#fff;user-select:none}
+.pbtns{display:flex;flex-direction:column;gap:8px}
+.pbtns .btn{height:48px;width:100%}
+.pfeats{display:flex;flex-direction:column;gap:11px;padding:20px}
+.pfeats .fi{display:flex;gap:11px;align-items:flex-start;font-size:13.5px;line-height:1.5;color:rgba(255,255,255,.55)}
+.pfeats .fi i{width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);flex-shrink:0;margin-top:2px;position:relative}
+.pfeats .fi i::after{content:"";position:absolute;left:5px;top:4px;width:4px;height:7px;border-right:1.5px solid #fff;border-bottom:1.5px solid #fff;transform:rotate(45deg)}
+.pfeats h3{font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:2px}
+.ptags2{display:flex;gap:6px;flex-wrap:wrap}
+.ptags2 span{font-family:'Outfit',sans-serif;font-size:10px;font-weight:500;letter-spacing:.04em;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:999px;padding:4px 9px;color:rgba(255,255,255,.45)}
+.pwarn{font-size:12px;line-height:1.5;color:rgba(255,255,255,.35);padding:12px 14px;border:1px solid rgba(255,255,255,.07);border-radius:.5rem;background:rgba(255,255,255,.02)}
+.pstockline{font-family:'Outfit',sans-serif;font-size:11px;font-weight:500;color:rgba(255,255,255,.4);display:flex;align-items:center;gap:7px}
+.pstockline::before{content:"";width:6px;height:6px;border-radius:50%;background:#fff;flex-shrink:0;box-shadow:0 0 8px rgba(255,255,255,.5)}
+.pstockline.out{color:rgba(255,255,255,.3)}
+.pstockline.out::before{background:rgba(255,255,255,.3);box-shadow:none}
+</style>
+</head>
+<body>
+<nav>
+  <div class="container">
+    <a href="./index.html" class="logo"><img src="./logo.png" alt="LUNAS"><span>LUNAS</span></a>
+    <div class="nav-links">
+      <a href="./index.html">Главная</a>
+      <a href="./products.html" class="active">Каталог</a>
+      <a href="./index.html#reviews">Отзывы</a>
+      <a href="./index.html#faq">FAQ</a>
+    </div>
+    <div class="nav-right">
+      <div class="online"><i></i><span>2,4k online</span></div>
+      <div class="cur-switch" id="curSwitch">
+        <button data-cur="USD" class="active">$</button>
+        <button data-cur="EUR">&euro;</button>
+        <button data-cur="RUB">&#8381;</button>
+        <button data-cur="KZT">&#8381;</button>
+      </div>
+      <a class="cart-btn" href="./products.html#cart">Корзина <b id="cartCount">0</b></a>
+    </div>
+  </div>
+</nav>
+<div class="container">
+  <div class="crumb">
+    <a href="./index.html">Главная</a> ›
+    <a href="./products.html">Каталог</a> ›
+    <span id="crumbCur">Товар</span>
+  </div>
+
+  <div class="phero" id="phero"></div>
+
+  <div class="pgrid">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="glass pfeats">
+        <h3>Описание</h3>
+        <p style="font-size:14px;line-height:1.6;color:rgba(255,255,255,.55)" id="pdesc"></p>
+        <div id="pfeats" style="display:flex;flex-direction:column;gap:11px;margin-top:6px"></div>
+      </div>
+      <div class="glass pfeats" style="gap:12px">
+        <h3>В комплект входит</h3>
+        <div class="ptags2" id="ptags2"></div>
+        <div class="pwarn" id="pwarn">Оплата проводяется без карты, по установке — самые сроки и суммы выдаются автоматически.</div>
+      </div>
+    </div>
+
+    <div class="glass pbuy">
+      <div>
+        <div class="plabel">Выбери срок</div>
+        <div class="pbig" id="pPrice" style="margin-top:8px">—</div>
+        <div class="pstockline" id="pStock" style="margin-top:8px">—</div>
+      </div>
+      <div class="days" id="pDays"></div>
+      <div>
+        <div class="plabel" style="margin-bottom:7px">Количество</div>
+        <div class="qty">
+          <button type="button" id="qMinus" aria-label="меньше">−</button>
+          <span id="qVal">1</span>
+          <button type="button" id="qPlus" aria-label="больше">+</button>
+        </div>
+      </div>
+      <div class="pbtns">
+        <button class="btn btn-primary" id="pAdd">Добавить в корзину</button>
+        <button class="btn btn-ghost" id="pBuy">Купить сейчас</button>
+      </div>
+      <div class="pstockline" style="color:rgba(255,255,255,.32)">Мгновенная выдача после оплаты</div>
+    </div>
+  </div>
+</div>
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand"><img src="./logo.png" alt="LUNAS"><span>LUNAS</span></div>
+        <p class="lead" style="font-size:13px;max-width:340px;margin-top:0">Приватные читы и спуферы. Оплата криптой, картой или СБП.</p>
+      </div>
+      <div>
+        <h4>Навигация</h4>
+        <a href="./index.html">Главная</a>
+        <a href="./products.html">Продукты</a>
+        <a href="./index.html#reviews">Отзывы</a>
+        <a href="./index.html#faq">FAQ</a>
+      </div>
+      <div>
+        <h4>Документы</h4>
+        <a href="./index.html#terms">Условия использования</a>
+        <a href="./index.html#privacy">Политика конфиденциальности</a>
+        <a href="./index.html#refund">Политика возврата</a>
+      </div>
+    </div>
+    <div class="copy">&copy; 2026 LUNAS SHOP. Все права защищены.</div>
+  </div>
+</footer>
+<script>
+const TIERS=[["1d","1 день"],["3d","3 дня"],["7d","7 дней"],["30d","30 дней"]];
+const P={"goyda": {"title": "Goyda Mason Spoofer", "eyebrow": "HWID SPOOFER · MASON", "cat": "spoofer", "img": "./spoofer-card-781.webp", "ov": "Goyda Mason · HWID cleaner", "desc": "Один спуфер четыре срока: 1, 3, 7 и 30 дней. Работает с Vanguard, Easy Anti-Cheat и BattlEye — без перезапуска сервера.", "feats": ["Чисткий логин HWID перед каждым запуском", "Совместим со споуферами Vanguard, EAC и BattlEye", "Можно покупать неограниченное количество логин", "Мгновенная выдача — сразу после оплаты"], "tags": ["Unlimited сбросов", "Vanguard", "EAC / BE"], "tiers": [["1d", "1 день", 5], ["3d", "3 дня", 15], ["7d", "7 дней", 20], ["30d", "30 дней", 40]]}, "morphine": {"title": "Morphine — Rust", "eyebrow": "RUST EXTERNAL · 200+ DAYS UD", "cat": "rust", "img": "./morphine-card-1280.webp", "ov": "Morphine · 200+ days undetected", "desc": "Приватный чит для Rust с полным комплектом: ESP, Aim, Loot, Radar и NoRecoil. Обновляется ежедневно, проверено на своих стримах.", "feats": ["ESP с подсветкой ааимбота и плоской информации", "Aimbot с настройками FOV и плавным выбором точности", "Loot, Radar и NoRecoil в одном пакете", "Stream-proof — не показывается на стриме и в записи"], "tags": ["External", "Radar", "Stream-proof"], "tiers": [["1d", "1 день", 6], ["3d", "3 дня", 15], ["7d", "7 дней", 25], ["30d", "30 дней", 60]]}, "chams": {"title": "SMG Chams", "eyebrow": "RUST CHAMS · STREAM-PROOF", "cat": "chams", "img": "./chams-card-1254.webp", "ov": "SMG Chams · Rust", "desc": "Чистый виджет chams для Rust — переративающие модели врагов. Без ESP и aim, чисто визуальная опция. Полный набор после всех конфигураций.", "feats": ["Только виджет модели — не лишнего контроллера", "Нельзя владеть этой виджет только в одном изнерии покупа", "Stream-proof — не отображается на стриме", "Совместим служебным событией запуска и паузы"], "tags": ["Chams", "External", "Stream-proof"], "tiers": [["1d", "1 день", 6], ["3d", "3 дня", 15], ["7d", "7 дней", 25], ["30d", "30 дней", 60]]}, "pubg": {"title": "PUBG Cheat — BattlEye Bypass", "eyebrow": "PUBG EXTERNAL · BE BYPASS", "cat": "pubg", "img": "", "ov": "PUBG · BattlEye bypass", "desc": "Скоро в продаже с Aim, ESP, Loot и Vehicles. Обновление под BattlEye по странице K/D и от бана.", "feats": ["ESP с цветом тела врагов", "Aimbot с настройкай FOV", "Loot и Vehicles", "BattlEye bypass"], "tags": ["BE bypass", "ESP"], "oos": true, "tiers": [["1d", "1 день", 10], ["3d", "3 дня", 25], ["7d", "7 дней", 40], ["30d", "30 дней", 70]]}, "apex": {"title": "Apex Legends — Full", "eyebrow": "APEX EXTERNAL · EAC BYPASS", "cat": "apex", "img": "", "ov": "Apex · EAC bypass", "desc": "Скоро в продаже с Prediction, Glow и NoRecoil. Обновление под Easy Anti-Cheat.", "feats": ["Prediction аимбот", "Glow ESP с различением дистанций", "NoRecoil и спринт", "EAC bypass"], "tags": ["EAC bypass", "Prediction"], "oos": true, "tiers": [["1d", "1 день", 10], ["3d", "3 дня", 25], ["7d", "7 дней", 40], ["30d", "30 дней", 70]]}};
+const ORDER=["goyda","morphine","chams","pubg","apex"];
+const SYMBOLS={USD:"$",EUR:"€",RUB:"₽",KZT:"₸"};
+const RATES={USD:1,EUR:0.92,RUB:92,KZT:490};
+const getCur=()=>localStorage.getItem("lunas_currency")||"USD";
+const priceStr=usd=>Math.round(usd*RATES[getCur()])+SYMBOLS[getCur()];
+
+const q=new URLSearchParams(location.search);
+let key=ORDER.includes(q.get("p"))?q.get("p"):"goyda";
+let lic=TIERS.some(t=>t[0]===q.get("lic"))?q.get("lic"):"1d";
+let qty=1;
+const D=P[key];
+
+document.title=D.title.toUpperCase()+" — LUNAS SHOP";
+document.getElementById("crumbCur").textContent=D.title;
+document.getElementById("pdesc").textContent=D.desc;
+document.getElementById("pfeats").innerHTML=D.feats.map(f=>'<div class="fi"><i></i><span>'+f+'</span></div>').join("");
+document.getElementById("ptags2").innerHTML=D.tags.map(t=>"<span>"+t+"</span>").join("");
+
+const hero=document.getElementById("phero");
+if(D.img){
+  hero.innerHTML='<img src="'+D.img+'" alt="'+D.title+'" decoding="async"><div class="shade"></div>'
+    +'<div class="ov"><div class="ey">'+D.eyebrow+'</div><div class="ti">'+D.title+'</div></div>';
+}else{
+  hero.style.aspectRatio="781/260";
+  hero.style.background="linear-gradient(135deg,rgba(255,255,255,.06),rgba(255,255,255,.01))";
+  hero.innerHTML='<div class="ov"><div class="ey">'+D.eyebrow+'</div><div class="ti">'+D.title+'</div></div>';
+}
+
+const daysBox=document.getElementById("pDays");
+daysBox.innerHTML=D.tiers.map(t=>{
+  const per=t[0]==="1d"?"за скорку":(t[0]==="30d"?"лучшая цена":"");
+  return '<button type="button" class="day'+(t[0]===lic?" on":"")+(D.oos?" dis":"")+'" data-lic="'+t[0]+'"'+(D.oos?" disabled":"")+'>'
+    +(per?'<span class="per">'+per+'</span>':"")
+    +'<span class="dd">'+t[1]+'</span><span class="dp">'+priceStr(t[2])+'</span>'
+    +'<span class="ds">'+t[0].toUpperCase()+' LICENSE</span></button>';
+}).join("");
+
+function currentUsd(){const f=D.tiers.find(t=>t[0]===lic);return f?f[2]:D.tiers[0][2];}
+function currentLabel(){const f=TIERS.find(t=>t[0]===lic);return f?f[1]:TIERS[0][1];}
+function sync(){
+  document.getElementById("pPrice").textContent=priceStr(currentUsd());
+  const st=document.getElementById("pStock");
+  if(D.oos){st.textContent="временно нет";st.classList.add("out");}
+  else{st.textContent="мгновенная выдача";st.classList.remove("out");}
+  document.getElementById("pAdd").disabled=!!D.oos;
+  document.getElementById("pBuy").disabled=!!D.oos;
+  daysBox.querySelectorAll(".day").forEach(b=>b.classList.toggle("on",b.dataset.lic===lic));
+}
+daysBox.querySelectorAll(".day").forEach(b=>b.addEventListener("click",()=>{
+  if(D.oos)return;
+  lic=b.dataset.lic;sync();
+  history.replaceState(null,"","?p="+key+"&lic="+lic);
+}));
+document.getElementById("qMinus").addEventListener("click",()=>{qty=Math.max(1,qty-1);document.getElementById("qVal").textContent=qty;});
+document.getElementById("qPlus").addEventListener("click",()=>{qty=Math.min(99,qty+1);document.getElementById("qVal").textContent=qty;});
+sync();
+
+let cart=JSON.parse(localStorage.getItem("lunas_cart")||"[]");
+function cartCount(){const c=document.getElementById("cartCount");if(c)c.textContent=cart.reduce((s,x)=>s+(x.qty||1),0);}
+cartCount();
+function toast(m){
+  let w=document.getElementById("tw");
+  if(!w){w=document.createElement("div");w.id="tw";w.style.cssText="position:fixed;left:50%;top:18px;transform:translateX(-50%);z-index:200;display:flex;flex-direction:column;gap:8px;align-items:center";document.body.appendChild(w);}
+  const e=document.createElement("div");
+  e.textContent=m;
+  e.style.cssText="background:#fff;color:#000;font-family:Outfit,sans-serif;font-size:13px;font-weight:600;padding:11px 18px;border-radius:8px;box-shadow:0 8px 30px rgba(0,0,0,.5)";
+  w.appendChild(e);
+  setTimeout(()=>{e.style.transition="opacity .3s,transform .3s";e.style.opacity="0";e.style.transform="translateY(-8px)";},2200);
+  setTimeout(()=>e.remove(),2600);
+}
+function addToCart(){
+  if(D.oos){toast("Товар временно нет");return false;}
+  const ex=cart.find(x=>x.id===key+"_"+lic);
+  if(ex)ex.qty=(ex.qty||1)+qty;
+  else cart.push({name:D.title+" — "+currentLabel(),price:currentUsd(),id:key+"_"+lic,license:lic,qty:qty});
+  localStorage.setItem("lunas_cart",JSON.stringify(cart));
+  cartCount();
+  toast(D.title+" · "+currentLabel()+" → в корзину");
+  return true;
+}
+document.getElementById("pAdd").addEventListener("click",addToCart);
+document.getElementById("pBuy").addEventListener("click",()=>{if(addToCart())location.href="./index.html#checkout";});
+const cs=document.getElementById("curSwitch");
+if(cs)cs.addEventListener("click",e=>{
+  const b=e.target.closest("[data-cur]");if(!b)return;
+  localStorage.setItem("lunas_currency",b.dataset.cur);
+  cs.querySelectorAll("[data-cur]").forEach(x=>x.classList.toggle("active",x===b));
+  daysBox.querySelectorAll(".day").forEach(x=>{
+    const t=D.tiers.find(y=>y[0]===x.dataset.lic);
+    if(t)x.querySelector(".dp").textContent=priceStr(t[2]);
+  });
+  sync();
+});
+</script>
+</body>
+</html>
