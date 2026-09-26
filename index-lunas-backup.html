@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="kin">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LUNAS SHOP — Читы • Черно-белый</title>
 <!-- REAL PAYMENT: поменяй SELLER.* в <script> на свои реквизиты — тогда оплата станет реальной (прямой перевод). Для Stripe/YooKassa подключи API ключи и замени showPay на fetch к /create-payment -->
 <meta name="description" content="LUNAS SHOP — приватные читы для Valorant, CS2, Rust, Apex. Черно-белый, undetected, 24/7.">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -104,7 +105,7 @@ nav .container{display:flex;align-items:center;justify-content:space-between;gap
 
 
 /* Hide white stripe above players in product images */
-.card img, .product-image, [data-cat="rust"] img {
+.card img, .product-image {
   border-top: none !important;
 }
 .morphine-esp-top, .player-esp-top { display: none !important; }
@@ -516,7 +517,7 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape') closePolicy() })
   <div class="container">
     <div style="display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap">
       <h2 style="font-size:28px;font-weight:900;letter-spacing:-0.02em">Каталог <span style="color:var(--blue3)">—</span> <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;color:rgba(255,255,255,0.35)">4 ИГР • INSTANT KEY</span></h2>
-      <div class="mono">оплата: крипта • карта • sbp</div>
+      <div class="mono pay-line">оплата: крипта • карта • sbp</div>
       <a href="./products.html" class="btn btn-ghost" style="padding:7px 12px;font-size:11px;height:auto">Все продукты →</a>
     </div>
     <div style="display:flex;gap:8px;margin:14px 0 0;flex-wrap:wrap" class="mono" id="filterBar">
@@ -528,31 +529,42 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape') closePolicy() })
     </div>
     <div class="grid-products" id="products">
       <!-- SPOOFER - clickable with many products -->
-      <div class="glass card span-6" data-cat="spoofer" style="background:linear-gradient(135deg,rgba(255,255,255,0.08) 0%,rgba(255,255,255,0.02) 100%);border:1px solid rgba(255,255,255,0.18);position:relative;overflow:hidden;cursor:pointer" onclick="location.href='./products.html#goyda_1d'">
-        <div style="position:absolute;top:10px;right:10px;background:#fff;color:#000;font-family:JetBrains Mono,monospace;font-size:10px;font-weight:800;padding:4px 8px;border-radius:999px;z-index:1">4 СРОКА ></div>
-        <div style="height:160px;border-radius:14px;background:linear-gradient(135deg,#0a0a0a 0%,#141414 50%,#0a0a0a 100%);display:flex;align-items:center;gap:16px;padding:0 20px;border:1px solid rgba(255,255,255,0.06)">
-          <div style="width:72px;height:72px;border-radius:16px;background:#fff;color:#000;display:grid;place-items:center;font-size:28px;flex-shrink:0">?</div>
-          <div><div style="font-size:11px;font-family:JetBrains Mono,monospace;letter-spacing:0.08em;color:rgba(255,255,255,0.5)">GOYDA MASON • HWID CLEANER • КЛИК — ВЫБРАТЬ</div><div style="font-size:22px;font-weight:900;letter-spacing:-0.02em;margin-top:4px">Goyda Mason Spoofer</div><div style="font-size:12px;color:rgba(255,255,255,0.55);margin-top:4px">1 / 3 / 7 / 30 дней • Vanguard / EAC / BattlEye • One-click</div></div>
+      <div class="glass card span-6" data-cat="spoofer" style="padding:0;border:1px solid rgba(255,255,255,0.14);cursor:pointer;position:relative;display:flex;flex-direction:column;gap:0;text-decoration:none;color:inherit" onclick="location.href='./products.html#goyda_1d'">
+        <div style="position:relative;width:100%;aspect-ratio:781/427;background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.08);overflow:hidden">
+          <img src="./spoofer-card-781.webp" alt="Goyda Mason Spoofer" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block">
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.10) 0%,rgba(0,0,0,0.30) 45%,rgba(0,0,0,0.88) 100%);pointer-events:none"></div>
+          <div style="position:absolute;top:10px;right:10px;background:#fff;color:#000;font-family:JetBrains Mono,monospace;font-size:10px;font-weight:800;padding:4px 8px;border-radius:999px;z-index:2">4 СРОКА ></div>
+          <div style="position:absolute;left:0;right:0;bottom:0;padding:16px 22px 18px;z-index:2">
+            <div class="bnr-e">GOYDA MASON • HWID CLEANER • КЛИК — ВЫБРАТЬ</div>
+            <div class="bnr-t">Goyda Mason Spoofer</div>
+          </div>
         </div>
-        <span class="badge" style="background:#fff;color:#000;border-color:#fff">? 4 СРОКА • ВЫБЕРИ</span>
-        <h3 style="font-weight:800">Goyda Mason Spoofer</h3>
-        <p style="font-size:13px;color:rgba(255,255,255,0.55)">Один спуфер, четыре срока: 1 / 3 / 7 / 30 дней. От 5$.</p>
-        <div style="display:flex;gap:8px;flex-wrap:wrap"><span style="font-size:11px;background:#fff;color:#000;padding:4px 8px;border-radius:999px;font-weight:700">4 срока</span><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px">Vanguard</span><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px">EAC / BE</span></div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px"><div class="price" data-usd="5">от 5$ <small>/ 1 день</small></div><button class="btn btn-white" style="background:#fff;color:#000;padding:12px 22px;border-radius:999px;font-weight:800" onclick="event.stopPropagation(); location.href='./products.html#goyda_1d'">Выбрать срок ></button></div>
+        <div style="padding:22px;display:flex;flex-direction:column;gap:14px;flex:1">
+          <span class="badge" style="background:#fff;color:#000;border-color:#fff">? 4 СРОКА • ВЫБЕРИ</span>
+          <h3 style="font-weight:800">Goyda Mason Spoofer</h3>
+          <p style="font-size:13px;color:rgba(255,255,255,0.55)">Один спуфер, четыре срока: 1 / 3 / 7 / 30 дней. От 5$.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><span style="font-size:11px;background:#fff;color:#000;padding:4px 8px;border-radius:999px;font-weight:700">4 срока</span><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px">Vanguard</span><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px">EAC / BE</span></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:4px;gap:8px;flex-wrap:wrap"><div class="price" data-usd="5">от 5$ <small>/ 1 день</small></div><div style="display:flex;gap:8px"><a href="./products.html#goyda_1d" class="btn btn-ghost" style="padding:12px 18px;border-radius:999px;font-weight:800;text-decoration:none">Сроки</a><button class="btn" style="background:#fff;color:#000;padding:12px 18px;border-radius:999px;font-weight:800" onclick="event.stopPropagation(); location.href='./products.html#goyda_30d'">Купить от 5$</button></div></div>
+        </div>
       </div>
       <!-- RUST — Link to morphine.html -->
-      <div class="glass card span-6" data-cat="rust" style="border:1px solid rgba(255,255,255,0.14);cursor:pointer;position:relative;display:flex;flex-direction:column;gap:12px;text-decoration:none;color:inherit" onclick="location.href='./products.html#morphine_1d'">
-        <div style="position:absolute;top:10px;right:10px;background:#fff;color:#000;font-family:JetBrains Mono,monospace;font-size:10px;font-weight:800;padding:4px 8px;border-radius:999px;z-index:1">ВЫБРАТЬ СРОК ></div>
-        <div style="height:160px;border-radius:14px;background:linear-gradient(135deg,#0e0e0e 0%,#121212 100%);display:flex;align-items:center;gap:16px;padding:0 20px;border:1px solid rgba(255,255,255,0.06);position:relative;overflow:hidden">
-          <div style="position:absolute;top:0;right:0;width:120px;height:120px;background:radial-gradient(circle,rgba(255,255,255,0.08),transparent 70%);pointer-events:none"></div>
-          <img src="./morphine.webp" alt="Morphine" style="width:72px;height:72px;border-radius:16px;object-fit:cover;border:1px solid rgba(255,255,255,0.12);background:#0a0a0a;flex-shrink:0">
-          <div><div style="font-size:11px;font-family:JetBrains Mono,monospace;letter-spacing:0.08em;color:rgba(255,255,255,0.5)">MORPHINE • 200+ DAYS UD • КЛИК — ВЫБРАТЬ СРОК</div><div style="font-size:22px;font-weight:900;letter-spacing:-0.02em;margin-top:4px">Morphine — Rust</div><div style="font-size:12px;color:rgba(255,255,255,0.55);margin-top:4px">Morphine • ESP • Aim • Loot • Radar • NoRecoil • Кликни для выбора</div></div>
+      <div class="glass card span-6" data-cat="rust" style="padding:0;border:1px solid rgba(255,255,255,0.14);cursor:pointer;position:relative;display:flex;flex-direction:column;gap:0;text-decoration:none;color:inherit" onclick="location.href='./products.html#morphine_1d'">
+        <div style="position:relative;width:100%;aspect-ratio:1665/945;background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.08);overflow:hidden">
+          <img src="./morphine-card-1280.webp" alt="Morphine — Rust" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block">
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.10) 0%,rgba(0,0,0,0.30) 45%,rgba(0,0,0,0.88) 100%);pointer-events:none"></div>
+          <div style="position:absolute;top:10px;right:10px;background:#fff;color:#000;font-family:JetBrains Mono,monospace;font-size:10px;font-weight:800;padding:4px 8px;border-radius:999px;z-index:2">ВЫБРАТЬ СРОК ></div>
+          <div style="position:absolute;left:0;right:0;bottom:0;padding:16px 22px 18px;z-index:2">
+            <div class="bnr-e">MORPHINE • 200+ DAYS UD • КЛИК — ВЫБРАТЬ СРОК</div>
+            <div class="bnr-t">Morphine — Rust</div>
+          </div>
         </div>
-        <span class="badge" style="background:rgba(16,185,129,0.12);border-color:rgba(16,185,129,0.22);color:#10b981">? 200+ дней UD • EAC bypass</span>
-        <h3 style="font-weight:800">Morphine Cheat — Private</h3>
-        <p style="font-size:13px;color:rgba(255,255,255,0.55)">Нажми на карточку — выбери срок: 1 / 3 / 7 / 30 дней. Цены от 6$.</p>
-        <div style="display:flex;gap:8px;flex-wrap:wrap"><span style="font-size:11px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.18);color:#10b981;padding:4px 8px;border-radius:999px">External</span><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px">Radar</span><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px">Stream-proof</span></div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;gap:8px"><div class="price" data-usd="6">от 6$ <small>/ 1 день</small></div><div style="display:flex;gap:8px"><a href="./morphine.html" class="btn btn-ghost" style="padding:12px 18px;border-radius:999px;font-weight:800;text-decoration:none">Подробнее</a><button class="btn" style="background:#fff;color:#000;padding:12px 18px;border-radius:999px;font-weight:800" onclick="window.location.href='./morphine.html'">Купить Morphine</button></div></div>
+        <div style="padding:22px;display:flex;flex-direction:column;gap:14px;flex:1">
+          <span class="badge" style="background:rgba(16,185,129,0.12);border-color:rgba(16,185,129,0.22);color:#10b981">? 200+ дней UD • EAC bypass</span>
+          <h3 style="font-weight:800">Morphine Cheat — Private</h3>
+          <p style="font-size:13px;color:rgba(255,255,255,0.55)">Нажми на карточку — выбери срок: 1 / 3 / 7 / 30 дней. Цены от 6$.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><span style="font-size:11px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.18);color:#10b981;padding:4px 8px;border-radius:999px">External</span><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px">Radar</span><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px">Stream-proof</span></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:4px;gap:8px;flex-wrap:wrap"><div class="price" data-usd="6">от 6$ <small>/ 1 день</small></div><div style="display:flex;gap:8px"><a href="./morphine.html" class="btn btn-ghost" style="padding:12px 18px;border-radius:999px;font-weight:800;text-decoration:none">Подробнее</a><button class="btn" style="background:#fff;color:#000;padding:12px 18px;border-radius:999px;font-weight:800" onclick="event.stopPropagation(); window.location.href='./morphine.html'">Купить Morphine</button></div></div>
+        </div>
       </div>
       <!-- PUBG — COMING SOON -->
       <div class="glass card span-6" data-cat="pubg" style="opacity:0.72;position:relative;overflow:hidden">
@@ -1346,5 +1358,77 @@ setTimeout(renderDemoPurchases, 300);
   onScroll();
 })();
 </script>
+<style id="ktext">
+/* ===== KERNELAB-INSPIRED TEXT SYSTEM - LUNAS (overrides) ===== */
+.kin body,.kin input,.kin button,.kin select,.kin textarea{font-family:'Outfit',system-ui,-apple-system,sans-serif!important;letter-spacing:0!important}
+.kin [style*="JetBrains"]{font-family:'Outfit',sans-serif!important}
+.kin html,.kin body{background:#050505!important}
+.kin body{color:#f4f4f5!important;font-weight:400!important;line-height:1.45!important;font-size:15px!important}
+
+/* logo */
+.kin .logo span{font-size:1.05rem!important;font-weight:700!important;letter-spacing:-0.02em!important;color:#fafafa!important;text-shadow:0 0 24px rgba(255,255,255,.12)!important}
+.kin .logo-mark{border-radius:.5rem!important;font-weight:800!important}
+
+/* nav */
+.kin nav .nav-links a{font-size:13px!important;font-weight:500!important;letter-spacing:0!important;color:rgba(244,244,245,.5)!important;border-radius:.5rem!important;padding:8px 14px!important;background:transparent!important}
+.kin nav .nav-links a:hover,.kin nav .nav-links a.active,.kin nav .nav-links a[style*="fff"]{color:rgba(244,244,245,.85)!important;background:rgba(255,255,255,.04)!important}
+
+/* eyebrow */
+.kin .mono,.kin .mono span{font-family:'Outfit',sans-serif!important;font-size:.75rem!important;font-weight:700!important;letter-spacing:.18em!important;text-transform:uppercase!important;color:rgba(255,255,255,.4)!important}
+.kin #filterBar .btn{border-radius:.5rem!important;font-size:.75rem!important;font-weight:700!important;letter-spacing:.14em!important;padding:0 14px!important;height:34px!important}
+.kin .pay-line{text-transform:none!important;letter-spacing:0!important;font-size:.8125rem!important;font-weight:400!important;color:rgba(255,255,255,.45)!important}
+
+/* hero */
+.kin .hero .neon{font-family:'Outfit',sans-serif!important;font-size:clamp(2.5rem,7vw,4.25rem)!important;font-weight:800!important;letter-spacing:-0.02em!important;line-height:1!important}
+.kin .hero p{font-family:'Outfit',sans-serif!important;font-size:.95rem!important;font-weight:400!important;line-height:1.65!important;letter-spacing:0!important;color:rgba(244,244,245,.48)!important}
+.kin .hero p b{font-weight:500!important;color:#fff!important}
+.kin .hero .mono span{border-radius:.4rem!important;font-size:.6875rem!important;font-weight:500!important;letter-spacing:.02em!important;text-transform:none!important;color:rgba(244,244,245,.65)!important;background:rgba(255,255,255,.03)!important;border:1px solid rgba(255,255,255,.07)!important}
+
+/* headings */
+.kin h2{font-family:'Outfit',sans-serif!important;font-size:clamp(1.75rem,4vw,2.5rem)!important;font-weight:800!important;letter-spacing:-0.03em!important;color:#fafafa!important;text-shadow:0 0 40px rgba(255,255,255,.12)!important}
+.kin h3{font-weight:800!important;letter-spacing:-0.02em!important}
+.kin .card h3{font-size:.9375rem!important;font-weight:700!important;letter-spacing:-0.01em!important;color:rgba(244,244,245,1)!important}
+.kin .card p{font-size:.8125rem!important;font-weight:400!important;line-height:1.6!important;color:rgba(255,255,255,.45)!important}
+
+/* price */
+.kin .price{font-family:'Outfit',sans-serif!important;font-size:1.5rem!important;font-weight:700!important;letter-spacing:-0.025em!important;line-height:1!important;color:rgba(244,244,245,1)!important}
+.kin .price small{font-family:'Outfit',sans-serif!important;font-size:.6875rem!important;font-weight:500!important;letter-spacing:0!important;color:rgba(255,255,255,.38)!important}
+
+/* badges = pills, uppercase micro */
+.kin .badge{font-family:'Outfit',sans-serif!important;font-size:.625rem!important;font-weight:700!important;letter-spacing:.04em!important;text-transform:uppercase!important;border-radius:999px!important;background:rgba(255,255,255,.04)!important;border:1px solid rgba(255,255,255,.1)!important;color:rgba(244,244,245,.85)!important}
+.kin .card span[style*="border-radius:999px"]{font-family:'Outfit',sans-serif!important;font-size:.625rem!important;font-weight:700!important;letter-spacing:.04em!important;text-transform:uppercase!important;border-radius:999px!important;background:rgba(255,255,255,.04)!important;border:1px solid rgba(255,255,255,.1)!important;color:rgba(244,244,245,.85)!important}
+.kin .card span[style*="background:rgba(255,255,255,0.06)"]{font-size:.6875rem!important;font-weight:500!important;letter-spacing:0!important;text-transform:none!important;color:rgba(255,255,255,.45)!important}
+
+/* buttons */
+.kin .btn{border-radius:.5rem!important;font-size:.875rem!important;font-weight:600!important;line-height:1!important;letter-spacing:0!important;text-transform:none!important}
+.kin .btn-white,.kin .btn-blue{background:linear-gradient(135deg,#ffffff 0%,#e4e4e4 100%)!important;color:#050505!important;border:1px solid rgba(255,255,255,.55)!important;box-shadow:0 2px 16px rgba(255,255,255,.12)!important}
+.kin .btn-ghost{background:rgba(255,255,255,.04)!important;color:rgba(244,244,245,.7)!important;border:1px solid rgba(255,255,255,.08)!important;box-shadow:none!important}
+.kin #cartBtn,.kin #topDiscordBtn{border-radius:.5rem!important;font-size:.8125rem!important;font-weight:600!important}
+.kin #cartCount{border-radius:999px!important;font-size:.625rem!important;font-weight:700!important}
+.kin #langSwitcher,.kin #currencySwitcher{border-radius:.5rem!important}
+.kin #langSwitcher button,.kin #currencySwitcher button{border-radius:.375rem!important;font-size:.6875rem!important;font-weight:600!important;letter-spacing:.02em!important}
+
+/* footer / legal */
+.kin footer .mono,.kin footer p,.kin footer [style*="JetBrains"]{font-size:.8125rem!important;font-weight:400!important;letter-spacing:0!important;text-transform:none!important;color:rgba(255,255,255,.45)!important;line-height:1.6!important}
+.kin footer a{color:rgba(255,255,255,.45)!important;font-size:.8125rem!important}
+.kin footer a:hover{color:rgba(244,244,245,.85)!important}
+
+/* banner overlay */
+.kin .bnr-e{font-family:'Outfit',sans-serif!important;font-size:.6875rem!important;font-weight:500!important;letter-spacing:.02em!important;text-transform:none!important;color:rgba(255,255,255,.65)!important;margin-top:0!important}
+.kin .bnr-t{font-family:'Outfit',sans-serif!important;font-size:1.25rem!important;font-weight:800!important;letter-spacing:.04em!important;text-transform:uppercase!important;color:rgba(244,244,245,1)!important;text-shadow:0 2px 12px rgba(0,0,0,.6)!important;margin-top:2px!important;line-height:1.1!important}
+.kin .card div[style*="top:10px;right:10px"]{border-radius:.4rem!important;font-size:.625rem!important;font-weight:700!important;letter-spacing:.04em!important}
+
+/* small */
+@media(max-width:640px){
+  .kin .hero .neon{font-size:2.25rem!important}
+  .kin .price{font-size:1.25rem!important}
+  .kin .card h3{font-size:.875rem!important}
+  .kin .bnr-t{font-size:1.0625rem!important}
+}
+
+/* specificity fixes */
+.kin .card .btn,.kin .card button.btn{font-size:.875rem!important;font-weight:600!important;border-radius:.5rem!important}
+.kin .card div.badge,.kin .card span.badge,.kin .badge{font-weight:700!important;letter-spacing:.04em!important;text-transform:uppercase!important}
+</style>
 </body>
 </html>
