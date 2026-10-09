@@ -115,6 +115,7 @@ nav,.container,section,footer,main,.modal,header,aside{position:relative}
     <div style="display:flex;align-items:center;gap:10px">
       <div id="authArea" style="display:flex;gap:6px;align-items:center"></div>
       <div id="langSwitcher" style="display:flex;gap:3px;padding:2px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:999px"><button data-lang="ru" class="lang-btn active" style="padding:4px 7px;border-radius:999px;font-size:10px;font-weight:800;border:none;cursor:pointer;background:#fff;color:#000">RU</button><button data-lang="en" class="lang-btn" style="padding:4px 7px;border-radius:999px;font-size:10px;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6)">EN</button></div>
+      <div id="curSwitch" style="display:flex;gap:3px;padding:2px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:999px"><button data-cur="USD" class="cur-btn active" style="padding:4px 7px;border-radius:999px;font-size:10px;font-weight:800;border:none;cursor:pointer;background:#fff;color:#000">$</button><button data-cur="EUR" class="cur-btn" style="padding:4px 7px;border-radius:999px;font-size:10px;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6)">€</button><button data-cur="RUB" class="cur-btn" style="padding:4px 7px;border-radius:999px;font-size:10px;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6)">₽</button><button data-cur="KZT" class="cur-btn" style="padding:4px 7px;border-radius:999px;font-size:10px;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6)">₸</button></div>
       <button class="hamburger" id="hamburgerBtn" aria-label="Меню">☰</button>
     </div>
   </div>
@@ -343,6 +344,7 @@ function requireAuthOrPrompt(){ return true; }
 const RATES_M={USD:1,EUR:0.92,RUB:95,KZT:540};
 const SYMS_M={USD:'$',EUR:'€',RUB:'₽',KZT:'₸'};
 function getCurrencyM(){ return localStorage.getItem('lunas_currency')||'USD'; }
+function fmtM(usd){ const c=getCurrencyM(); const r=RATES_M[c]||1; const s=SYMS_M[c]||'$'; return Math.round((usd||0)*r)+s; }
 function renderAuth(){
   const area=document.getElementById('authArea'); if(area) area.innerHTML='';
   const mo=document.getElementById('mobileAuth'); if(mo) mo.innerHTML='';
@@ -369,9 +371,9 @@ function updatePriceDisplay(){
   const priceEl=document.getElementById('priceDisplay');
   const btnPrice=document.getElementById('buyBtnPrice');
   const hintEl=document.getElementById('buyHint');
-  if(priceEl) priceEl.textContent = qty>1 ? '$'+total+'  ('+qty+'×$'+unit+')' : '$'+unit;
-  if(btnPrice) btnPrice.textContent = qty>1 ? '$'+total+' ×'+qty : '$'+unit;
-  if(hintEl) hintEl.textContent = 'Выбран '+selected.label+' ×'+qty+' — итого $'+total;
+  if(priceEl) priceEl.textContent = qty>1 ? fmtM(total)+'  ('+qty+'×'+fmtM(unit)+')' : fmtM(unit);
+  if(btnPrice) btnPrice.textContent = qty>1 ? fmtM(total)+' ×'+qty : fmtM(unit);
+  if(hintEl) hintEl.textContent = 'Выбран '+selected.label+' ×'+qty+' — итого '+fmtM(total);
 }
 document.getElementById('qtyMinus')?.addEventListener('click', ()=> setQty(qty-1));
 document.getElementById('qtyPlus')?.addEventListener('click', ()=> setQty(qty+1));
@@ -404,7 +406,7 @@ async function loadVariants(){
       div.className='glass';
       div.style.cssText='padding:12px;text-align:left;cursor:pointer';
       div.dataset.pid=pid; div.dataset.lic=lic; div.dataset.cents=cents;
-      div.innerHTML=`<div style="font-weight:900;font-size:13px;letter-spacing:0.02em;background:linear-gradient(180deg,#FFFFFF 0%,#F2F2F2 48%,#C8C8C8 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 6px rgba(255,255,255,0.18))">${labelMap[pid]||lic}</div><div style="font-weight:900;font-size:16px;margin-top:4px;letter-spacing:-0.01em;background:linear-gradient(180deg,#FFFFFF 0%,#EDEDED 50%,#BEBEBE 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 8px rgba(255,255,255,0.20))">$${usd}</div><div style="font-size:11px;color:rgba(255,255,255,0.45)">${pr.available} ключей</div>`;
+      div.innerHTML=`<div style="font-weight:900;font-size:13px;letter-spacing:0.02em;background:linear-gradient(180deg,#FFFFFF 0%,#F2F2F2 48%,#C8C8C8 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 6px rgba(255,255,255,0.18))">${labelMap[pid]||lic}</div><div style="font-weight:900;font-size:16px;margin-top:4px;letter-spacing:-0.01em;background:linear-gradient(180deg,#FFFFFF 0%,#EDEDED 50%,#BEBEBE 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 8px rgba(255,255,255,0.20))">${fmtM(usd)}</div><div style="font-size:11px;color:rgba(255,255,255,0.45)">${pr.available} ключей</div>`;
       div.addEventListener('click',()=>{
         document.querySelectorAll('#variants .glass').forEach(x=>{x.style.borderColor='rgba(255,255,255,0.08)'; x.style.background='rgba(18,18,20,0.72)'});
         div.style.borderColor='#fff'; div.style.background='rgba(255,255,255,0.06)';
@@ -437,7 +439,7 @@ async function loadVariants(){
         div.className='glass';
         div.style.cssText='padding:12px;text-align:left;cursor:pointer';
         div.dataset.pid=pid; div.dataset.lic=lic; div.dataset.cents=usd*100;
-        div.innerHTML=`<div style="font-weight:900;font-size:13px;letter-spacing:0.02em;background:linear-gradient(180deg,#FFFFFF 0%,#F2F2F2 48%,#C8C8C8 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 6px rgba(255,255,255,0.18))">${labelMap[pid]}</div><div style="font-weight:900;font-size:16px;margin-top:4px;letter-spacing:-0.01em;background:linear-gradient(180deg,#FFFFFF 0%,#EDEDED 50%,#BEBEBE 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 8px rgba(255,255,255,0.20))">$${usd}</div><div style="font-size:11px;color:rgba(255,255,255,0.45)">${avail} ключей • демо</div>`;
+        div.innerHTML=`<div style="font-weight:900;font-size:13px;letter-spacing:0.02em;background:linear-gradient(180deg,#FFFFFF 0%,#F2F2F2 48%,#C8C8C8 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 6px rgba(255,255,255,0.18))">${labelMap[pid]}</div><div style="font-weight:900;font-size:16px;margin-top:4px;letter-spacing:-0.01em;background:linear-gradient(180deg,#FFFFFF 0%,#EDEDED 50%,#BEBEBE 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 8px rgba(255,255,255,0.20))">${fmtM(usd)}</div><div style="font-size:11px;color:rgba(255,255,255,0.45)">${avail} ключей • демо</div>`;
         div.addEventListener('click',()=>{
           document.querySelectorAll('#variants .glass').forEach(x=>{x.style.borderColor='rgba(255,255,255,0.08)'; x.style.background='rgba(18,18,20,0.72)'});
           div.style.borderColor='#fff'; div.style.background='rgba(255,255,255,0.06)';
@@ -462,6 +464,12 @@ async function loadVariants(){
 }
 function hasBackendFallback(){ return !!(window.API_BASE || localStorage.getItem('api_base')); }
 loadVariants();
+(function(){
+  const cs=document.getElementById('curSwitch'); if(!cs) return;
+  const paint=()=>{const c=getCurrencyM(); cs.querySelectorAll('[data-cur]').forEach(b=>{const on=b.dataset.cur===c; b.style.background=on?'#fff':'transparent'; b.style.color=on?'#000':'rgba(255,255,255,0.6)'; b.style.fontWeight=on?'800':'700';});};
+  cs.addEventListener('click',e=>{const b=e.target.closest('[data-cur]'); if(!b) return; localStorage.setItem('lunas_currency',b.dataset.cur); paint(); loadVariants(); updatePriceDisplay();});
+  paint();
+})();
 // FAQ toggle
 document.querySelectorAll('.faq-item .faq-q').forEach(btn=>{
   btn.addEventListener('click',()=>{

@@ -481,8 +481,8 @@ nav,.container,section,footer,main,.modal,header,aside{position:relative}
       <div id="currencySwitcher" style="display:flex;gap:3px;padding:2px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:999px">
         <button data-cur="USD" class="cur-btn active" style="padding:4px 7px;border-radius:999px;font-size:10px;font-weight:800;border:none;cursor:pointer;background:#fff;color:#000">$</button>
         <button data-cur="EUR" class="cur-btn" style="padding:4px 7px;border-radius:999px;font-size:10px;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6)">€</button>
-        <button data-cur="RUB" class="cur-btn" style="padding:4px 7px;border-radius:999px;font-size:10px;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6)">?</button>
-        <button data-cur="KZT" class="cur-btn" style="padding:4px 7px;border-radius:999px;font-size:10px;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6)">?</button>
+        <button data-cur="RUB" class="cur-btn" style="padding:4px 7px;border-radius:999px;font-size:10px;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6)">&#8381;</button>
+        <button data-cur="KZT" class="cur-btn" style="padding:4px 7px;border-radius:999px;font-size:10px;font-weight:700;border:none;cursor:pointer;background:transparent;color:rgba(255,255,255,0.6)">&#8376;</button>
       </div>
       <div class="lunas-online" title="Покупателей онлайн"><i></i><span>2,4k онлайн</span></div>
       <a href="https://discord.gg/57RhrEuqG" target="_blank" rel="noopener" id="topDiscordBtn" class="btn" style="background:#5865F2;color:#fff;padding:6px 10px;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:5px;border:1px solid #5865F2;border-radius:999px">
@@ -514,8 +514,8 @@ nav,.container,section,footer,main,.modal,header,aside{position:relative}
       <div style="display:flex;gap:4px">
         <button data-cur="USD" class="btn btn-ghost cur-btn" style="flex:1;padding:6px;font-size:11px" onclick="setCurrency('USD');closeMobileMenu()">$</button>
         <button data-cur="EUR" class="btn btn-ghost cur-btn" style="flex:1;padding:6px;font-size:11px" onclick="setCurrency('EUR');closeMobileMenu()">€</button>
-        <button data-cur="RUB" class="btn btn-ghost cur-btn" style="flex:1;padding:6px;font-size:11px" onclick="setCurrency('RUB');closeMobileMenu()">?</button>
-        <button data-cur="KZT" class="btn btn-ghost cur-btn" style="flex:1;padding:6px;font-size:11px" onclick="setCurrency('KZT');closeMobileMenu()">?</button>
+        <button data-cur="RUB" class="btn btn-ghost cur-btn" style="flex:1;padding:6px;font-size:11px" onclick="setCurrency('RUB');closeMobileMenu()">&#8381;</button>
+        <button data-cur="KZT" class="btn btn-ghost cur-btn" style="flex:1;padding:6px;font-size:11px" onclick="setCurrency('KZT');closeMobileMenu()">&#8376;</button>
       </div>
     </div>
   </div>
@@ -554,6 +554,7 @@ nav,.container,section,footer,main,.modal,header,aside{position:relative}
       <button class="btn btn-ghost" style="padding:7px 12px;font-size:11px" data-filter="spoofer">Spoofer</button>
       <button class="btn btn-ghost" style="padding:7px 12px;font-size:11px" data-filter="rust">Rust</button>
       <button class="btn btn-ghost" style="padding:7px 12px;font-size:11px" data-filter="chams">Chams</button>
+      <button class="btn btn-ghost" style="padding:7px 12px;font-size:11px" data-filter="script">Script</button>
       <button class="btn btn-ghost" style="padding:7px 12px;font-size:11px" data-filter="pubg">PUBG</button>
       <button class="btn btn-ghost" style="padding:7px 12px;font-size:11px" data-filter="apex">Apex</button>
     </div>
@@ -613,6 +614,25 @@ nav,.container,section,footer,main,.modal,header,aside{position:relative}
           <p style="font-size:13px;color:rgba(255,255,255,0.5)">Только chams, без ESP и aim. 1 / 3 / 7 / 30 дней. От 6$.</p>
           <div style="display:flex;gap:8px;flex-wrap:wrap"><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px;color:rgba(255,255,255,0.5)">Chams</span><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px;color:rgba(255,255,255,0.5)">External</span><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px;color:rgba(255,255,255,0.5)">Stream-proof</span></div>
           <div style="display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:4px;gap:8px;flex-wrap:wrap"><div class="price" data-usd="6">от 6$ <small>/ день</small></div><div style="display:flex;gap:8px"><a href="./product.html?p=chams&lic=1d" class="btn btn-ghost" style="padding:12px 18px;font-weight:800;text-decoration:none">Выбрать срок</a><button class="btn" style="background:#fff;color:#000;padding:12px 18px;font-weight:800" onclick="event.stopPropagation(); location.href='./product.html?p=chams&lic=30d'">Купить «30 дней»</button></div></div>
+        </div>
+      </div>
+      <!-- LUNAS SCRIPT -->
+      <div class="glass card span-6" data-cat="script" style="padding:0;border:1px solid rgba(255,255,255,0.14);cursor:pointer;position:relative;display:flex;flex-direction:column;gap:0;text-decoration:none;color:inherit" onclick="location.href='./product.html?p=lunas-script&lic=7d'">
+        <div style="position:relative;width:100%;aspect-ratio:1672/941;background:#0a0a0a;border-bottom:1px solid rgba(255,255,255,0.08);overflow:hidden">
+          <img src="./lunas-script-card.png" alt="LUNAS SCRIPT" loading="lazy" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block">
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.10) 0%,rgba(0,0,0,0.30) 45%,rgba(0,0,0,0.88) 100%);pointer-events:none"></div>
+          <div style="position:absolute;top:10px;right:10px;background:#fff;color:#000;font-family:JetBrains Mono,monospace;font-size:10px;font-weight:800;padding:4px 8px;border-radius:999px;z-index:2">2 СРОКА &gt;</div>
+          <div style="position:absolute;left:0;right:0;bottom:0;padding:16px 22px 18px;z-index:2">
+            <div class="bnr-e">LUNAS SCRIPT &bull; RECOIL CONTROL &bull; КЛИК — ВЫБРАТЬ</div>
+            <div class="bnr-t">LUNAS SCRIPT</div>
+          </div>
+        </div>
+        <div style="padding:22px;display:flex;flex-direction:column;gap:14px;flex:1">
+          <span class="badge" style="background:#fff;color:#000;border-color:#fff">2 СРОКА &bull; ВЫБЕРИ</span>
+          <h3 style="font-weight:800">LUNAS SCRIPT</h3>
+          <p style="font-size:13px;color:rgba(255,255,255,0.55)">Приватный скрипт для Rust — идеальный контроль отдачи, EAC bypass. 7 / 30 дней.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><span style="font-size:11px;background:#fff;color:#000;padding:4px 8px;border-radius:999px;font-weight:700">7 / 30 дней</span><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px">Recoil control</span><span style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:999px">EAC bypass</span></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:4px;gap:8px;flex-wrap:wrap"><div class="price" data-usd="12">от 12$ <small>/ 7 дней</small></div><div style="display:flex;gap:8px"><a href="./product.html?p=lunas-script&lic=7d" class="btn btn-ghost" style="padding:12px 18px;border-radius:999px;font-weight:800;text-decoration:none">Выбрать срок</a><button class="btn" style="background:#fff;color:#000;padding:12px 18px;border-radius:999px;font-weight:800" onclick="event.stopPropagation(); location.href='./product.html?p=lunas-script&lic=30d'">Купить «30 дней»</button></div></div>
         </div>
       </div>
             <!-- PUBG — COMING SOON -->
@@ -1026,6 +1046,7 @@ function getCurrency(){return localStorage.getItem('lunas_currency')||'USD'}
 function setCurrency(c){localStorage.setItem('lunas_currency',c); renderCurrency(); toast('Валюта: '+c+' '+SYMBOLS[c])}
 function convertUSD(usd){const cur=getCurrency(); const rate=RATES[cur]; return Math.round(usd*rate)}
 function formatPrice(usd){const cur=getCurrency(); return convertUSD(usd)+SYMBOLS[cur]}
+document.getElementById('currencySwitcher')?.addEventListener('click',e=>{const b=e.target.closest('[data-cur]');if(b)setCurrency(b.dataset.cur)});
 
 function renderCurrency(){
   const cur=getCurrency()
@@ -1038,7 +1059,7 @@ function renderCurrency(){
     b.style.fontWeight=isActive?'800':'700'
   })
   // update prices
-  document.querySelectorAll('.price[data-usd]').forEach(el=>{
+  document.querySelectorAll('.price[data-usd], .rust-price[data-usd], .spoof-price[data-usd]').forEach(el=>{
     const usd=parseFloat(el.getAttribute('data-usd'))
     const conv=convertUSD(usd)
     const small=el.querySelector('small') ? el.querySelector('small').outerHTML : ''
