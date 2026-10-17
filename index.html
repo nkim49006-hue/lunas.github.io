@@ -422,7 +422,7 @@ html #ppModal .pp-copy:hover{background:var(--moon);color:var(--night)}
           </ul>
           <div class="specs"><span>Rust</span><span>Контроль отдачи</span></div>
           <div class="card-foot">
-            <div class="price" data-usd="6">от 6$ <small>/ день</small></div>
+            <div class="price" data-usd="6.80">от 6.80$ <small>/ день</small></div>
             <div class="card-actions">
               <a href="./product.html?p=spray&lic=1d" class="btn btn-ghost" onclick="event.stopPropagation()">Выбрать срок</a>
               <button class="btn btn-primary" onclick="event.stopPropagation(); location.href='./product.html?p=spray&lic=30d'">Купить «30 дней»</button>
@@ -825,7 +825,7 @@ html.kin:not(#z) #reviewFilter>*{flex:0 0 auto}
     <h3 id="sprayTitle">Spray Method</h3>
     <p class="term-sub">Выбери срок — товар добавится в корзину</p>
     <div class="term-grid">
-      <button class="term" onclick="buyNow('spray_1d','1d','Spray Method — 1 день')"><i class="phase" style="--p:.15"></i><b>1 день</b><span class="rust-price" data-usd="6">6$</span></button>
+      <button class="term" onclick="buyNow('spray_1d','1d','Spray Method — 1 день')"><i class="phase" style="--p:.15"></i><b>1 день</b><span class="rust-price" data-usd="6.80">6.80$</span></button>
       <button class="term" onclick="buyNow('spray_3d','3d','Spray Method — 3 дня')"><i class="phase" style="--p:.32"></i><b>3 дня</b><span class="rust-price" data-usd="15">15$</span></button>
       <button class="term" onclick="buyNow('spray_7d','7d','Spray Method — 7 дней')"><i class="phase" style="--p:.58"></i><b>7 дней</b><span class="rust-price" data-usd="25">25$</span></button>
       <button class="term best" onclick="buyNow('spray_30d','30d','Spray Method — 30 дней')"><i class="phase full"></i><b>30 дней</b><span class="rust-price" data-usd="60">60$</span><em>Выгодно</em></button>
@@ -1045,7 +1045,7 @@ const SYMBOLS = {USD:'$', EUR:'\u20AC', RUB:'\u20BD', KZT:'\u20B8'}
 const CURRENCY_NAMES = {USD:'Доллар', EUR:'Евро', RUB:'Рубли', KZT:'Тенге'}
 function getCurrency(){return localStorage.getItem('lunas_currency')||'USD'}
 function setCurrency(c){localStorage.setItem('lunas_currency',c); renderCurrency(); toast('Валюта: '+c+' '+SYMBOLS[c])}
-function convertUSD(usd){const cur=getCurrency(); const v=usd*RATES[cur]; return (cur==='RUB'||cur==='KZT') ? Math.round(v) : Math.round(v*100)/100}
+function convertUSD(usd){const cur=getCurrency(); const v=usd*RATES[cur]; if(cur==='RUB'||cur==='KZT') return Math.round(v); const r=Math.round(v*100)/100; return Number.isInteger(r)?r:r.toFixed(2)}
 function formatPrice(usd){const cur=getCurrency(); return convertUSD(usd)+SYMBOLS[cur]}
 document.getElementById('currencySwitcher')?.addEventListener('click',e=>{const b=e.target.closest('[data-cur]');if(b)setCurrency(b.dataset.cur)});
 
@@ -1219,7 +1219,7 @@ window.buyNow=function(product_id, license, name){
     'morphine_1d':6,'morphine_3d':15,'morphine_7d':25,'morphine_30d':60,
     'chams_1d':6,'chams_3d':15,'chams_7d':25,'chams_30d':60,
     'goyda_1d':5,'goyda_3d':15,'goyda_7d':20,'goyda_30d':40,
-    'spray_1d':6,'spray_3d':15,'spray_7d':25,'spray_30d':60,
+    'spray_1d':6.80,'spray_3d':15,'spray_7d':25,'spray_30d':60,
     'lunas_panel_7d':2.99,'lunas_panel_30d':5.99,'lunas_panel_lifetime':8.99
   };
   const usd = priceMap[product_id]||6;
