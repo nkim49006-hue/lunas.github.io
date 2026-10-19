@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LUNAS SHOP — спуфер, чамсы для Rust и Lunas Panel AI</title>
 <meta name="description" content="LUNAS SHOP — HWID-спуфер, чамсы для Rust и Lunas Panel AI. Ключ на email после оплаты, поддержка в Discord.">
-<meta name="theme-color" content="#07080A">
+<meta name="theme-color" content="#050B1C">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,24 +15,24 @@ const PROD_API = '';
 window.API_BASE = localStorage.getItem('api_base') || PROD_API || (location.port==='8765' ? 'http://127.0.0.1:3000' : '');
 </script>
 <style>
-/* ===== LUNAS — лунная ночь. Один акцент: лунное золото ===== */
+/* ===== LUNAS — тёмно-синяя ночь. Акцент: электрик-синий ===== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --night:#07080A;--dusk:rgba(17,19,22,.8);--deep:#16191D;--line:#23272D;--line2:#3A3F48;
-  --moon:#F1F2F4;--mute:#979DA7;--halo:#D5D9DF;--halo2:#F4F5F7;--sky:#DCE0E6;--ok:#6FD9A4;
-  --chrome:linear-gradient(180deg,#FFFFFF 0%,#D9DDE3 45%,#8E949E 100%);
+  --night:#050B1C;--dusk:rgba(12,24,52,.72);--deep:#112448;--line:#1B3260;--line2:#2B4A86;
+  --moon:#EAF1FF;--mute:#8FA3C8;--halo:#7FB0FF;--halo2:#BCD6FF;--sky:#8CBCFF;--ok:#4FD39A;
+  --chrome:linear-gradient(180deg,#6FAEFF 0%,#3B82F6 50%,#1E4FD6 100%);
   --ink:#FFFFFF;
-  --ls-line:var(--line);--ls-line2:var(--line2);--ls-panel:#101215;--ls-text:var(--moon);--ls-mute:var(--mute);--hud:#C9CED6;--r-card:18px;--r-btn:10px;
+  --ls-line:var(--line);--ls-line2:var(--line2);--ls-panel:#0B1834;--ls-text:var(--moon);--ls-mute:var(--mute);--hud:#7DB4FF;--r-card:18px;--r-btn:10px;
   --disp:'Unbounded',system-ui,sans-serif;--body:'Golos Text',system-ui,-apple-system,sans-serif;
 }
-html{scroll-behavior:smooth;background:#07080A}
+html{scroll-behavior:smooth;background:#050B1C}
 body{font-family:var(--body);font-size:16px;line-height:1.55;color:var(--moon);-webkit-font-smoothing:antialiased;overflow-x:hidden;background:transparent}
 #bgfx{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;display:block}
 a{color:inherit}
 img{max-width:100%;display:block}
 button{font-family:inherit}
 [style*="JetBrains"]{font-family:var(--body)!important}
-::selection{background:var(--chrome);color:#0A0B0D}
+::selection{background:var(--chrome);color:#FFFFFF}
 :focus-visible{outline:2px solid var(--sky)!important;outline-offset:3px}
 .container{max-width:1200px;margin:0 auto;padding:0 24px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
@@ -41,7 +41,7 @@ button{font-family:inherit}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 20px;border-radius:var(--r-btn);
   font:600 14px/1 var(--body);text-decoration:none;cursor:pointer;border:1px solid transparent;white-space:nowrap;
   transition:background-color .15s,border-color .15s,color .15s}
-.btn-primary,.btn-white,.btn-blue{background:var(--chrome)!important;color:#0A0B0D!important;border-color:#E4E7EB!important;box-shadow:0 8px 28px -10px rgba(220,224,230,.55),inset 0 1px 0 #fff!important}
+.btn-primary,.btn-white,.btn-blue{background:var(--chrome)!important;color:#FFFFFF!important;border-color:#7DB4FF!important;box-shadow:0 8px 28px -10px rgba(125,180,255,.55),inset 0 1px 0 #fff!important}
 .btn-primary:hover,.btn-white:hover,.btn-blue:hover{background:#fff!important;border-color:#fff!important}
 .btn-ghost{background:transparent!important;color:var(--moon)!important;border-color:var(--line2)!important;box-shadow:none!important}
 .btn-ghost:hover{background:var(--deep)!important;border-color:var(--mute)!important}
@@ -49,9 +49,9 @@ button{font-family:inherit}
 .btn:active{transform:translateY(1px)}
 
 /* ---------- шапка ---------- */
-nav.nav{position:sticky;top:0;z-index:50;background:rgba(7,8,10,.6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+nav.nav{position:sticky;top:0;z-index:50;background:rgba(5,11,28,.6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   border-bottom:1px solid transparent;transition:border-color .2s,background-color .2s}
-nav.nav.scrolled{border-bottom-color:var(--line);background:rgba(7,8,10,.9)}
+nav.nav.scrolled{border-bottom-color:var(--line);background:rgba(5,11,28,.9)}
 .nav-in{height:66px;display:flex;align-items:center;gap:28px}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--disp);font-weight:700;font-size:15px;letter-spacing:.06em}
 .logo img{height:28px;width:auto;border-radius:6px}
@@ -66,9 +66,9 @@ nav.nav.scrolled{border-bottom-color:var(--line);background:rgba(7,8,10,.9)}
 .seg button:hover{color:var(--moon)!important}
 .seg button.active{background:var(--deep)!important;color:var(--moon)!important}
 .icon-btn{height:36px!important;padding:0 12px!important;font-size:13px!important}
-#cartCount{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--chrome);color:#0A0B0D;font-size:11px;font-weight:700}
+#cartCount{display:inline-grid;place-items:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--chrome);color:#FFFFFF;font-size:11px;font-weight:700}
 .hamburger{display:none;width:38px;height:38px;place-items:center;border-radius:10px;border:1px solid var(--line2);background:transparent;color:var(--moon);cursor:pointer}
-.mobile-menu{display:none;position:fixed;top:74px;left:12px;right:12px;z-index:49;background:#101215;border:1px solid var(--line);
+.mobile-menu{display:none;position:fixed;top:74px;left:12px;right:12px;z-index:49;background:#0B1834;border:1px solid var(--line);
   border-radius:16px;padding:10px;flex-direction:column;gap:2px;box-shadow:0 24px 60px rgba(0,0,0,.5)}
 .mobile-menu.open{display:flex}
 .mobile-menu>a{padding:12px 14px;border-radius:10px;text-decoration:none;font-weight:500}
@@ -79,11 +79,11 @@ nav.nav.scrolled{border-bottom-color:var(--line);background:rgba(7,8,10,.9)}
 /* ---------- hero: вордмарк на фоне луны ---------- */
 .hero{position:relative;padding:48px 0 80px;overflow:hidden;isolation:isolate}
 .hero-in{position:relative}
-.hero-in::before{content:"";position:absolute;left:-10%;top:-30%;width:80%;height:120%;pointer-events:none;background:radial-gradient(closest-side,rgba(210,215,222,.10),transparent);z-index:0}
+.hero-in::before{content:"";position:absolute;left:-10%;top:-30%;width:80%;height:120%;pointer-events:none;background:radial-gradient(closest-side,rgba(96,165,250,.10),transparent);z-index:0}
 @keyframes rise{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
 .wordmark{position:relative;z-index:2;font-family:var(--disp);font-weight:800;font-size:clamp(4.6rem,19vw,15.5rem);line-height:.84;
-  letter-spacing:-.045em;color:transparent;background:var(--chrome);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 10px 40px rgba(210,215,222,.18));animation:rise 1.1s cubic-bezier(.16,1,.3,1) both;margin-left:-.05em;padding-top:.12em}
-.hero-grid{position:relative;z-index:3;display:grid;grid-template-columns:minmax(0,1fr) 410px;gap:56px;align-items:start;margin-top:44px}
+  letter-spacing:-.045em;color:transparent;background:var(--chrome);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 10px 40px rgba(96,165,250,.18));animation:rise 1.1s cubic-bezier(.16,1,.3,1) both;margin-left:-.05em;padding-top:.12em}
+.hero-grid{position:relative;z-index:3;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,560px);gap:56px;align-items:start;margin-top:44px}
 .lead{font-size:1.1875rem;line-height:1.6;color:var(--mute);max-width:44ch}
 .cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:30px}
 .cta .btn{height:52px;padding:0 26px;font-size:15px}
@@ -92,12 +92,20 @@ nav.nav.scrolled{border-bottom-color:var(--line);background:rgba(7,8,10,.9)}
 .trust{list-style:none;display:grid;gap:10px;margin-top:30px;max-width:46ch}
 .trust li{display:flex;gap:12px;align-items:center;font-size:15px;color:var(--moon)}
 .trust svg{flex:none;width:22px;height:22px;padding:4px;border-radius:7px;background:var(--deep);border:1px solid var(--line2);color:var(--ok)}
-.deal{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 14px;border:1px solid var(--line2);border-radius:12px;background:linear-gradient(90deg,rgba(213,217,223,.08),transparent)}
+.deal{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 14px;border:1px solid var(--line2);border-radius:12px;background:linear-gradient(90deg,rgba(96,165,250,.08),transparent)}
 .deal b{font-family:var(--disp);font-weight:600;font-size:16px}
 .deal b .panel-price{font-size:1em!important;color:var(--moon)!important}
 .deal span{font-size:13px;color:var(--mute)}
-.status{background:rgba(14,16,19,.82);border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden;
+.status{background:rgba(9,20,44,.82);border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden;
   backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.hero-video{display:block;text-decoration:none;color:inherit}
+.hv-title{display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px;margin-bottom:14px}
+.hv-name{font-family:var(--disp);font-weight:800;font-size:clamp(26px,3.2vw,40px);letter-spacing:.02em;line-height:1;background:var(--chrome);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 18px rgba(59,130,246,.45))}
+.hv-badge{order:2;font-size:11px;font-weight:800;padding:5px 10px;border-radius:999px;background:var(--chrome);color:#fff;text-transform:uppercase;letter-spacing:.06em}
+.hv-sub{order:3;width:100%;font-size:14px;color:var(--mute)}
+.hv-frame{position:relative;border-radius:var(--r-card);overflow:hidden;border:1px solid var(--line2);background:#0B1834;aspect-ratio:16/9;box-shadow:0 0 0 1px rgba(59,130,246,.15),0 20px 60px -15px rgba(59,130,246,.55),0 0 40px -10px rgba(59,130,246,.4);transition:transform .3s,box-shadow .3s}
+.hv-frame video{display:block;width:100%;height:100%;object-fit:cover}
+.hero-video:hover .hv-frame{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(96,165,250,.5),0 26px 70px -15px rgba(59,130,246,.75),0 0 60px -8px rgba(59,130,246,.55)}
 .status-head{padding:16px 20px;font-weight:600;font-size:15px;border-bottom:1px solid var(--line)}
 .row{display:grid;grid-template-columns:12px 1fr auto;gap:14px;align-items:center;padding:13px 20px;text-decoration:none;transition:background-color .15s}
 .row+.row{border-top:1px solid var(--line)}
@@ -128,9 +136,9 @@ h2{font-family:var(--disp);font-weight:600;font-size:clamp(1.75rem,3.4vw,2.5rem)
 .card:hover{border-color:var(--line2)}
 .card-media{position:relative;aspect-ratio:16/9;background:var(--deep);overflow:hidden}
 .card-media img{width:100%;height:100%;object-fit:cover}
-.card-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 58%,rgba(14,16,19,.95))}
-.tag{position:absolute;top:14px;left:14px;z-index:1;background:rgba(7,8,10,.72);border:1px solid var(--line2);border-radius:999px;padding:5px 11px;font-size:12px;font-weight:600}
-.tag.new{background:var(--chrome);color:#0A0B0D;border-color:var(--halo)}
+.card-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 58%,rgba(9,20,44,.95))}
+.tag{position:absolute;top:14px;left:14px;z-index:1;background:rgba(5,11,28,.72);border:1px solid var(--line2);border-radius:999px;padding:5px 11px;font-size:12px;font-weight:600}
+.tag.new{background:var(--chrome);color:#FFFFFF;border-color:var(--halo)}
 .card-body{padding:22px 24px 24px;display:flex;flex-direction:column;gap:14px;flex:1}
 .card h3{font-family:var(--disp);font-weight:600;font-size:1.25rem;letter-spacing:-.01em;line-height:1.2}
 .card p{color:var(--mute);font-size:14.5px;line-height:1.6;max-width:58ch}
@@ -138,7 +146,7 @@ h2{font-family:var(--disp);font-weight:600;font-size:clamp(1.75rem,3.4vw,2.5rem)
 .terms li{display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 8px;border:1px solid var(--line);border-radius:999px;font-size:13px}
 /* фаза луны = длина лицензии */
 .phase{--p:0;width:13px;height:13px;border-radius:50%;flex:none;background:var(--line2);box-shadow:inset calc(var(--p) * -13px) 0 0 var(--halo2)}
-.phase.full{background:var(--halo2);box-shadow:0 0 0 3px rgba(213,217,223,.18)}
+.phase.full{background:var(--halo2);box-shadow:0 0 0 3px rgba(96,165,250,.18)}
 .specs{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:13px;color:var(--mute)}
 .specs span{display:inline-flex;align-items:center;gap:8px}
 .specs span::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--line2)}
@@ -150,7 +158,7 @@ h2{font-family:var(--disp);font-weight:600;font-size:clamp(1.75rem,3.4vw,2.5rem)
 .card.soon{cursor:default;background:transparent;border-style:dashed}
 .card.soon:hover{border-color:var(--line2)}
 .soon-top{display:flex;align-items:center;gap:16px}
-.eclipse{width:52px;height:52px;border-radius:50%;flex:none;background:var(--night);box-shadow:0 0 0 1px var(--line2),0 0 24px 3px rgba(213,217,223,.18),inset 6px -4px 0 0 rgba(213,217,223,.3)}
+.eclipse{width:52px;height:52px;border-radius:50%;flex:none;background:var(--night);box-shadow:0 0 0 1px var(--line2),0 0 24px 3px rgba(96,165,250,.18),inset 6px -4px 0 0 rgba(96,165,250,.3)}
 .soon-kicker{font-size:13px;color:var(--mute)}
 
 /* ---------- как это работает ---------- */
@@ -162,7 +170,7 @@ h2{font-family:var(--disp);font-weight:600;font-size:clamp(1.75rem,3.4vw,2.5rem)
 .assure{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:20px;padding:14px 18px;border:1px solid var(--line);border-radius:14px}
 .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;border:1px solid var(--line2);font-size:13px;font-weight:500}
 .pill.ok::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok)}
-.pill.gold{background:var(--chrome);color:#0A0B0D;border-color:var(--halo);font-weight:700}
+.pill.gold{background:var(--chrome);color:#FFFFFF;border-color:var(--halo);font-weight:700}
 .assure .sales{margin-left:auto;color:var(--mute);font-size:13px}
 
 /* ---------- отзывы, FAQ ---------- */
@@ -198,19 +206,19 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:24px}
 .modal-bg.open{display:flex}
 #adminPanel{background:rgba(8,10,18,.78)!important}
 #cabinetModal>div,#buyModal>div,#rustModal>div,#panelModal>div,#policyModal>div,#adminPanel>div,.modal{
-  background:#101215!important;border:1px solid var(--line)!important;border-radius:20px!important;color:var(--moon);
+  background:#0B1834!important;border:1px solid var(--line)!important;border-radius:20px!important;color:var(--moon);
   box-shadow:0 30px 80px rgba(0,0,0,.55)!important;max-height:90vh;overflow:auto}
 .modal{max-width:520px;width:100%;padding:24px}
 .modal-bg .glass,#adminPanel .glass{background:var(--deep)!important;border:1px solid var(--line)!important;border-radius:14px!important;color:var(--moon)!important}
 .modal-bg .glass:hover{border-color:var(--line2)!important}
 .modal-bg .pay-method div:first-child{color:var(--moon)!important}
-.modal-bg .pay-method.selected{border-color:var(--halo2)!important;background:rgba(213,217,223,.08)!important}
+.modal-bg .pay-method.selected{border-color:var(--halo2)!important;background:rgba(96,165,250,.08)!important}
 .rust-price,.panel-price{color:var(--sky)!important;font-family:var(--disp)}
 .modal-bg input,.modal-bg textarea,.modal-bg select,#adminPanel input,#adminPanel textarea,#adminPanel select,.cart-bar input{
   background:var(--night)!important;border:1px solid var(--line2)!important;border-radius:10px!important;color:var(--moon)!important;font-family:var(--body)!important}
 .modal-bg input:focus,.cart-bar input:focus,#adminPanel input:focus{border-color:var(--halo)!important;outline:none}
 .cart-bar{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:40;display:none;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;
-  max-width:calc(100vw - 24px);padding:10px 12px;background:#101215;border:1px solid var(--line2);border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.5)}
+  max-width:calc(100vw - 24px);padding:10px 12px;background:#0B1834;border:1px solid var(--line2);border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.5)}
 .cart-bar .btn{height:34px}
 #cartTotal{color:var(--sky)!important;font-family:var(--disp);font-weight:600}
 #cartDiscount{color:var(--ok)!important}
@@ -218,36 +226,36 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;margin-top:24px}
 .toast{background:var(--deep);border:1px solid var(--line2);color:var(--moon);padding:12px 16px;border-radius:12px;font-size:14px;font-weight:500;
   box-shadow:0 12px 32px rgba(0,0,0,.4);transition:opacity .3s,transform .3s;animation:toastIn .25s ease-out both}
 @keyframes toastIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
-html #ppModal .pp-box{background:#101215;border-color:var(--line);border-radius:20px}
+html #ppModal .pp-box{background:#0B1834;border-color:var(--line);border-radius:20px}
 html #ppModal input{background:var(--night);border-color:var(--line2);border-radius:10px}
 html #ppModal input:focus{border-color:var(--halo)}
 html #ppModal .pp-row{border-color:var(--line);border-radius:10px}
 html #ppModal .pp-go{background:var(--halo);border-color:var(--halo);color:#fff;border-radius:10px}
-html #ppModal .pp-go:hover{background:#fff;color:#0A0B0D}
-html #ppModal li::before{background:var(--chrome);color:#0A0B0D}
+html #ppModal .pp-go:hover{background:#fff;color:#FFFFFF}
+html #ppModal li::before{background:var(--chrome);color:#FFFFFF}
 html #ppModal .pp-copy:hover{background:var(--moon);color:var(--night)}
 
-#sprayModal>.term-box{position:relative;width:100%;max-width:520px;padding:26px;background:#101215;border:1px solid var(--line);border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.55)}
+#sprayModal>.term-box{position:relative;width:100%;max-width:520px;padding:26px;background:#0B1834;border:1px solid var(--line);border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.55)}
 .term-box h3{font-family:var(--disp);font-weight:600;font-size:1.375rem}
 .term-sub{color:var(--mute);font-size:14px;margin-top:4px}
 .term-x{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;border:1px solid var(--line2);background:transparent;color:var(--moon);cursor:pointer}
 .term-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
 .term{position:relative;display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;row-gap:4px;align-items:center;text-align:left;padding:16px;border-radius:14px;border:1px solid var(--line2);background:var(--deep);color:var(--moon);cursor:pointer;transition:border-color .15s,background-color .15s}
-.term:hover{border-color:var(--halo);background:#1C2025}
+.term:hover{border-color:var(--halo);background:#16305E}
 .term b{font-size:15px;font-weight:600}
 .term .rust-price{grid-column:2;font-size:20px;font-weight:600}
-.term em{position:absolute;top:10px;right:10px;font-style:normal;font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--chrome);color:#0A0B0D}
-.term.best{border-color:#C9CED6}
+.term em{position:absolute;top:10px;right:10px;font-style:normal;font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--chrome);color:#FFFFFF}
+.term.best{border-color:#7DB4FF}
 .term-note{margin-top:14px;font-size:13px;color:var(--mute)}
 /* ---------- адаптив ---------- */
 .lt-sec .lt-head{text-align:left!important}
-.lt-handle{background:#E4E7EB!important;box-shadow:0 0 18px rgba(228,231,235,.5)!important}
-.lt-handle i{border-color:#E4E7EB!important}
-.lt-handle i::before{border-right-color:#E4E7EB!important}.lt-handle i::after{border-left-color:#E4E7EB!important}
+.lt-handle{background:#7DB4FF!important;box-shadow:0 0 18px rgba(228,231,235,.5)!important}
+.lt-handle i{border-color:#7DB4FF!important}
+.lt-handle i::before{border-right-color:#7DB4FF!important}.lt-handle i::after{border-left-color:#7DB4FF!important}
 .lt-cap-r{color:#fff!important}
 .lt-sec .lt-head h2{font-family:var(--disp)}
 .lt-grid{max-width:none!important}
-.lt-card{background:#101215!important;border-radius:var(--r-card)!important}
+.lt-card{background:#0B1834!important;border-radius:var(--r-card)!important}
 .lt-stage{border-radius:calc(var(--r-card) - 1px) calc(var(--r-card) - 1px) 0 0!important}
 .lt-tag,.lt-cap{font-family:var(--body)!important}
 @media (max-width:1000px){
@@ -340,18 +348,12 @@ html #ppModal .pp-copy:hover{background:var(--moon);color:var(--night)}
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Возврат 24 ч, если ключ не активирован</li>
         </ul>
       </div>
-      <aside class="status" aria-label="Статус продуктов">
-        <div class="status-head">Статус продуктов</div>
-        <a class="row" href="./product.html?p=goyda&v=1018b"><span class="dot ok" aria-hidden="true"></span><span class="name">Goyda Mason<small>HWID-спуфер</small></span><span class="st ok">Работает</span></a>
-        <a class="row" href="./product.html?p=chams&v=1018b"><span class="dot ok" aria-hidden="true"></span><span class="name">SMG Chams<small>Rust</small></span><span class="st ok">Работает</span></a>
-        <a class="row" href="./product.html?p=spray&v=1018b"><span class="dot ok" aria-hidden="true"></span><span class="name">Spray Method<small>Rust • контроль отдачи</small></span><span class="st new">Новинка</span></a>
-        <a class="row" href="./product.html?p=optimizer&v=1018b"><span class="dot ok" aria-hidden="true"></span><span class="name">Lunas Optimization<small>Оптимизатор Windows и игр</small></span><span class="st new">Новинка</span></a>
-        <a class="row" href="./product.html?p=nfa&v=1018b"><span class="dot ok" aria-hidden="true"></span><span class="name">NFA Account<small>Rust • аккаунт Steam</small></span><span class="st new">Новинка</span></a>
-        <a class="row" href="./product.html?p=lunas-panel&amp;lic=lifetime&v=1018b"><span class="dot ok" aria-hidden="true"></span><span class="name">Lunas Panel AI<small>Настройка картинки</small></span><span class="st new">Новинка</span></a>
-        <a class="row" href="#catalog"><span class="dot soon" aria-hidden="true"></span><span class="name">PUBG Full<small>PUBG</small></span><span class="st soon">Скоро</span></a>
-        <a class="row" href="#catalog"><span class="dot soon" aria-hidden="true"></span><span class="name">Apex Full<small>Apex Legends</small></span><span class="st soon">Скоро</span></a>
-        <a class="status-foot" href="#reviews">Оценка 4.9 из 5 по 2 400 отзывам</a>
-      </aside>
+      <a class="hero-video" href="./product.html?p=spray&v=1018b" aria-label="Spray Method — открыть товар">
+        <div class="hv-title"><span class="hv-badge">Новинка</span><span class="hv-name">SPRAY METHOD</span><span class="hv-sub">Rust • контроль отдачи</span></div>
+        <div class="hv-frame">
+          <video src="./spray-method.mp4" autoplay muted loop playsinline preload="auto"></video>
+        </div>
+      </a>
     </div>
   </div>
 </section>
@@ -654,11 +656,11 @@ html.kin:not(#z) #reviewFilter>*{flex:0 0 auto}
 </script>
 
 <!-- PERSONAL CABINET — личный кабинет -->
-<div id="cabinetModal" class="modal-bg" style="display:none;position:fixed;inset:0;z-index:75;background:rgba(0,0,0,0.82);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
-  <div style="background:#121214;border:1px solid rgba(255,255,255,0.14);border-radius:20px;max-width:640px;width:100%;max-height:85vh;overflow:auto;padding:22px;position:relative">
+<div id="cabinetModal" class="modal-bg" style="display:none;position:fixed;inset:0;z-index:75;background:rgba(3,8,22,0.82);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
+  <div style="background:#0B1834;border:1px solid rgba(255,255,255,0.14);border-radius:20px;max-width:640px;width:100%;max-height:85vh;overflow:auto;padding:22px;position:relative">
     <button style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer" onclick="closeCabinet()">✕</button>
     <div style="display:flex;gap:12px;align-items:center">
-      <div style="width:48px;height:48px;border-radius:12px;background:#fff;color:#000;display:grid;place-items:center;font-weight:900"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></div>
+      <div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(180deg,#6FAEFF,#2563EB);color:#fff;display:grid;place-items:center;font-weight:900"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></div>
       <div>
         <div style="font-weight:900;font-size:16px" id="cabEmail">—</div>
         <div style="font-size:11px;font-family:JetBrains Mono,monospace;color:rgba(255,255,255,0.5)">Личный кабинет • <span id="cabBalance">0$</span> • <span id="cabCurrency">USD</span></div>
@@ -680,8 +682,8 @@ html.kin:not(#z) #reviewFilter>*{flex:0 0 auto}
   </div>
 </div>
 
-<div id="buyModal" class="modal-bg" style="display:none;position:fixed;inset:0;z-index:75;background:rgba(0,0,0,0.82);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
-  <div style="background:#121214;border:1px solid rgba(255,255,255,0.14);border-radius:20px;max-width:480px;width:100%;padding:22px;position:relative">
+<div id="buyModal" class="modal-bg" style="display:none;position:fixed;inset:0;z-index:75;background:rgba(3,8,22,0.82);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
+  <div style="background:#0B1834;border:1px solid rgba(255,255,255,0.14);border-radius:20px;max-width:480px;width:100%;padding:22px;position:relative">
     <button style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer" onclick="closeBuyModal()">✕</button>
     <div style="font-weight:900;font-size:16px" id="buyModalTitle">Оформление</div>
     <div style="font-size:11px;font-family:JetBrains Mono,monospace;color:rgba(255,255,255,0.5);letter-spacing:0.06em" id="buyModalSub">выбери способ оплаты</div>
@@ -690,7 +692,7 @@ html.kin:not(#z) #reviewFilter>*{flex:0 0 auto}
         <div style="font-weight:800;font-size:13px" id="buyProductName">—</div>
         <div style="font-size:11px;color:rgba(255,255,255,0.5)" id="buyProductPrice">—</div>
       </div>
-      <span style="background:#fff;color:#000;font-size:10px;font-weight:800;padding:4px 8px;border-radius:999px" id="buyProductBadge">—</span>
+      <span style="background:linear-gradient(180deg,#6FAEFF,#2563EB);color:#fff;font-size:10px;font-weight:800;padding:4px 8px;border-radius:999px" id="buyProductBadge">—</span>
     </div>
     <label style="display:flex;flex-direction:column;gap:6px;margin-top:14px;font-size:12px;font-weight:600">Email для ключа
       <input id="buyEmail" type="email" placeholder="name@gmail.com" required autocomplete="email" style="padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);color:#fff;outline:none">
@@ -719,16 +721,16 @@ html.kin:not(#z) #reviewFilter>*{flex:0 0 auto}
       </div>
       <div id="buyPayHint" style="margin-top:8px;font-size:11px;color:rgba(255,255,255,0.35);text-align:center">Выбери способ — оплата создаётся на сервере</div>
     </div>
-    <button id="buyPayBtn" class="btn btn-white" style="width:100%;margin-top:16px;justify-content:center;background:#fff;color:#000;padding:12px;border-radius:999px;font-weight:900;opacity:0.5;pointer-events:none">Сначала выбери способ</button>
+    <button id="buyPayBtn" class="btn btn-white" style="width:100%;margin-top:16px;justify-content:center;background:linear-gradient(180deg,#6FAEFF,#2563EB);color:#fff;padding:12px;border-radius:999px;font-weight:900;opacity:0.5;pointer-events:none">Сначала выбери способ</button>
     <div style="margin-top:8px;font-size:10px;color:rgba(255,255,255,0.25);text-align:center">Нажимая «Оплатить», создаётся заказ <b>pending</b> на сервере. Оплату подтвердит webhook.</div>
   </div>
 </div>
 
-<div id="rustModal" class="modal-bg" style="display:none;position:fixed;inset:0;z-index:75;background:rgba(0,0,0,0.82);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
-  <div style="background:#121214;border:1px solid rgba(255,255,255,0.14);border-radius:20px;max-width:520px;width:100%;padding:22px;position:relative">
+<div id="rustModal" class="modal-bg" style="display:none;position:fixed;inset:0;z-index:75;background:rgba(3,8,22,0.82);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
+  <div style="background:#0B1834;border:1px solid rgba(255,255,255,0.14);border-radius:20px;max-width:520px;width:100%;padding:22px;position:relative">
     <button style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer" onclick="closeRustModal()">✕</button>
     <div style="display:flex;gap:12px;align-items:center">
-      <div style="width:48px;height:48px;border-radius:12px;background:#fff;color:#000;display:grid;place-items:center;font-size:22px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="7"/><path d="M12 2v5M12 17v5M2 12h5M17 12h5"/><circle cx="12" cy="12" r="1"/></svg></div>
+      <div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(180deg,#6FAEFF,#2563EB);color:#fff;display:grid;place-items:center;font-size:22px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="7"/><path d="M12 2v5M12 17v5M2 12h5M17 12h5"/><circle cx="12" cy="12" r="1"/></svg></div>
       <div>
         <div style="font-weight:900;font-size:16px">Morphine — Rust</div>
         <div style="font-size:11px;font-family:JetBrains Mono,monospace;color:rgba(255,255,255,0.5);letter-spacing:0.06em">Выбери срок. 200+ дней без детекта</div>
@@ -759,7 +761,7 @@ html.kin:not(#z) #reviewFilter>*{flex:0 0 auto}
     </div>
     <div style="margin-top:14px;display:flex;gap:8px">
       <button class="btn btn-ghost" style="flex:1;justify-content:center" onclick="closeRustModal()">Отмена</button>
-      <button class="btn btn-white" style="flex:1;justify-content:center;background:#fff;color:#000" onclick="closeRustModal(); document.getElementById('catalog').scrollIntoView({behavior:'smooth'})">В каталог</button>
+      <button class="btn btn-white" style="flex:1;justify-content:center;background:linear-gradient(180deg,#6FAEFF,#2563EB);color:#fff" onclick="closeRustModal(); document.getElementById('catalog').scrollIntoView({behavior:'smooth'})">В каталог</button>
     </div>
     <div style="margin-top:10px;font-size:10px;color:rgba(255,255,255,0.3);text-align:center;font-family:JetBrains Mono,monospace">Нажми на срок — товар добавится в корзину. Оплата через PayPal.</div>
   </div>
@@ -846,8 +848,8 @@ html.kin:not(#z) #reviewFilter>*{flex:0 0 auto}
   </div>
 </div>
 
-<div id="panelModal" class="modal-bg" style="display:none;position:fixed;inset:0;z-index:75;background:rgba(0,0,0,0.82);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
-  <div style="background:#121214;border:1px solid rgba(255,255,255,0.14);border-radius:20px;max-width:560px;width:100%;padding:22px;position:relative">
+<div id="panelModal" class="modal-bg" style="display:none;position:fixed;inset:0;z-index:75;background:rgba(3,8,22,0.82);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
+  <div style="background:#0B1834;border:1px solid rgba(255,255,255,0.14);border-radius:20px;max-width:560px;width:100%;padding:22px;position:relative">
     <button style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer" onclick="closePanelModal()" aria-label="Закрыть">✕</button>
     <div style="font-weight:900;font-size:16px">Lunas Panel AI</div>
     <div style="font-size:11px;color:rgba(255,255,255,0.5);">Выбери срок лицензии</div>
@@ -874,18 +876,18 @@ html.kin:not(#z) #reviewFilter>*{flex:0 0 auto}
 <style>@media(max-width:520px){#panelModal [style*="repeat(3,1fr)"]{grid-template-columns:1fr!important}}</style>
 
 <!-- Policy modals -->
-<div id="policyModal" class="modal-bg" style="display:none;position:fixed;inset:0;z-index:75;background:rgba(0,0,0,0.82);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
-  <div style="background:#121214;border:1px solid rgba(255,255,255,0.14);border-radius:16px;max-width:640px;width:100%;max-height:80vh;overflow:auto;padding:20px;position:relative">
+<div id="policyModal" class="modal-bg" style="display:none;position:fixed;inset:0;z-index:75;background:rgba(3,8,22,0.82);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
+  <div style="background:#0B1834;border:1px solid rgba(255,255,255,0.14);border-radius:16px;max-width:640px;width:100%;max-height:80vh;overflow:auto;padding:20px;position:relative">
     <button style="position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer" onclick="closePolicy()">✕</button>
     <h3 id="policyTitle" style="font-weight:900;font-size:16px"></h3>
     <div id="policyText" style="margin-top:10px;font-size:12px;line-height:1.7;color:rgba(255,255,255,0.7);white-space:pre-wrap"></div>
-    <button class="btn btn-white" style="margin-top:14px;background:#fff;color:#000;padding:8px 14px;border-radius:999px;font-weight:800" onclick="closePolicy()">Понятно</button>
+    <button class="btn btn-white" style="margin-top:14px;background:linear-gradient(180deg,#6FAEFF,#2563EB);color:#fff;padding:8px 14px;border-radius:999px;font-weight:800" onclick="closePolicy()">Понятно</button>
   </div>
 </div>
 
 
-<div id="adminPanel" style="display:none;position:fixed;inset:0;z-index:80;background:rgba(0,0,0,0.82);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
-  <div style="background:#121214;border:1px solid rgba(255,255,255,0.14);border-radius:20px;max-width:720px;width:100%;max-height:85vh;overflow:auto;padding:20px">
+<div id="adminPanel" style="display:none;position:fixed;inset:0;z-index:80;background:rgba(3,8,22,0.82);backdrop-filter:blur(12px);align-items:center;justify-content:center;padding:20px">
+  <div style="background:#0B1834;border:1px solid rgba(255,255,255,0.14);border-radius:20px;max-width:720px;width:100%;max-height:85vh;overflow:auto;padding:20px">
     <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
       <h3 style="font-weight:900">Админ-панель • LUNAS SHOP</h3>
       <button class="btn btn-ghost" style="padding:6px 12px" id="adminClose">Закрыть</button>
@@ -1365,7 +1367,7 @@ window.renderDemoPurchases=function(){
         <div style="font-size:11px;color:rgba(255,255,255,0.5)">${(p.paid_at||'').slice(0,10)} • ${p.id.slice(0,8)} • ${p.status}</div>
       </div>
       <div style="display:flex;gap:8px;align-items:center">
-        <code style="background:#fff;color:#000;padding:6px 8px;border-radius:8px;font-size:11px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.key_value||'—'}</code>
+        <code style="background:linear-gradient(180deg,#6FAEFF,#2563EB);color:#fff;padding:6px 8px;border-radius:8px;font-size:11px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.key_value||'—'}</code>
         <button class="btn btn-ghost" style="padding:6px 10px;font-size:11px" onclick="navigator.clipboard.writeText('${p.key_value||''}'); toast('Ключ скопирован','ok')">Копировать</button>
       </div>
     </div>
@@ -1481,24 +1483,23 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSprayMo
 })();
 </script>
 
-<script>// фон: графитовый космос, медленно плывущие серебристые туманности, мерцающие звёзды и редкие метеоры
+<script>// фон: тёмно-синий, плывущие синие туманности и сетка из квадратов с мерцающими ячейками и подсветкой у курсора
 (function(){
   var cv=document.getElementById('bgfx'); if(!cv||!cv.getContext) return;
   var ctx=cv.getContext('2d'), W=0, H=0, D=1, stars=[], meteors=[], last=0, nextMeteor=2500, running=true;
   var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var mx=0, my=0, tmx=0, tmy=0, sy=0;
+  var mx=0, my=0, tmx=0, tmy=0, sy=0, lit=[], lastLit=0, CELL=44, pmx=-999, pmy=-999;
   var clouds=[
-    {x:.78,y:.10,r:.62,c:'190,196,206',a:.13,sx:.05,sy:.04,ph:0},
-    {x:.12,y:.55,r:.55,c:'120,128,140',a:.12,sx:.06,sy:.05,ph:2},
-    {x:.62,y:.92,r:.6,c:'160,166,176',a:.09,sx:.04,sy:.06,ph:4},
-    {x:.35,y:.22,r:.35,c:'230,233,238',a:.05,sx:.07,sy:.05,ph:1}
+    {x:.78,y:.10,r:.62,c:'59,130,246',a:.20,sx:.05,sy:.04,ph:0},
+    {x:.12,y:.55,r:.55,c:'29,78,216',a:.22,sx:.06,sy:.05,ph:2},
+    {x:.62,y:.92,r:.6,c:'96,165,250',a:.12,sx:.04,sy:.06,ph:4},
+    {x:.35,y:.22,r:.35,c:'147,197,253',a:.07,sx:.07,sy:.05,ph:1}
   ];
   function size(){
     D=Math.min(window.devicePixelRatio||1,1.5); W=innerWidth; H=innerHeight;
     cv.width=W*D|0; cv.height=H*D|0; ctx.setTransform(D,0,0,D,0,0);
-    var n=Math.round(W*H/5200); stars=[];
-    for(var i=0;i<n;i++){var z=Math.random();
-      stars.push({x:Math.random()*W,y:Math.random()*H,z:z,r:.35+z*1.25,tw:Math.random()*6.28,ts:.6+Math.random()*1.8,blue:Math.random()<.35});}
+    stars=[]; var cols=Math.ceil(W/CELL)+3, rows=Math.ceil(H/CELL)+3, n=Math.round(cols*rows*.10);
+    for(var i=0;i<n;i++) stars.push({i:Math.random()*cols|0,j:Math.random()*rows|0,ph:Math.random()*6.28,sp:.3+Math.random()*.7,b:Math.random()<.5});
     if(reduce) draw(0);
   }
   function meteor(){
@@ -1509,7 +1510,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSprayMo
   function draw(t){
     var s=t/1000;
     ctx.globalCompositeOperation='source-over';
-    ctx.fillStyle='#07080A'; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#050B1C'; ctx.fillRect(0,0,W,H);
     ctx.globalCompositeOperation='lighter';
     var M=Math.max(W,H);
     for(var i=0;i<clouds.length;i++){var c=clouds[i];
@@ -1520,17 +1521,46 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSprayMo
       g.addColorStop(0,'rgba('+c.c+','+a+')'); g.addColorStop(.45,'rgba('+c.c+','+(a*.35)+')'); g.addColorStop(1,'rgba('+c.c+',0)');
       ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
     }
-    for(var k=0;k<stars.length;k++){var st=stars[k];
-      var px=st.x+mx*st.z*14, py=((st.y-sy*st.z*.15)%H+H)%H+my*st.z*10;
-      var o=(.35+st.z*.55)*(.55+.45*Math.sin(s*st.ts+st.tw));
-      ctx.fillStyle=st.blue?'rgba(200,206,215,'+o+')':'rgba(244,245,247,'+o+')';
-      ctx.beginPath(); ctx.arc(px,py,st.r,0,6.283); ctx.fill();
+    ctx.globalCompositeOperation='source-over';
+    var dX=s*16+mx*12, dY=s*10+sy*.2;
+    var shX=Math.floor(dX/CELL), shY=Math.floor(dY/CELL);
+    var ox=-(dX-shX*CELL)-CELL, oy=-(dY-shY*CELL)-CELL;
+    var cols=Math.ceil(W/CELL)+3, rows=Math.ceil(H/CELL)+3;
+    // каждую секунду загораются новые случайные квадраты
+    if(s-lastLit>=1||!lit.length&&s>.2){lastLit=s;
+      var cnt=6+(Math.random()*6|0);
+      for(var q=0;q<cnt;q++) lit.push({gi:shX+(Math.random()*cols|0),gj:shY+(Math.random()*rows|0),t0:s,
+        dur:1.6+Math.random()*1.2,c:Math.random()<.65?'59,130,246':'125,180,255'});
     }
+    for(var k=lit.length-1;k>=0;k--){var L=lit[k], u=(s-L.t0)/L.dur;
+      if(u>=1){lit.splice(k,1);continue;}
+      var a=u<.18?u/.18:Math.pow(1-(u-.18)/.82,1.6);
+      var cx=ox+(L.gi-shX)*CELL, cy=oy+(L.gj-shY)*CELL;
+      if(cx<-CELL||cy<-CELL||cx>W||cy>H) continue;
+      ctx.save(); ctx.shadowColor='rgba('+L.c+','+(.9*a)+')'; ctx.shadowBlur=34*a;
+      ctx.fillStyle='rgba('+L.c+','+(.5*a)+')'; ctx.fillRect(cx+1,cy+1,CELL-2,CELL-2);
+      ctx.shadowBlur=12*a; ctx.strokeStyle='rgba(180,215,255,'+a+')'; ctx.lineWidth=1.5;
+      ctx.strokeRect(cx+1.5,cy+1.5,CELL-3,CELL-3); ctx.restore();
+    }
+    ctx.lineWidth=1; ctx.strokeStyle='rgba(96,165,250,.13)'; ctx.beginPath();
+    for(var gx=ox;gx<=W+CELL;gx+=CELL){ctx.moveTo((gx|0)+.5,0);ctx.lineTo((gx|0)+.5,H);}
+    for(var gy=oy;gy<=H+CELL;gy+=CELL){ctx.moveTo(0,(gy|0)+.5);ctx.lineTo(W,(gy|0)+.5);}
+    ctx.stroke();
+    if(pmx>-999){var hg=ctx.createRadialGradient(pmx,pmy,0,pmx,pmy,220);
+      hg.addColorStop(0,'rgba(125,180,255,.10)');hg.addColorStop(1,'rgba(125,180,255,0)');
+      ctx.fillStyle=hg; ctx.fillRect(pmx-220,pmy-220,440,440);
+      ctx.save(); ctx.beginPath(); ctx.arc(pmx,pmy,220,0,6.283); ctx.clip();
+      var sg=ctx.createRadialGradient(pmx,pmy,0,pmx,pmy,220);
+      sg.addColorStop(0,'rgba(147,197,253,.35)');sg.addColorStop(1,'rgba(147,197,253,0)');
+      ctx.strokeStyle=sg; ctx.stroke(); ctx.restore();}
+    var vg=ctx.createRadialGradient(W/2,H*.45,Math.min(W,H)*.2,W/2,H*.45,Math.max(W,H)*.8);
+    vg.addColorStop(0,'rgba(5,11,28,0)');vg.addColorStop(1,'rgba(5,11,28,.7)');
+    ctx.fillStyle=vg; ctx.fillRect(0,0,W,H);
     for(var m=meteors.length-1;m>=0;m--){var e=meteors[m];
       var k2=e.life/e.max, a2=Math.sin(k2*Math.PI);
       var tx=e.x-e.vx*.18, ty=e.y-e.vy*.18;
       var lg=ctx.createLinearGradient(e.x,e.y,tx,ty);
-      lg.addColorStop(0,'rgba(245,246,248,'+a2+')'); lg.addColorStop(1,'rgba(150,156,166,0)');
+      lg.addColorStop(0,'rgba(219,234,254,'+a2+')'); lg.addColorStop(1,'rgba(59,130,246,0)');
       ctx.strokeStyle=lg; ctx.lineWidth=1.6; ctx.beginPath(); ctx.moveTo(e.x,e.y); ctx.lineTo(tx,ty); ctx.stroke();
     }
     ctx.globalCompositeOperation='source-over';
@@ -1539,13 +1569,13 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSprayMo
     if(!running) return;
     var dt=Math.min(.05,(t-(last||t))/1000); last=t;
     mx+=(tmx-mx)*.04; my+=(tmy-my)*.04;
-    nextMeteor-=dt*1000; if(nextMeteor<=0){meteor(); nextMeteor=5000+Math.random()*7000;}
+    
     for(var m=meteors.length-1;m>=0;m--){var e=meteors[m]; e.x+=e.vx*dt; e.y+=e.vy*dt; e.life+=dt; if(e.life>e.max) meteors.splice(m,1);}
     draw(t); requestAnimationFrame(frame);
   }
   addEventListener('resize',size);
   addEventListener('scroll',function(){sy=scrollY},{passive:true});
-  addEventListener('pointermove',function(e){tmx=e.clientX/W-.5; tmy=e.clientY/H-.5},{passive:true});
+  addEventListener('pointermove',function(e){tmx=e.clientX/W-.5; tmy=e.clientY/H-.5; pmx=e.clientX; pmy=e.clientY},{passive:true});
   document.addEventListener('visibilitychange',function(){
     if(reduce) return;
     running=!document.hidden; if(running){last=0; requestAnimationFrame(frame);}
@@ -1563,7 +1593,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSprayMo
   function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
   function money(n){return '$'+(Math.round(n*100)/100).toFixed(2)}
   var css='#ppModal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.82);backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;padding:16px;overflow:auto}'+
-   '#ppModal.open{display:flex}#ppModal .pp-box{background:#0b0b0c;border:1px solid rgba(255,255,255,.16);border-radius:10px;max-width:520px;width:100%;padding:22px;position:relative;margin:auto}'+
+   '#ppModal.open{display:flex}#ppModal .pp-box{background:#0B1834;border:1px solid rgba(255,255,255,.16);border-radius:10px;max-width:520px;width:100%;padding:22px;position:relative;margin:auto}'+
    '#ppModal h3{font-size:18px;font-weight:700;margin-bottom:2px}#ppModal .pp-sub{font-size:12px;color:rgba(255,255,255,.5)}'+
    '#ppModal label{display:block;margin-top:14px;font-size:12px;font-weight:600}'+
    '#ppModal input{width:100%;margin-top:6px;padding:12px 14px;border-radius:6px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:#fff;font-size:14px;outline:none}'+
@@ -1571,12 +1601,12 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSprayMo
    '#ppModal .pp-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border:1px solid rgba(255,255,255,.1);border-radius:6px;margin-top:8px;font-size:13px}'+
    '#ppModal .pp-row span{color:rgba(255,255,255,.5);font-size:12px}#ppModal .pp-row b{font-weight:700;word-break:break-all;text-align:right}'+
    '#ppModal .pp-copy{background:transparent;border:1px solid rgba(255,255,255,.22);color:#fff;border-radius:4px;padding:4px 8px;font-size:11px;cursor:pointer;flex:none}'+
-   '#ppModal .pp-copy:hover{background:#fff;color:#000}'+
+   '#ppModal .pp-copy:hover{background:linear-gradient(180deg,#6FAEFF,#2563EB);color:#fff}'+
    '#ppModal ol{list-style:none;margin-top:10px;display:grid;gap:8px;counter-reset:s}'+
    '#ppModal li{counter-increment:s;display:flex;gap:10px;font-size:13px;line-height:1.45;color:rgba(255,255,255,.82)}'+
-   '#ppModal li::before{content:counter(s);flex:none;width:22px;height:22px;border-radius:50%;background:#fff;color:#000;font-size:12px;font-weight:800;display:grid;place-items:center}'+
+   '#ppModal li::before{content:counter(s);flex:none;width:22px;height:22px;border-radius:50%;background:linear-gradient(180deg,#6FAEFF,#2563EB);color:#fff;font-size:12px;font-weight:800;display:grid;place-items:center}'+
    '#ppModal .pp-x{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#fff;cursor:pointer}'+
-   '#ppModal .pp-go{width:100%;margin-top:16px;padding:13px;border-radius:6px;border:1px solid #fff;background:#fff;color:#000;font-weight:800;font-size:14px;cursor:pointer}'+
+   '#ppModal .pp-go{width:100%;margin-top:16px;padding:13px;border-radius:6px;border:1px solid #3B82F6;background:linear-gradient(180deg,#6FAEFF,#2563EB);color:#fff;font-weight:800;font-size:14px;cursor:pointer}'+
    '#ppModal .pp-go:hover{background:#000;color:#fff}#ppModal .pp-note{margin-top:10px;font-size:11px;color:rgba(255,255,255,.4);text-align:center;line-height:1.5}'+
    '#ppModal .pp-err{color:#ff8a8a;font-size:12px;margin-top:6px;min-height:14px}';
   var st=document.createElement('style'); st.textContent=css; document.head.appendChild(st);
