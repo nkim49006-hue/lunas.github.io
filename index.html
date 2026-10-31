@@ -337,6 +337,14 @@ body[data-view="media"]>footer{display:none}
 body[data-view="home"] main>.hero{padding-top:28px;padding-bottom:28px}
 body[data-view="media"] main>#media{min-height:0}
 html,body{overflow-anchor:none}
+.tagline{font-family:var(--disp);font-weight:800;font-size:clamp(1.5rem,2.6vw,2.15rem);line-height:1.08;letter-spacing:-.02em;text-transform:uppercase;margin-bottom:16px;color:var(--moon)}
+.tagline span{display:block;color:transparent;background:var(--chrome);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hstats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:28px;max-width:520px}
+.hs{padding:14px 14px 12px;border:1px solid var(--line2);border-radius:14px;background:rgba(10,10,12,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.hs b{display:block;font-family:var(--disp);font-weight:700;font-size:15px;color:var(--moon);white-space:nowrap}
+.hs span{display:block;font-size:12.5px;color:var(--mute);margin-top:3px;line-height:1.3}
+@media (max-width:560px){.hstats{grid-template-columns:1fr 1fr}.hs:last-child{grid-column:1/-1}}
+body[data-view="home"] .hero .lead{font-size:1.05rem;max-width:48ch}body[data-view="home"] .hero .cta{margin-top:22px}body[data-view="home"] .hero-grid{margin-top:30px}
 </style>
 </head>
 <body id="top">
@@ -393,16 +401,17 @@ html,body{overflow-anchor:none}
         <h1 class="wordmark" data-i18n="hero_title">LUNAS</h1>
     <div class="hero-grid">
       <div class="hero-copy">
-        <p class="lead" data-i18n="hero_desc">Spray Method — скрипт контроля отдачи для Rust. Он компенсирует разброс оружия, и очередь ложится в одну точку вместо «змейки». Лицензия на 1, 3, 7 или 30 дней, ключ выдаём сразу после оплаты, поддержка в Discord 24/7.</p>
+        <div class="tagline">Держи аим <span>в каждом вайпе</span></div>
+        <p class="lead" data-i18n="hero_desc">LUNAS — магазин, где продаётся Spray Method, и это только начало. Здесь собраны продукты для Rust и других игр: от контроля отдачи до настройки картинки. Выбираете срок, оплачиваете в Discord и сразу получаете ключ.</p>
         <div class="cta">
           <a href="#/products" class="btn btn-primary">Выбрать и купить</a>
           <span class="from">Цены от <b class="panel-price" data-usd="2.99">2.99$</b></span>
         </div>
-        <ul class="trust">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Ключ на email после оплаты</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Поддержка 24/7 в Discord</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Возврат 24 ч, если ключ не активирован</li>
-        </ul>
+        <div class="hstats">
+          <div class="hs"><b>Ключ</b><span>сразу после оплаты</span></div>
+          <div class="hs"><b>PayPal · USDT</b><span>оплата</span></div>
+          <div class="hs"><b>24/7</b><span>поддержка в Discord</span></div>
+        </div>
       </div>
       <a class="hero-video" href="./product.html?p=spray&v=1018b" aria-label="Spray Method — открыть товар">
         <div class="hv-title"><span class="hv-badge">Новинка</span><span class="hv-name">SPRAY METHOD</span><span class="hv-sub">Rust • контроль отдачи</span></div>
@@ -1004,7 +1013,7 @@ const TRANSLATIONS = {
     nav_faq: 'FAQ',
     hero_title: '',
     hero_title: 'LUNAS',
-    hero_desc: 'Spray Method — скрипт контроля отдачи для Rust. Он компенсирует разброс оружия, и очередь ложится в одну точку вместо «змейки». Лицензия на 1, 3, 7 или 30 дней, ключ выдаём сразу после оплаты, поддержка в Discord 24/7.',
+    hero_desc: 'LUNAS — магазин, где продаётся Spray Method, и это только начало. Здесь собраны продукты для Rust и других игр: от контроля отдачи до настройки картинки. Выбираете срок, оплачиваете в Discord и сразу получаете ключ.',
     hero_catalog: 'Открыть каталог',
     hero_how: 'Как работает',
     cat_title: 'Каталог',
@@ -1021,7 +1030,7 @@ const TRANSLATIONS = {
     nav_faq: 'FAQ',
     hero_title: '',
     hero_title: 'LUNAS',
-    hero_desc: 'Spray Method is a recoil control script for Rust. It compensates weapon spread so your spray lands in one spot instead of a zigzag. Licenses for 1, 3, 7 or 30 days, your key is issued right after payment, Discord support 24/7.',
+    hero_desc: 'LUNAS is the store where Spray Method lives, and that is only the beginning. Products for Rust and other games, from recoil control to picture tuning. Pick a term, pay on Discord and get your key right away.',
     hero_catalog: 'Open catalog',
     hero_how: 'How it works',
     cat_title: 'Catalog',
@@ -1480,99 +1489,114 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSprayMo
 })();
 </script>
 
-<script>// фон: тёмно-синий, плывущие синие туманности и сетка из квадратов с мерцающими ячейками и подсветкой у курсора
+<script>// фон: чёрный HUD — радар со сканером, прицелы, ESP-рамки и паттерн очереди (тема Spray Method)
 (function(){
   var cv=document.getElementById('bgfx'); if(!cv||!cv.getContext) return;
-  var ctx=cv.getContext('2d'), W=0, H=0, D=1, stars=[], meteors=[], last=0, nextMeteor=2500, running=true;
+  var ctx=cv.getContext('2d'), W=0, H=0, D=1, last=0, running=true, T=0;
   var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var mx=0, my=0, tmx=0, tmy=0, sy=0, lit=[], lastLit=0, CELL=44, pmx=-999, pmy=-999;
-  var clouds=[
-    {x:.78,y:.10,r:.62,c:'123,123,123',a:.20,sx:.05,sy:.04,ph:0},
-    {x:.12,y:.55,r:.55,c:'78,78,78',a:.22,sx:.06,sy:.05,ph:2},
-    {x:.62,y:.92,r:.6,c:'156,156,156',a:.12,sx:.04,sy:.06,ph:4},
-    {x:.35,y:.22,r:.35,c:'190,190,190',a:.07,sx:.07,sy:.05,ph:1}
-  ];
+  var mx=0,my=0,tmx=0,tmy=0,sy=0;
+  var blips=[], marks=[], boxes=[], sprays=[], nextMark=.6, nextBox=1.4, nextSpray=2.5;
+  function rnd(a,b){return a+Math.random()*(b-a)}
   function size(){
     D=Math.min(window.devicePixelRatio||1,1.5); W=innerWidth; H=innerHeight;
     cv.width=W*D|0; cv.height=H*D|0; ctx.setTransform(D,0,0,D,0,0);
-    stars=[]; var cols=Math.ceil(W/CELL)+3, rows=Math.ceil(H/CELL)+3, n=Math.round(cols*rows*.10);
-    for(var i=0;i<n;i++) stars.push({i:Math.random()*cols|0,j:Math.random()*rows|0,ph:Math.random()*6.28,sp:.3+Math.random()*.7,b:Math.random()<.5});
-    if(reduce) draw(0);
+    blips=[]; for(var i=0;i<9;i++) blips.push({ang:rnd(0,6.283),r:rnd(.18,.95),hit:-9});
+    if(reduce) draw();
   }
-  function meteor(){
-    var fromLeft=Math.random()<.5;
-    meteors.push({x:fromLeft?Math.random()*W*.5:W*(.5+Math.random()*.5),y:-20+Math.random()*H*.35,
-      vx:(fromLeft?1:-1)*(420+Math.random()*260),vy:220+Math.random()*140,life:0,max:.9+Math.random()*.5});
+  function radar(){var R=Math.min(W,H)*.55; return {x:W*.84-mx*18, y:H*.7-my*12, R:R};}
+  // ---------- элементы ----------
+  function crosshair(x,y,s,a){
+    ctx.strokeStyle='rgba(255,255,255,'+a+')'; ctx.lineWidth=1.2; ctx.beginPath();
+    ctx.moveTo(x-s,y); ctx.lineTo(x-s*.35,y); ctx.moveTo(x+s*.35,y); ctx.lineTo(x+s,y);
+    ctx.moveTo(x,y-s); ctx.lineTo(x,y-s*.35); ctx.moveTo(x,y+s*.35); ctx.lineTo(x,y+s);
+    ctx.stroke(); ctx.beginPath(); ctx.arc(x,y,s*.62,0,6.283); ctx.strokeStyle='rgba(255,255,255,'+(a*.45)+')'; ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,'+a+')'; ctx.fillRect(x-1,y-1,2,2);
   }
-  function draw(t){
-    var s=t/1000;
+  function espBox(b,a){
+    var x=b.x,y=b.y,w=b.w,h=b.h,c=Math.min(w,h)*.22;
+    ctx.strokeStyle='rgba(255,255,255,'+a+')'; ctx.lineWidth=1.3; ctx.beginPath();
+    ctx.moveTo(x,y+c);ctx.lineTo(x,y);ctx.lineTo(x+c,y); ctx.moveTo(x+w-c,y);ctx.lineTo(x+w,y);ctx.lineTo(x+w,y+c);
+    ctx.moveTo(x+w,y+h-c);ctx.lineTo(x+w,y+h);ctx.lineTo(x+w-c,y+h); ctx.moveTo(x+c,y+h);ctx.lineTo(x,y+h);ctx.lineTo(x,y+h-c);
+    ctx.stroke();
+    // полоска HP слева
+    ctx.fillStyle='rgba(255,255,255,'+(a*.25)+')'; ctx.fillRect(x-7,y,3,h);
+    ctx.fillStyle='rgba(255,255,255,'+(a*.85)+')'; ctx.fillRect(x-7,y+h*(1-b.hp),3,h*b.hp);
+    // подпись дистанции
+    ctx.font='600 10px "Golos Text",system-ui,sans-serif'; ctx.textAlign='center';
+    ctx.fillStyle='rgba(255,255,255,'+(a*.7)+')'; ctx.fillText(b.d+'m',x+w/2,y+h+13);
+  }
+  // ---------- кадр ----------
+  function draw(){
+    var s=T;
     ctx.globalCompositeOperation='source-over';
     ctx.fillStyle='#050505'; ctx.fillRect(0,0,W,H);
-    ctx.globalCompositeOperation='lighter';
-    var M=Math.max(W,H);
-    for(var i=0;i<clouds.length;i++){var c=clouds[i];
-      var x=(c.x+Math.sin(s*c.sx+c.ph)*.08)*W + mx*20*(i+1);
-      var y=(c.y+Math.cos(s*c.sy+c.ph)*.06)*H + my*14*(i+1) - sy*.04*(i+1);
-      var r=c.r*M*(1+Math.sin(s*.1+c.ph)*.06), a=c.a*(.85+Math.sin(s*.25+c.ph)*.15);
-      var g=ctx.createRadialGradient(x,y,0,x,y,r);
-      g.addColorStop(0,'rgba('+c.c+','+a+')'); g.addColorStop(.45,'rgba('+c.c+','+(a*.35)+')'); g.addColorStop(1,'rgba('+c.c+',0)');
-      ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+    // мягкое свечение
+    var g=ctx.createRadialGradient(W*.3,H*.25,0,W*.3,H*.25,Math.max(W,H)*.7);
+    g.addColorStop(0,'rgba(255,255,255,.045)'); g.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+    // тонкие линии развёртки
+    ctx.fillStyle='rgba(255,255,255,.018)';
+    for(var yy=(s*12)%4;yy<H;yy+=4) ctx.fillRect(0,yy,W,1);
+    // ---- радар
+    var r=radar(), R=r.R;
+    ctx.lineWidth=1;
+    for(var i=1;i<=4;i++){ctx.beginPath();ctx.arc(r.x,r.y,R*i/4,0,6.283);ctx.strokeStyle='rgba(255,255,255,'+(i==4?.12:.075)+')';ctx.stroke();}
+    ctx.beginPath(); ctx.moveTo(r.x-R,r.y);ctx.lineTo(r.x+R,r.y);ctx.moveTo(r.x,r.y-R);ctx.lineTo(r.x,r.y+R);
+    ctx.strokeStyle='rgba(255,255,255,.07)'; ctx.stroke();
+    for(var k=0;k<72;k++){var an=k/72*6.283, l=k%6?6:13; ctx.beginPath();
+      ctx.moveTo(r.x+Math.cos(an)*R,r.y+Math.sin(an)*R); ctx.lineTo(r.x+Math.cos(an)*(R-l),r.y+Math.sin(an)*(R-l));
+      ctx.strokeStyle='rgba(255,255,255,.1)'; ctx.stroke();}
+    var sw=(s*.55)%6.283;
+    if(ctx.createConicGradient){
+      var cg=ctx.createConicGradient(sw-1.1,r.x,r.y);
+      cg.addColorStop(0,'rgba(255,255,255,0)'); cg.addColorStop(1.1/6.283,'rgba(255,255,255,.16)'); cg.addColorStop(1.1/6.283+.001,'rgba(255,255,255,0)'); cg.addColorStop(1,'rgba(255,255,255,0)');
+      ctx.fillStyle=cg; ctx.beginPath(); ctx.moveTo(r.x,r.y); ctx.arc(r.x,r.y,R,0,6.283); ctx.fill();
     }
-    ctx.globalCompositeOperation='source-over';
-    var dX=s*16+mx*12, dY=s*10+sy*.2;
-    var shX=Math.floor(dX/CELL), shY=Math.floor(dY/CELL);
-    var ox=-(dX-shX*CELL)-CELL, oy=-(dY-shY*CELL)-CELL;
-    var cols=Math.ceil(W/CELL)+3, rows=Math.ceil(H/CELL)+3;
-    // каждую секунду загораются новые случайные квадраты
-    if(s-lastLit>=1||!lit.length&&s>.2){lastLit=s;
-      var cnt=6+(Math.random()*6|0);
-      for(var q=0;q<cnt;q++) lit.push({gi:shX+(Math.random()*cols|0),gj:shY+(Math.random()*rows|0),t0:s,
-        dur:1.6+Math.random()*1.2,c:Math.random()<.65?'123,123,123':'174,174,174'});
+    ctx.beginPath(); ctx.moveTo(r.x,r.y); ctx.lineTo(r.x+Math.cos(sw)*R,r.y+Math.sin(sw)*R);
+    ctx.strokeStyle='rgba(255,255,255,.35)'; ctx.lineWidth=1.2; ctx.stroke();
+    for(var b=0;b<blips.length;b++){var B=blips[b];
+      var diff=((sw-B.ang)%6.283+6.283)%6.283; if(diff<.06&&s-B.hit>1) B.hit=s;
+      var age=s-B.hit; if(age>3.2) continue; var al=Math.max(0,1-age/3.2);
+      var bx=r.x+Math.cos(B.ang)*R*B.r, by=r.y+Math.sin(B.ang)*R*B.r;
+      ctx.fillStyle='rgba(255,255,255,'+(.85*al)+')'; ctx.beginPath(); ctx.arc(bx,by,2.4,0,6.283); ctx.fill();
+      ctx.strokeStyle='rgba(255,255,255,'+(.35*al)+')'; ctx.beginPath(); ctx.arc(bx,by,2.4+age*9,0,6.283); ctx.stroke();
+      if(age>3.1){B.ang=rnd(0,6.283);B.r=rnd(.18,.95);}
     }
-    for(var k=lit.length-1;k>=0;k--){var L=lit[k], u=(s-L.t0)/L.dur;
-      if(u>=1){lit.splice(k,1);continue;}
-      var a=u<.18?u/.18:Math.pow(1-(u-.18)/.82,1.6);
-      var cx=ox+(L.gi-shX)*CELL, cy=oy+(L.gj-shY)*CELL;
-      if(cx<-CELL||cy<-CELL||cx>W||cy>H) continue;
-      ctx.save(); ctx.shadowColor='rgba('+L.c+','+(.9*a)+')'; ctx.shadowBlur=34*a;
-      ctx.fillStyle='rgba('+L.c+','+(.5*a)+')'; ctx.fillRect(cx+1,cy+1,CELL-2,CELL-2);
-      ctx.shadowBlur=12*a; ctx.strokeStyle='rgba(210,210,210,'+a+')'; ctx.lineWidth=1.5;
-      ctx.strokeRect(cx+1.5,cy+1.5,CELL-3,CELL-3); ctx.restore();
+    // ---- ESP-рамки
+    for(var e=boxes.length-1;e>=0;e--){var X=boxes[e],u=(s-X.t0)/X.dur; if(u>=1){boxes.splice(e,1);continue;}
+      var a=Math.min(1,u/.15,(1-u)/.25)*.38; X.x+=X.vx; espBox({x:X.x-mx*10,y:X.y-my*8-sy*.03,w:X.w,h:X.h,hp:X.hp,d:X.d},a);}
+    // ---- прицелы
+    for(var c=marks.length-1;c>=0;c--){var M=marks[c],v=(s-M.t0)/M.dur; if(v>=1){marks.splice(c,1);continue;}
+      var a2=Math.min(1,v/.12,(1-v)/.4)*.42, sc=M.s*(1+(1-Math.min(1,v/.12))*.6);
+      crosshair(M.x-mx*14,M.y-my*10-sy*.04,sc,a2);}
+    // ---- паттерн очереди: пули сходятся в одну точку
+    for(var p=sprays.length-1;p>=0;p--){var S=sprays[p],w=s-S.t0; if(w>3.4){sprays.splice(p,1);continue;}
+      var shown=Math.min(S.pts.length,Math.floor(w/.07)), fade=w>2.4?1-(w-2.4):1;
+      for(var q=0;q<shown;q++){var P=S.pts[q], ag=Math.max(0,fade)*(.35+.5*(q===shown-1?1:.6));
+        ctx.fillStyle='rgba(255,255,255,'+ag+')'; ctx.beginPath(); ctx.arc(S.x+P[0]-mx*12,S.y+P[1]-my*9-sy*.04,1.8,0,6.283); ctx.fill();}
+      crosshair(S.x-mx*12,S.y-my*9-sy*.04,13,.3*Math.max(0,fade));
     }
-    ctx.lineWidth=1; ctx.strokeStyle='rgba(156,156,156,.13)'; ctx.beginPath();
-    for(var gx=ox;gx<=W+CELL;gx+=CELL){ctx.moveTo((gx|0)+.5,0);ctx.lineTo((gx|0)+.5,H);}
-    for(var gy=oy;gy<=H+CELL;gy+=CELL){ctx.moveTo(0,(gy|0)+.5);ctx.lineTo(W,(gy|0)+.5);}
-    ctx.stroke();
-    if(pmx>-999){var hg=ctx.createRadialGradient(pmx,pmy,0,pmx,pmy,220);
-      hg.addColorStop(0,'rgba(174,174,174,.10)');hg.addColorStop(1,'rgba(174,174,174,0)');
-      ctx.fillStyle=hg; ctx.fillRect(pmx-220,pmy-220,440,440);
-      ctx.save(); ctx.beginPath(); ctx.arc(pmx,pmy,220,0,6.283); ctx.clip();
-      var sg=ctx.createRadialGradient(pmx,pmy,0,pmx,pmy,220);
-      sg.addColorStop(0,'rgba(190,190,190,.35)');sg.addColorStop(1,'rgba(190,190,190,0)');
-      ctx.strokeStyle=sg; ctx.stroke(); ctx.restore();}
-    var vg=ctx.createRadialGradient(W/2,H*.45,Math.min(W,H)*.2,W/2,H*.45,Math.max(W,H)*.8);
-    vg.addColorStop(0,'rgba(11,11,11,0)');vg.addColorStop(1,'rgba(11,11,11,.7)');
+    // виньетка
+    var vg=ctx.createRadialGradient(W/2,H*.45,Math.min(W,H)*.25,W/2,H*.45,Math.max(W,H)*.85);
+    vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,.6)');
     ctx.fillStyle=vg; ctx.fillRect(0,0,W,H);
-    for(var m=meteors.length-1;m>=0;m--){var e=meteors[m];
-      var k2=e.life/e.max, a2=Math.sin(k2*Math.PI);
-      var tx=e.x-e.vx*.18, ty=e.y-e.vy*.18;
-      var lg=ctx.createLinearGradient(e.x,e.y,tx,ty);
-      lg.addColorStop(0,'rgba(232,232,232,'+a2+')'); lg.addColorStop(1,'rgba(123,123,123,0)');
-      ctx.strokeStyle=lg; ctx.lineWidth=1.6; ctx.beginPath(); ctx.moveTo(e.x,e.y); ctx.lineTo(tx,ty); ctx.stroke();
-    }
-    ctx.globalCompositeOperation='source-over';
+  }
+  function spawn(){
+    var F=W<700?2.4:1;
+    if(T>=nextMark){nextMark=T+rnd(.8,1.6)*F; marks.push({x:rnd(.05,.95)*W,y:rnd(.12,.95)*H,s:rnd(9,16),t0:T,dur:rnd(1.8,2.8)});}
+    if(T>=nextBox){nextBox=T+rnd(1.6,2.8)*F; var h=rnd(60,130); boxes.push({x:rnd(.04,.9)*W,y:rnd(.2,.85)*H,w:h*.45,h:h,hp:rnd(.25,1),d:(rnd(18,240)|0),vx:rnd(-.25,.25),t0:T,dur:rnd(2.6,4)});}
+    if(T>=nextSpray){nextSpray=T+rnd(3.5,5.5)*F; var pts=[],n=14; for(var i=0;i<n;i++){var k=1-i/n; pts.push([rnd(-7,7)*k*.6,rnd(-6,6)*k*.6]);}
+      sprays.push({x:rnd(.08,.92)*W,y:rnd(.2,.9)*H,t0:T,pts:pts});}
   }
   function frame(t){
     if(!running) return;
-    var dt=Math.min(.05,(t-(last||t))/1000); last=t;
+    var dt=Math.min(.05,(t-(last||t))/1000); last=t; T+=dt;
     mx+=(tmx-mx)*.04; my+=(tmy-my)*.04;
-    
-    for(var m=meteors.length-1;m>=0;m--){var e=meteors[m]; e.x+=e.vx*dt; e.y+=e.vy*dt; e.life+=dt; if(e.life>e.max) meteors.splice(m,1);}
-    draw(t); requestAnimationFrame(frame);
+    spawn(); draw(); requestAnimationFrame(frame);
   }
   addEventListener('resize',size);
   addEventListener('scroll',function(){sy=scrollY},{passive:true});
-  addEventListener('pointermove',function(e){tmx=e.clientX/W-.5; tmy=e.clientY/H-.5; pmx=e.clientX; pmy=e.clientY},{passive:true});
+  addEventListener('pointermove',function(e){tmx=e.clientX/W-.5; tmy=e.clientY/H-.5},{passive:true});
   document.addEventListener('visibilitychange',function(){
     if(reduce) return;
     running=!document.hidden; if(running){last=0; requestAnimationFrame(frame);}
@@ -1663,7 +1687,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSprayMo
 
 <script id="lunas-i18n">
 (function(){
-  var EN={"Подменяет идентификаторы железа (HWID). Поддержка Vanguard, EAC и BattlEye.": "Spoofs hardware identifiers (HWID). Supports Vanguard, EAC and BattlEye.", "Только chams для Rust, без ESP и aim. Внешний, не виден на стриме.": "Chams only for Rust, no ESP or aim. External and hidden on stream.", "Как это работает": "How it works", "Выбрать и купить": "Choose and buy", "Цены от": "Prices from", "Ключ на email после оплаты": "Key by email after payment", "Поддержка 24/7 в Discord": "24/7 support on Discord", "Возврат 24 ч, если ключ не активирован": "24h refund if the key is not activated", "Одна оплата, без продлений": "One payment, no renewals", "Навсегда —": "Lifetime —", "Оптимизатор Windows под Rust, Fortnite и CS2: отключает телеметрию и лишние фоновые службы, чистит временные файлы. Готовые профили и откат в один клик.": "Windows optimizer for Rust, Fortnite and CS2: turns off telemetry and unneeded background services, cleans temporary files. Ready-made profiles and one-click rollback.", "Оптимизатор Windows и игр": "Windows and game optimizer", "/ навсегда": "/ lifetime", "Аккаунт Steam с купленным Rust. Неполный доступ (NFA): логин и пароль от Steam, почту сменить нельзя.": "A Steam account with Rust purchased. Non-full access (NFA): Steam login and password, the email can't be changed.", "/ аккаунт": "/ account", "Купить": "Buy", "Rust • аккаунт Steam": "Rust • Steam account", "Скрипт контроля отдачи для Rust: очередь ложится в одну точку вместо «змейки».": "Recoil control script for Rust: your spray lands in one spot instead of a snake.", "Контроль отдачи": "Recoil control", "Rust • контроль отдачи": "Rust • recoil control", "Выбери срок — товар добавится в корзину": "Choose a term — it will be added to the cart", "Оплата через PayPal. Ключ придёт на email после проверки платежа.": "Payment via PayPal. The key is sent to your email after the payment is checked.", "Следить в Discord": "Follow on Discord", "Как работает": "How it works","НОВИНКА":"NEW","НАВСЕГДА • ОДНА ОПЛАТА":"LIFETIME • ONE PAYMENT","Навсегда":"Lifetime","Профили":"Profiles","Разрешение":"Resolution","/ навсегда":"/ lifetime","Купить навсегда":"Buy lifetime","Купить «Навсегда»":"Buy “Lifetime”","Неделя / Месяц / Навсегда":"Week / Month / Lifetime","LUNAS PANEL AI • ЦВЕТ И ФИЛЬТРЫ • КЛИК — ВЫБРАТЬ":"LUNAS PANEL AI • COLOR & FILTERS • CLICK TO CHOOSE","/ неделя":"/ week","ВЫБЕРИ СРОК ЛИЦЕНЗИИ":"CHOOSE LICENSE TERM","Месяц":"Month","30 дней • Хит":"30 days • Hit","Выгодно":"Best value","LUNAS PANEL AI • ЦВЕТ И ФИЛЬТРЫ • НАВСЕГДА":"LUNAS PANEL AI • COLOR & FILTERS • LIFETIME","Панель настройки картинки: яркость, контраст, насыщенность, Hue, Night Vision, готовые профили (Summer, Winter, Night Vision, Ultra Vivid) и свои пресеты. Смена разрешения в один клик, горячая клавиша F8.":"Image tuning panel: brightness, contrast, saturation, Hue, Night Vision, ready profiles (Summer, Winter, Night Vision, Ultra Vivid) and your own presets. One-click resolution switch, F8 hotkey.","Новинка":"New","3 срока":"3 terms","Выбери срок лицензии":"Choose license term","30 дней, хит":"30 days, best seller","Lunas Panel AI":"Lunas Panel AI","Настройка картинки":"Picture tuning","Статус продуктов":"Product status","Работает":"Working","200+ дней без детекта":"200+ days undetected","Скоро":"Soon","Оценка 4.9 из 5 по 2 400 отзывам":"Rated 4.9 of 5 from 2,400 reviews","HWID-спуфер":"HWID spoofer","Скрипт отдачи":"Recoil script","Выбери срок. 200+ дней без детекта":"Choose a term. 200+ days undetected","15 000+ продаж, средняя оценка 4.9":"15,000+ sales, average rating 4.9","4.9 из 5":"4.9 of 5","Условия использования":"Terms of use","Политика конфиденциальности":"Privacy policy","Политика возврата":"Refund policy","Способ оплаты":"Payment method","Корзина:":"Cart:","Читать полностью":"Read in full","Читать":"Read","Оформить":"Checkout","Все продукты":"All products","Главная": "Home", "Медиа": "Media", "Набор открыт": "Now recruiting", "Станьте медиа LUNAS": "Become a LUNAS media partner", "Подать заявку в Discord": "Apply on Discord", "Зайдите в наш Discord": "Join our Discord", "Создайте тикет": "Open a ticket", "Напишите «медиа» и приложите ссылку на канал": "Write \"media\" and attach a link to your channel", "Продукты": "Products", "Каталог": "Catalog", "Отзывы": "Reviews", "2,4k онлайн": "2.4k online", "Корзина": "Cart", "Язык": "Language", "Валюта": "Currency", "15k+ клиентов": "15k+ customers", "Выдача после оплаты": "Delivery after payment", "Поддержка 24/7": "24/7 support", "4 ИГР • INSTANT KEY": "4 GAMES • INSTANT KEY", "оплата: через Discord": "payment: via Discord", "Все продукты": "All products", "Все": "All", "4 срока": "4 terms", "GOYDA MASON • HWID CLEANER • КЛИК — ВЫБРАТЬ": "GOYDA MASON • HWID CLEANER • CLICK TO CHOOSE", "4 срока": "4 terms", "Один спуфер, четыре срока: 1 / 3 / 7 / 30 дней. От 5$.": "One spoofer, four terms: 1 / 3 / 7 / 30 days. From $5.", "4 срока": "4 terms", "/ 1 день": "/ 1 day", "Выбрать срок": "Choose term", "Купить «30 дней»": "Buy “30 days”", "Выбрать срок": "Choose term", "MORPHINE • 200+ DAYS UD • КЛИК — ВЫБРАТЬ СРОК": "MORPHINE • 200+ DAYS UD • CLICK TO CHOOSE TERM", "200+ дней без детекта, обход EAC": "200+ days undetected, EAC bypass", "Нажми на карточку — выбери срок: 1 / 3 / 7 / 30 дней. Цены от 6$.": "Click the card to choose a term: 1 / 3 / 7 / 30 days. Prices from $6.", "/ день": "/ day", "Подробнее": "Details", "SMG CHAMS • RUST • КЛИК — ВЫБРАТЬ": "SMG CHAMS • RUST • CLICK TO CHOOSE", "4 срока": "4 terms", "Только chams, без ESP и aim. 1 / 3 / 7 / 30 дней. От 6$.": "Chams only, no ESP or aim. 1 / 3 / 7 / 30 days. From $6.", "Aim + ESP + Loot + Vehicles • Скоро": "Aim + ESP + Loot + Vehicles • Soon", "Скоро": "Soon", "Скоро в продаже — подпишись в Discord чтобы не пропустить релиз.": "Coming soon — join our Discord so you don't miss the release.", "Скоро": "Soon", "Prediction • Glow • Norecoil • Скоро": "Prediction • Glow • Norecoil • Soon", "Скоро в продаже — подпишись в Discord чтобы не пропустить.": "Coming soon — join our Discord so you don't miss it.", "Личный кабинет •": "My account •", "Пополнить +": "Top up +", "Обновить": "Refresh", "Выйти": "Log out", "Мои покупки": "My purchases", "только твои ключи": "only your keys", "История пополнений": "Top-up history", "Оформление": "Checkout", "выбери способ оплаты": "choose payment method", "Email для ключа": "Email for the key", "Ключ придёт на этот email и в “Мои покупки”": "The key will be sent to this email and to “My purchases”", "Промокод — 10%": "Promo code — 10%", "Применить": "Apply", "Цена": "Price", "Способ оплаты": "PAYMENT METHOD", "СБП": "SBP", "По номеру • QR": "By number • QR", "Карта": "Card", "Крипта": "Crypto", "Выбери способ — оплата создаётся на сервере": "Choose a method — the payment is created on the server", "Сначала выбери способ": "Choose a method first", "Нажимая «Оплатить», создаётся заказ": "Pressing “Pay” creates an order", "на сервере. Оплату подтвердит webhook.": "on the server. A webhook confirms the payment.", "Выбери срок. 200+ дней без детекта": "CHOOSE TERM • 200+ DAYS UD", "Нажми на нужный срок — добавится в корзину. Цены в выбранной валюте (": "Click a term to add it to the cart. Prices in the selected currency (", "1 день": "1 day", "Пробный": "Trial", "3 дня": "3 days", "Хит • -17%": "Hit • -17%", "7 дней": "7 days", "Неделя": "Week", "30 дней": "30 days", "Выгодно • -44%": "Best value • -44%", "Отмена": "Cancel", "В каталог": "To catalog", "Нажми на срок — товар добавится в корзину. Оплата через PayPal.": "Click a term and the item is added to the cart. Pay with PayPal.", "1. Оплати": "1. Pay", "PayPal — ключ придёт на email после проверки платежа": "PayPal — the key is sent to your email after the payment is verified", "2. Скачай лоадер": "2. Download the loader", "1 файл .exe — запустил, ввел ключ, инжект 3 сек": "One .exe file — run it, enter the key, inject in 3 sec", "3. Играй": "3. Play", "F2 — меню, INS — скрыть. Обновы ежедневно, саппорт 24/7": "F2 — menu, INS — hide. Daily updates, 24/7 support", "гарантии": "guarantees", "15 000+ продаж, средняя оценка 4.9": "updated: today • 15k+ sales • 4.9/5", "2.4k отзывов": "2.4k reviews", "96% рекомендуют": "96% recommend", "+ Оставить отзыв": "+ Leave a review", "Показать ещё": "Show more", "Банят ли за это?": "Will I get banned?", "Читы нарушают ToS игр — риск есть всегда. Наши билды приватные, с обходом Vanguard/EAC/BE, ежедневными обновлениями и HWID спуфером. Детектов 0 за 200+ дней по Rust. Но 100% гарантии нет — используй на свой страх.": "Cheats violate game ToS — there is always risk. Our builds are private, with Vanguard/EAC/BE bypass, daily updates and an HWID spoofer. 0 detects in 200+ days on Rust. But there is no 100% guarantee — use at your own risk.", "Как получаю товар?": "How do I get the product?", "После проверки оплаты PayPal — ключ придёт на email. Лоадер скачиваешь с сайта, вводишь ключ.": "After your PayPal payment is verified — the key is sent to your email. Download the loader from the site and enter the key.", "Есть тест / сутки?": "Is there a trial / 1 day?", "Да — Spray Method от 6.80$ / 1 день, дальше до 30 дней.": "Yes — Spray Method from $6.80 / 1 day, up to 30 days.", "LUNAS SHOP не связан с Riot / Valve / BattlEye. Использование читов нарушает правила игр.": "LUNAS SHOP is not affiliated with Riot / Valve / BattlEye. Using cheats violates game rules.", "Условия использования": "TERMS OF USE", "Используя LUNAS SHOP, ты подтверждаешь что читы нарушают ToS игр и используешь на свой страх. Продажа — лицензия на цифровой ключ, не физический товар. Запрещено перепродавать ключи. Аккаунт — только твой, не передавай.": "By using LUNAS SHOP you confirm that cheats violate game ToS and you use them at your own risk. A sale is a license for a digital key, not a physical product. Reselling keys is prohibited. The account is yours only — do not share it.", "Читать полностью": "Read in full", "Политика конфиденциальности": "PRIVACY POLICY", "Храним только email, хеш пароля и историю заказов. Не передаём третьим лицам, кроме платёжного провайдера для обработки платежа. Данные шифруются, пароли — bcrypt.": "We store only email, password hash and order history. We do not share it with third parties except the payment provider that processes the payment. Data is encrypted, passwords use bcrypt.", "Читать": "Read", "Политика возврата": "REFUND POLICY", "Ключ — цифровой товар. Возврат в течение 24ч если ключ не активирован и не был показан. После показа/активации — без возврата. Если ключ невалидный — заменим.": "A key is a digital product. Refund within 24h if the key has not been activated or shown. After it is shown/activated — no refund. If the key is invalid — we will replace it.", "Подробнее": "Details", "© 2026 Lunas Shop": "© 2026 Lunas Shop", "Реквизиты": "Payment details", "Очистить корзину": "Clear cart", "Понятно": "Got it", "Закрыть": "Close", "Корзина:": "Cart:", "Очистить": "Clear", "Оформить": "Checkout", "Войти": "Log in", "Войти в аккаунт": "Log in to your account", "Для регистрации нужна только": "Registration only needs", "и пароль": "and a password", "Нужен Gmail — оканчивается на @gmail.com": "A Gmail is required — ends with @gmail.com", "Пароль": "Password", "Пароль минимум 6 символов": "Password must be at least 6 characters", "Подтверди пароль": "Confirm password", "Пароли не совпадают": "Passwords do not match.","НОВИНКА":"NEW","НАВСЕГДА • ОДНА ОПЛАТА":"LIFETIME • ONE PAYMENT","Навсегда":"Lifetime","Профили":"Profiles","Разрешение":"Resolution","/ навсегда":"/ lifetime","Купить навсегда":"Buy lifetime","Купить «Навсегда»":"Buy “Lifetime”","Неделя / Месяц / Навсегда":"Week / Month / Lifetime","LUNAS PANEL AI • ЦВЕТ И ФИЛЬТРЫ • КЛИК — ВЫБРАТЬ":"LUNAS PANEL AI • COLOR & FILTERS • CLICK TO CHOOSE","/ неделя":"/ week","ВЫБЕРИ СРОК ЛИЦЕНЗИИ":"CHOOSE LICENSE TERM","Месяц":"Month","30 дней • Хит":"30 days • Hit","Выгодно":"Best value","LUNAS PANEL AI • ЦВЕТ И ФИЛЬТРЫ • НАВСЕГДА":"LUNAS PANEL AI • COLOR & FILTERS • LIFETIME","Панель настройки картинки: яркость, контраст, насыщенность, Hue, Night Vision, готовые профили (Summer, Winter, Night Vision, Ultra Vivid) и свои пресеты. Смена разрешения в один клик, горячая клавиша F8.":"Image tuning panel: brightness, contrast, saturation, Hue, Night Vision, ready profiles (Summer, Winter, Night Vision, Ultra Vivid) and your own presets. One-click resolution switch, F8 hotkey.","Новинка":"New","3 срока":"3 terms","Выбери срок лицензии":"Choose license term","30 дней, хит":"30 days, best seller","Lunas Panel AI":"Lunas Panel AI","Настройка картинки":"Picture tuning","Статус продуктов":"Product status","Работает":"Working","200+ дней без детекта":"200+ days undetected","Скоро":"Soon","Оценка 4.9 из 5 по 2 400 отзывам":"Rated 4.9 of 5 from 2,400 reviews","HWID-спуфер":"HWID spoofer","Скрипт отдачи":"Recoil script","Выбери срок. 200+ дней без детекта":"Choose a term. 200+ days undetected","15 000+ продаж, средняя оценка 4.9":"15,000+ sales, average rating 4.9","4.9 из 5":"4.9 of 5","Условия использования":"Terms of use","Политика конфиденциальности":"Privacy policy","Политика возврата":"Refund policy","Способ оплаты":"Payment method","Корзина:":"Cart:","Читать полностью":"Read in full","Читать":"Read","Оформить":"Checkout","Реальные тесты":"Real tests","Сравните картинку с ESP и без. Потяните ползунок.":"Compare the view with and without ESP. Drag the slider.","Без ESP":"No ESP","С ESP":"With ESP","Скрин из игры":"In-game screenshot","Визуализация. Замените на свои скриншоты: esp-before.jpg и esp-after.jpg.":"Visualization. Replace with your screenshots: esp-before.jpg and esp-after.jpg.","Визуализация в движении. Положите рядом файл gameplay.mp4, и здесь будет ваше видео.":"Animated visualization. Add gameplay.mp4 next to the page to show your video here.","Слева без ESP, справа с ESP: бокс, дистанция и здоровье.":"Left without ESP, right with ESP: box, distance and health.","ESP 3D-боксы":"ESP 3D boxes","Геймплей с включёнными ESP и Chams.":"Gameplay with ESP and Chams on."};
+  var EN={"Подменяет идентификаторы железа (HWID). Поддержка Vanguard, EAC и BattlEye.": "Spoofs hardware identifiers (HWID). Supports Vanguard, EAC and BattlEye.", "Только chams для Rust, без ESP и aim. Внешний, не виден на стриме.": "Chams only for Rust, no ESP or aim. External and hidden on stream.", "Как это работает": "How it works", "Выбрать и купить": "Choose and buy", "Цены от": "Prices from", "Ключ на email после оплаты": "Key by email after payment", "Поддержка 24/7 в Discord": "24/7 support on Discord", "Возврат 24 ч, если ключ не активирован": "24h refund if the key is not activated", "Одна оплата, без продлений": "One payment, no renewals", "Навсегда —": "Lifetime —", "Оптимизатор Windows под Rust, Fortnite и CS2: отключает телеметрию и лишние фоновые службы, чистит временные файлы. Готовые профили и откат в один клик.": "Windows optimizer for Rust, Fortnite and CS2: turns off telemetry and unneeded background services, cleans temporary files. Ready-made profiles and one-click rollback.", "Оптимизатор Windows и игр": "Windows and game optimizer", "/ навсегда": "/ lifetime", "Аккаунт Steam с купленным Rust. Неполный доступ (NFA): логин и пароль от Steam, почту сменить нельзя.": "A Steam account with Rust purchased. Non-full access (NFA): Steam login and password, the email can't be changed.", "/ аккаунт": "/ account", "Купить": "Buy", "Rust • аккаунт Steam": "Rust • Steam account", "Скрипт контроля отдачи для Rust: очередь ложится в одну точку вместо «змейки».": "Recoil control script for Rust: your spray lands in one spot instead of a snake.", "Контроль отдачи": "Recoil control", "Rust • контроль отдачи": "Rust • recoil control", "Выбери срок — товар добавится в корзину": "Choose a term — it will be added to the cart", "Оплата через PayPal. Ключ придёт на email после проверки платежа.": "Payment via PayPal. The key is sent to your email after the payment is checked.", "Следить в Discord": "Follow on Discord", "Как работает": "How it works","НОВИНКА":"NEW","НАВСЕГДА • ОДНА ОПЛАТА":"LIFETIME • ONE PAYMENT","Навсегда":"Lifetime","Профили":"Profiles","Разрешение":"Resolution","/ навсегда":"/ lifetime","Купить навсегда":"Buy lifetime","Купить «Навсегда»":"Buy “Lifetime”","Неделя / Месяц / Навсегда":"Week / Month / Lifetime","LUNAS PANEL AI • ЦВЕТ И ФИЛЬТРЫ • КЛИК — ВЫБРАТЬ":"LUNAS PANEL AI • COLOR & FILTERS • CLICK TO CHOOSE","/ неделя":"/ week","ВЫБЕРИ СРОК ЛИЦЕНЗИИ":"CHOOSE LICENSE TERM","Месяц":"Month","30 дней • Хит":"30 days • Hit","Выгодно":"Best value","LUNAS PANEL AI • ЦВЕТ И ФИЛЬТРЫ • НАВСЕГДА":"LUNAS PANEL AI • COLOR & FILTERS • LIFETIME","Панель настройки картинки: яркость, контраст, насыщенность, Hue, Night Vision, готовые профили (Summer, Winter, Night Vision, Ultra Vivid) и свои пресеты. Смена разрешения в один клик, горячая клавиша F8.":"Image tuning panel: brightness, contrast, saturation, Hue, Night Vision, ready profiles (Summer, Winter, Night Vision, Ultra Vivid) and your own presets. One-click resolution switch, F8 hotkey.","Новинка":"New","3 срока":"3 terms","Выбери срок лицензии":"Choose license term","30 дней, хит":"30 days, best seller","Lunas Panel AI":"Lunas Panel AI","Настройка картинки":"Picture tuning","Статус продуктов":"Product status","Работает":"Working","200+ дней без детекта":"200+ days undetected","Скоро":"Soon","Оценка 4.9 из 5 по 2 400 отзывам":"Rated 4.9 of 5 from 2,400 reviews","HWID-спуфер":"HWID spoofer","Скрипт отдачи":"Recoil script","Выбери срок. 200+ дней без детекта":"Choose a term. 200+ days undetected","15 000+ продаж, средняя оценка 4.9":"15,000+ sales, average rating 4.9","4.9 из 5":"4.9 of 5","Условия использования":"Terms of use","Политика конфиденциальности":"Privacy policy","Политика возврата":"Refund policy","Способ оплаты":"Payment method","Корзина:":"Cart:","Читать полностью":"Read in full","Читать":"Read","Оформить":"Checkout","Все продукты":"All products","Главная": "Home", "Держи аим": "Keep your aim", "в каждом вайпе": "every wipe", "Ключ": "Key", "сразу после оплаты": "right after payment", "оплата": "payment", "поддержка в Discord": "Discord support", "Медиа": "Media", "Набор открыт": "Now recruiting", "Станьте медиа LUNAS": "Become a LUNAS media partner", "Подать заявку в Discord": "Apply on Discord", "Зайдите в наш Discord": "Join our Discord", "Создайте тикет": "Open a ticket", "Напишите «медиа» и приложите ссылку на канал": "Write \"media\" and attach a link to your channel", "Продукты": "Products", "Каталог": "Catalog", "Отзывы": "Reviews", "2,4k онлайн": "2.4k online", "Корзина": "Cart", "Язык": "Language", "Валюта": "Currency", "15k+ клиентов": "15k+ customers", "Выдача после оплаты": "Delivery after payment", "Поддержка 24/7": "24/7 support", "4 ИГР • INSTANT KEY": "4 GAMES • INSTANT KEY", "оплата: через Discord": "payment: via Discord", "Все продукты": "All products", "Все": "All", "4 срока": "4 terms", "GOYDA MASON • HWID CLEANER • КЛИК — ВЫБРАТЬ": "GOYDA MASON • HWID CLEANER • CLICK TO CHOOSE", "4 срока": "4 terms", "Один спуфер, четыре срока: 1 / 3 / 7 / 30 дней. От 5$.": "One spoofer, four terms: 1 / 3 / 7 / 30 days. From $5.", "4 срока": "4 terms", "/ 1 день": "/ 1 day", "Выбрать срок": "Choose term", "Купить «30 дней»": "Buy “30 days”", "Выбрать срок": "Choose term", "MORPHINE • 200+ DAYS UD • КЛИК — ВЫБРАТЬ СРОК": "MORPHINE • 200+ DAYS UD • CLICK TO CHOOSE TERM", "200+ дней без детекта, обход EAC": "200+ days undetected, EAC bypass", "Нажми на карточку — выбери срок: 1 / 3 / 7 / 30 дней. Цены от 6$.": "Click the card to choose a term: 1 / 3 / 7 / 30 days. Prices from $6.", "/ день": "/ day", "Подробнее": "Details", "SMG CHAMS • RUST • КЛИК — ВЫБРАТЬ": "SMG CHAMS • RUST • CLICK TO CHOOSE", "4 срока": "4 terms", "Только chams, без ESP и aim. 1 / 3 / 7 / 30 дней. От 6$.": "Chams only, no ESP or aim. 1 / 3 / 7 / 30 days. From $6.", "Aim + ESP + Loot + Vehicles • Скоро": "Aim + ESP + Loot + Vehicles • Soon", "Скоро": "Soon", "Скоро в продаже — подпишись в Discord чтобы не пропустить релиз.": "Coming soon — join our Discord so you don't miss the release.", "Скоро": "Soon", "Prediction • Glow • Norecoil • Скоро": "Prediction • Glow • Norecoil • Soon", "Скоро в продаже — подпишись в Discord чтобы не пропустить.": "Coming soon — join our Discord so you don't miss it.", "Личный кабинет •": "My account •", "Пополнить +": "Top up +", "Обновить": "Refresh", "Выйти": "Log out", "Мои покупки": "My purchases", "только твои ключи": "only your keys", "История пополнений": "Top-up history", "Оформление": "Checkout", "выбери способ оплаты": "choose payment method", "Email для ключа": "Email for the key", "Ключ придёт на этот email и в “Мои покупки”": "The key will be sent to this email and to “My purchases”", "Промокод — 10%": "Promo code — 10%", "Применить": "Apply", "Цена": "Price", "Способ оплаты": "PAYMENT METHOD", "СБП": "SBP", "По номеру • QR": "By number • QR", "Карта": "Card", "Крипта": "Crypto", "Выбери способ — оплата создаётся на сервере": "Choose a method — the payment is created on the server", "Сначала выбери способ": "Choose a method first", "Нажимая «Оплатить», создаётся заказ": "Pressing “Pay” creates an order", "на сервере. Оплату подтвердит webhook.": "on the server. A webhook confirms the payment.", "Выбери срок. 200+ дней без детекта": "CHOOSE TERM • 200+ DAYS UD", "Нажми на нужный срок — добавится в корзину. Цены в выбранной валюте (": "Click a term to add it to the cart. Prices in the selected currency (", "1 день": "1 day", "Пробный": "Trial", "3 дня": "3 days", "Хит • -17%": "Hit • -17%", "7 дней": "7 days", "Неделя": "Week", "30 дней": "30 days", "Выгодно • -44%": "Best value • -44%", "Отмена": "Cancel", "В каталог": "To catalog", "Нажми на срок — товар добавится в корзину. Оплата через PayPal.": "Click a term and the item is added to the cart. Pay with PayPal.", "1. Оплати": "1. Pay", "PayPal — ключ придёт на email после проверки платежа": "PayPal — the key is sent to your email after the payment is verified", "2. Скачай лоадер": "2. Download the loader", "1 файл .exe — запустил, ввел ключ, инжект 3 сек": "One .exe file — run it, enter the key, inject in 3 sec", "3. Играй": "3. Play", "F2 — меню, INS — скрыть. Обновы ежедневно, саппорт 24/7": "F2 — menu, INS — hide. Daily updates, 24/7 support", "гарантии": "guarantees", "15 000+ продаж, средняя оценка 4.9": "updated: today • 15k+ sales • 4.9/5", "2.4k отзывов": "2.4k reviews", "96% рекомендуют": "96% recommend", "+ Оставить отзыв": "+ Leave a review", "Показать ещё": "Show more", "Банят ли за это?": "Will I get banned?", "Читы нарушают ToS игр — риск есть всегда. Наши билды приватные, с обходом Vanguard/EAC/BE, ежедневными обновлениями и HWID спуфером. Детектов 0 за 200+ дней по Rust. Но 100% гарантии нет — используй на свой страх.": "Cheats violate game ToS — there is always risk. Our builds are private, with Vanguard/EAC/BE bypass, daily updates and an HWID spoofer. 0 detects in 200+ days on Rust. But there is no 100% guarantee — use at your own risk.", "Как получаю товар?": "How do I get the product?", "После проверки оплаты PayPal — ключ придёт на email. Лоадер скачиваешь с сайта, вводишь ключ.": "After your PayPal payment is verified — the key is sent to your email. Download the loader from the site and enter the key.", "Есть тест / сутки?": "Is there a trial / 1 day?", "Да — Spray Method от 6.80$ / 1 день, дальше до 30 дней.": "Yes — Spray Method from $6.80 / 1 day, up to 30 days.", "LUNAS SHOP не связан с Riot / Valve / BattlEye. Использование читов нарушает правила игр.": "LUNAS SHOP is not affiliated with Riot / Valve / BattlEye. Using cheats violates game rules.", "Условия использования": "TERMS OF USE", "Используя LUNAS SHOP, ты подтверждаешь что читы нарушают ToS игр и используешь на свой страх. Продажа — лицензия на цифровой ключ, не физический товар. Запрещено перепродавать ключи. Аккаунт — только твой, не передавай.": "By using LUNAS SHOP you confirm that cheats violate game ToS and you use them at your own risk. A sale is a license for a digital key, not a physical product. Reselling keys is prohibited. The account is yours only — do not share it.", "Читать полностью": "Read in full", "Политика конфиденциальности": "PRIVACY POLICY", "Храним только email, хеш пароля и историю заказов. Не передаём третьим лицам, кроме платёжного провайдера для обработки платежа. Данные шифруются, пароли — bcrypt.": "We store only email, password hash and order history. We do not share it with third parties except the payment provider that processes the payment. Data is encrypted, passwords use bcrypt.", "Читать": "Read", "Политика возврата": "REFUND POLICY", "Ключ — цифровой товар. Возврат в течение 24ч если ключ не активирован и не был показан. После показа/активации — без возврата. Если ключ невалидный — заменим.": "A key is a digital product. Refund within 24h if the key has not been activated or shown. After it is shown/activated — no refund. If the key is invalid — we will replace it.", "Подробнее": "Details", "© 2026 Lunas Shop": "© 2026 Lunas Shop", "Реквизиты": "Payment details", "Очистить корзину": "Clear cart", "Понятно": "Got it", "Закрыть": "Close", "Корзина:": "Cart:", "Очистить": "Clear", "Оформить": "Checkout", "Войти": "Log in", "Войти в аккаунт": "Log in to your account", "Для регистрации нужна только": "Registration only needs", "и пароль": "and a password", "Нужен Gmail — оканчивается на @gmail.com": "A Gmail is required — ends with @gmail.com", "Пароль": "Password", "Пароль минимум 6 символов": "Password must be at least 6 characters", "Подтверди пароль": "Confirm password", "Пароли не совпадают": "Passwords do not match.","НОВИНКА":"NEW","НАВСЕГДА • ОДНА ОПЛАТА":"LIFETIME • ONE PAYMENT","Навсегда":"Lifetime","Профили":"Profiles","Разрешение":"Resolution","/ навсегда":"/ lifetime","Купить навсегда":"Buy lifetime","Купить «Навсегда»":"Buy “Lifetime”","Неделя / Месяц / Навсегда":"Week / Month / Lifetime","LUNAS PANEL AI • ЦВЕТ И ФИЛЬТРЫ • КЛИК — ВЫБРАТЬ":"LUNAS PANEL AI • COLOR & FILTERS • CLICK TO CHOOSE","/ неделя":"/ week","ВЫБЕРИ СРОК ЛИЦЕНЗИИ":"CHOOSE LICENSE TERM","Месяц":"Month","30 дней • Хит":"30 days • Hit","Выгодно":"Best value","LUNAS PANEL AI • ЦВЕТ И ФИЛЬТРЫ • НАВСЕГДА":"LUNAS PANEL AI • COLOR & FILTERS • LIFETIME","Панель настройки картинки: яркость, контраст, насыщенность, Hue, Night Vision, готовые профили (Summer, Winter, Night Vision, Ultra Vivid) и свои пресеты. Смена разрешения в один клик, горячая клавиша F8.":"Image tuning panel: brightness, contrast, saturation, Hue, Night Vision, ready profiles (Summer, Winter, Night Vision, Ultra Vivid) and your own presets. One-click resolution switch, F8 hotkey.","Новинка":"New","3 срока":"3 terms","Выбери срок лицензии":"Choose license term","30 дней, хит":"30 days, best seller","Lunas Panel AI":"Lunas Panel AI","Настройка картинки":"Picture tuning","Статус продуктов":"Product status","Работает":"Working","200+ дней без детекта":"200+ days undetected","Скоро":"Soon","Оценка 4.9 из 5 по 2 400 отзывам":"Rated 4.9 of 5 from 2,400 reviews","HWID-спуфер":"HWID spoofer","Скрипт отдачи":"Recoil script","Выбери срок. 200+ дней без детекта":"Choose a term. 200+ days undetected","15 000+ продаж, средняя оценка 4.9":"15,000+ sales, average rating 4.9","4.9 из 5":"4.9 of 5","Условия использования":"Terms of use","Политика конфиденциальности":"Privacy policy","Политика возврата":"Refund policy","Способ оплаты":"Payment method","Корзина:":"Cart:","Читать полностью":"Read in full","Читать":"Read","Оформить":"Checkout","Реальные тесты":"Real tests","Сравните картинку с ESP и без. Потяните ползунок.":"Compare the view with and without ESP. Drag the slider.","Без ESP":"No ESP","С ESP":"With ESP","Скрин из игры":"In-game screenshot","Визуализация. Замените на свои скриншоты: esp-before.jpg и esp-after.jpg.":"Visualization. Replace with your screenshots: esp-before.jpg and esp-after.jpg.","Визуализация в движении. Положите рядом файл gameplay.mp4, и здесь будет ваше видео.":"Animated visualization. Add gameplay.mp4 next to the page to show your video here.","Слева без ESP, справа с ESP: бокс, дистанция и здоровье.":"Left without ESP, right with ESP: box, distance and health.","ESP 3D-боксы":"ESP 3D boxes","Геймплей с включёнными ESP и Chams.":"Gameplay with ESP and Chams on."};
   var orig=new WeakMap();
   function norm(s){return s.replace(/\s+/g,' ').trim()}
   function lang(){try{return localStorage.getItem('lunas_lang')||'ru'}catch(e){return 'ru'}}
