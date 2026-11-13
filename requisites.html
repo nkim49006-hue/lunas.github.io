@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#070708;--glass:rgba(18,18,20,0.72);--border:rgba(255,255,255,0.16);--blue:#FFFFFF;--blue3:#E5E5E5;--muted:rgba(255,255,255,0.5);--text:#fff}
+:root{--bg:#050810;--glass:rgba(9,15,30,0.72);--border:rgba(255,255,255,0.16);--blue:#FFFFFF;--blue3:#DFE3EB;--muted:rgba(255,255,255,0.5);--text:#fff}
 html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;min-height:100vh}
 .mono{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
@@ -16,7 +16,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t
 .morph-blob{position:fixed;pointer-events:none;z-index:0;filter:blur(64px);opacity:0.16}
 .morph-1{top:-12%;left:-14%;width:72vw;height:72vw;background:radial-gradient(circle,rgba(255,255,255,0.14) 0%,transparent 70%);border-radius:42% 58% 70% 30% /45% 45% 55% 55%}
 .glass{background:var(--glass);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--border);border-radius:20px;transition:all .35s}
-nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(7,7,8,0.84);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08);padding:12px 0}
+nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(5,8,16,0.84);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08);padding:12px 0}
 nav .container{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .logo{font-weight:900;letter-spacing:-0.02em;font-size:18px;display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;font-weight:800;font-size:13px;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:.3s}
@@ -84,5 +84,31 @@ nav .container{display:flex;align-items:center;justify-content:space-between;gap
     <span><a href="requisites.html" style="color:#fff;text-decoration:underline">Реквизиты</a> • <a href="https://discord.gg/57RhrEuqG" style="color:inherit;text-decoration:none">Discord</a></span>
   </div>
 </footer>
+<style id="lunas-serious">
+/* LUNAS — строгая тёмно-синяя тема */
+:root{--accent:#4C7FE6}
+html{background:#03070F!important}
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-track{background:#03070F}
+::-webkit-scrollbar-thumb{background:#16233D;border-radius:10px;border:2px solid #03070F}::-webkit-scrollbar-thumb:hover{background:#22345A}
+::selection{background:#2C4F96!important;color:#FFFFFF!important}
+:focus-visible{outline:2px solid #4C7FE6!important;outline-offset:3px}
+.hv-name,.wordmark,.tagline span,.ptitle{filter:none!important;text-shadow:none!important}
+.btn-primary,.btn-white,.tag.new,.hv-badge,.day.on{box-shadow:none!important}
+.btn{transition:background-color .18s,border-color .18s,transform .18s,color .18s!important}
+.btn-primary:hover,.btn-white:hover,.btn-blue:hover{background:#E9EEF6!important;border-color:#E9EEF6!important;transform:translateY(-1px)}
+.btn-ghost:hover{border-color:rgba(76,127,230,.55)!important;background:rgba(76,127,230,.08)!important}
+.card{background:linear-gradient(180deg,rgba(11,19,38,.9),rgba(5,10,22,.9))!important;border:1px solid rgba(110,140,200,.13)!important;
+  box-shadow:0 24px 60px -36px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.03)!important;transition:border-color .25s,transform .25s,box-shadow .25s!important}
+article.card:hover{border-color:rgba(76,127,230,.45)!important;transform:translateY(-3px);box-shadow:0 30px 70px -34px rgba(20,50,130,.55),inset 0 1px 0 rgba(255,255,255,.04)!important}
+.hdr-links a.on{color:#FFFFFF!important;background:rgba(76,127,230,.12)!important;box-shadow:inset 0 0 0 1px rgba(76,127,230,.35)!important}
+.hdr-links a:hover{color:#E6ECF7!important}
+.tag.new,.hv-badge{background:#4C7FE6!important;color:#FFFFFF!important;border-color:#4C7FE6!important}
+.terms li{transition:border-color .15s,background-color .15s}
+.terms li:hover{border-color:rgba(76,127,230,.5);background:rgba(76,127,230,.08)}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+<script>(function(){if(!('IntersectionObserver' in window))return;var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('article.card,section.card,.sec-head').forEach(function(el){var r=el.getBoundingClientRect();if(!r.height||r.top<innerHeight)return;el.classList.add('reveal');io.observe(el)})})();</script>
 </body>
 </html>
